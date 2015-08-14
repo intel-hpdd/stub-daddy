@@ -8,7 +8,7 @@ var requestStoreModule = require('../../request-store').wiretree;
 var dataStore = require('./data-store');
 var configulator = require('configulator');
 var configModule = require('../../config').wiretree;
-var _ = require('lodash-mixins');
+var _ = require('@intel-js/lodash-mixins');
 
 describe('request store module', function () {
 

@@ -6,7 +6,7 @@ var webserviceModule = require('../../webservice').wiretree;
 var configulator = require('configulator');
 var configModule = require('../../config').wiretree;
 var Promise = require('promise');
-var _ = require('lodash-mixins');
+var _ = require('@intel-js/lodash-mixins');
 
 describe('webservice module', function () {
 

@@ -20,7 +20,7 @@ describe('test mock status', function() {
     request = new models.Request(config.methods.GET, '/system/status', {}, {});
     requestMatcher = jasmine.createSpy('requestMatcher').and.returnValue(true);
     logger = jasmine.createSpyObj('logger', ['info', 'debug', 'warn', 'fatal', 'trace']);
-    _ = require('lodash-mixins');
+    _ = require('@intel-js/lodash-mixins');
     mockStatus = mockStatusModule(requestMatcher, logger, _);
   });
 

@@ -1,6 +1,6 @@
 {
   "name": "@intel-js/stub-daddy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Stub API service used for integration testing.",
   "main": "index.js",
   "scripts": {
@@ -9,9 +9,7 @@
     "unit": "mjnw test/unit/*-spec.js",
     "cover": "cover",
     "jshint": "jshint --c ./.jshintrc --exclude-path ./.jshintignore .",
-    "jscs": "jscs .",
-    "ziplock": "../ziplocker/bin/ziplocker --overrides.ziplockDir='../../../../chroma-externals/'",
-    "zipdev": "../ziplocker/bin/zip-install-dev --overrides.ziplockDir='../../../../chroma-externals/'",
+    "jscs": "jscs ."
   },
   "pre-commit": [
     "jscs",
@@ -20,7 +18,7 @@
   ],
   "repository" : {
     "type" : "git",
-    "url" : "https://github.com/intel-js/fp.git"
+    "url" : "https://github.com/intel-js/stub-daddy.git"
   },
   "author": "IML Team",
   "license": "MIT",

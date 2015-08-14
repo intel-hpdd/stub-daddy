@@ -10,7 +10,7 @@ var config = {
 var url = require('url');
 var querystring = require('querystring');
 var models = require('../../models').wiretree(config, url, querystring);
-var _ = require('lodash-mixins');
+var _ = require('@intel-js/lodash-mixins');
 
 describe('test dynamic-request module', function () {
 
