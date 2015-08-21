@@ -1,6 +1,6 @@
 {
   "name": "@intel-js/stub-daddy",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Stub API service used for integration testing.",
   "main": "index.js",
   "scripts": {
@@ -34,6 +34,10 @@
   "devDependencies": {
     "dotty": "0.0.2",
     "minijasminenodewrap": "1.0.1",
-    "request-then": "0.0.1"
-  }
+    "request-then": "0.0.1",
+    "jscs": "2.1.0",
+    "jshint": "2.8.0",
+    "pre-commit": "1.1.1"
+  },
+  "whitelist": ["dotty", "minijasminenodewrap", "request-then"]
 }
