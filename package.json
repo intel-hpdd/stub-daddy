@@ -1,13 +1,12 @@
 {
   "name": "@intel-js/stub-daddy",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Stub API service used for integration testing.",
   "main": "index.js",
   "scripts": {
-    "test": "mjnw",
-    "integration": "mjnw test/integration/*-spec.js",
-    "unit": "mjnw test/unit/*-spec.js",
-    "cover": "cover",
+    "test": "JASMINE_CONFIG_PATH=jasmine.json NODE_ENV=test jasmine",
+    "unit": "JASMINE_CONFIG_PATH=jasmine.json NODE_ENV=test jasmine test/unit/**/*.js",
+    "integration": "JASMINE_CONFIG_PATH=jasmine.json NODE_ENV=test jasmine test/integration/**/*.js",
     "jshint": "jshint --c ./.jshintrc --exclude-path ./.jshintignore .",
     "jscs": "jscs ."
   },
@@ -33,11 +32,12 @@
   },
   "devDependencies": {
     "dotty": "0.0.2",
-    "minijasminenodewrap": "1.0.1",
     "request-then": "0.0.1",
     "jscs": "2.1.0",
     "jshint": "2.8.0",
-    "pre-commit": "1.1.1"
+    "pre-commit": "1.1.1",
+    "jasmine": "2.3.2",
+    "krusty-jasmine-reporter": "1.0.0"
   },
-  "whitelist": ["dotty", "minijasminenodewrap", "request-then"]
+  "whitelist": ["dotty", "jasmine", "krusty-jasmine-reporter", "request-then"]
 }
