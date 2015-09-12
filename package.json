@@ -1,6 +1,6 @@
 {
   "name": "@intel-js/stub-daddy",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Stub API service used for integration testing.",
   "main": "index.js",
   "scripts": {

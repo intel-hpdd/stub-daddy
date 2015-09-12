@@ -301,7 +301,46 @@ var wireTreeModule = require('../../index');
               path: '/api/mockstate',
               method: config.methods.GET
             };
-            return makeRequestAndExpect(stateOptions, 200, []);
+
+            var expectedResponse = [
+              {
+                state: 'ERROR',
+                message: 'Call to expected mock not satisfied.',
+                data: {
+                  request: {
+                    method: 'POST',
+                    url: '/user/profile',
+                    data: {
+                      user: 'janedoe',
+                      key: 'abc123'
+                    },
+                    headers: {
+                      authorization: 'BEARER token55'
+                    }
+                  },
+                  response: {
+                    status: 200,
+                    data: {
+                      firstName: 'Jane',
+                      lastName: 'Doe',
+                      dob: '1981-09-13',
+                      city: 'Orlando',
+                      state: 'FL'
+                    },
+                    headers: {
+                      authorization: 'BEARER token55',
+                      'content-type': 'application/json'
+                    }
+                  },
+                  expires: 0,
+                  dependencies: [],
+                  remainingCalls: 1,
+                  calls: 0
+                }
+              }
+            ];
+
+            return makeRequestAndExpect(stateOptions, 400, expectedResponse);
           })
           .then(function expect404 () {
             return makeRequestAndExpect(callOptions, 404);
@@ -326,8 +365,44 @@ var wireTreeModule = require('../../index');
                     connection: 'close'
                   }
                 }
+              },
+              {
+                state: 'ERROR',
+                message: 'Call to expected mock not satisfied.',
+                data: {
+                  request: {
+                    method: 'POST',
+                    url: '/user/profile',
+                    data: {
+                      user: 'janedoe',
+                      key: 'abc123'
+                    },
+                    headers: {
+                      authorization: 'BEARER token55'
+                    }
+                  },
+                  response: {
+                    status: 200,
+                    data: {
+                      firstName: 'Jane',
+                      lastName: 'Doe',
+                      dob: '1981-09-13',
+                      city: 'Orlando',
+                      state: 'FL'
+                    },
+                    headers: {
+                      authorization: 'BEARER token55',
+                      'content-type': 'application/json'
+                    }
+                  },
+                  expires: 0,
+                  dependencies: [],
+                  remainingCalls: 1,
+                  calls: 0
+                }
               }
             ];
+
             return makeRequestAndExpect(stateOptions, 400, expectedResponse);
           })
           .done(done);
@@ -376,6 +451,7 @@ var wireTreeModule = require('../../index');
                   },
                   expires: 2,
                   remainingCalls: 1,
+                  calls: 1,
                   dependencies: []
                 }
               }
@@ -429,6 +505,7 @@ var wireTreeModule = require('../../index');
                   },
                   expires: 1,
                   remainingCalls: -1,
+                  calls: 2,
                   dependencies: []
                 }
               }
@@ -511,6 +588,7 @@ var wireTreeModule = require('../../index');
                   },
                   expires: 1,
                   remainingCalls: -1,
+                  calls: 2,
                   dependencies: []
                 }
               }

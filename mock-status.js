@@ -147,6 +147,14 @@ exports.wiretree = function mockStatusModule (requestMatcher, logger, _) {
           });
       }
 
+      function matchResponse (resp1, resp2) {
+        return resp1.status === resp2.status &&
+          _.isEqual(resp1.data, resp2.data) &&
+          Object.keys(resp1.headers).every(function (header) {
+            return resp1.headers[header] === resp2.headers[header];
+          });
+      }
+
       /**
        * Function used to retrieve only those entries that match the request using matchRequest.
        * @param {Array} entries
@@ -154,8 +162,12 @@ exports.wiretree = function mockStatusModule (requestMatcher, logger, _) {
        */
       function getEntries (entries) {
         return entries.filter(function (entry) {
-          return requests.some(function filterByRequest (request) {
-            return matchRequest(entry.request, request);
+          return requests.some(function filterByCall (call) {
+            var currentRequest = call.request || call;
+            var currentResponse = call.response;
+
+            return matchRequest(entry.request, currentRequest) &&
+              (currentResponse == null ? true : matchResponse(entry.response, currentResponse));
           });
         });
       }

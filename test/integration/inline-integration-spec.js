@@ -133,12 +133,12 @@ describe('inline integration tests', function () {
       result = service.mock(mock);
       registeredMocks = service.registeredMocks();
 
-      expectedMock = function expectedMock (mock, remainingCalls) {
+      expectedMock = function expectedMock (mock, calls) {
         return {
           data: [
             _.chain({})
               .extend(mock)
-              .assign(remainingCalls)
+              .assign(calls)
               .valueOf()
           ],
           headers: {
@@ -151,7 +151,7 @@ describe('inline integration tests', function () {
 
     it('should return all registered mocks', function () {
       expect(JSON.stringify(registeredMocks)).toEqual(
-        JSON.stringify(expectedMock(mock, {remainingCalls: 1})));
+        JSON.stringify(expectedMock(mock, {remainingCalls: 1, calls: 0})));
     });
 
     describe('after a request to a registered call has been made', function () {
@@ -162,7 +162,7 @@ describe('inline integration tests', function () {
 
       it('should decrement the remainingCalls value after making a request', function () {
         expect(JSON.stringify(registeredMocks)).toEqual(
-          JSON.stringify(expectedMock(mock, {remainingCalls: 0})));
+          JSON.stringify(expectedMock(mock, {remainingCalls: 0, calls: 1})));
       });
     });
   });

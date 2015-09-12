@@ -36,16 +36,7 @@ exports.wiretree = function registerApiValidatorModule(Validator) {
   var dependenciesSchema = {
     id: '/RegisterDependencies',
     type: 'array',
-    required: true,
-    items: {
-      type: 'object',
-      properties: {
-        method: {type: 'string', required: true},
-        url: {type: 'string', required: true},
-        data: {type: 'object', required: true},
-        headers: {type: 'object', required: true}
-      }
-    }
+    required: true
   };
 
   // body schema

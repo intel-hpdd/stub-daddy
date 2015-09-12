@@ -12,7 +12,7 @@ describe('register api module', function () {
 
   var registerResponse, registerApiValidator, registerAPI, entryRequest, entryResponse, request, body, requestStore,
     config, entryDependencies;
-  beforeEach(function() {
+  beforeEach(function () {
     config = configModule(configulator);
     var models = modelsModule(config, url, querystring);
     var logger;
@@ -72,9 +72,9 @@ describe('register api module', function () {
     registerAPI = registerAPIModule(requestStore, models, config, registerApiValidator, logger);
   });
 
-  describe('successfully register a mock api with a body in the correct format', function() {
+  describe('successfully register a mock api with a body in the correct format', function () {
     var json;
-    beforeEach(function() {
+    beforeEach(function () {
       json = {
         returnedFromRegisterApiValidator: {
           errors: []
@@ -86,22 +86,26 @@ describe('register api module', function () {
       registerResponse = registerAPI(request, body);
     });
 
-    it('should call requestStore.addEntry with entryRequest, entryResponse, and body.expires', function() {
-      expect(requestStore.addEntry).toHaveBeenCalledWith(entryRequest, entryResponse, body.expires, entryDependencies);
-    });
+    it('should call requestStore.addEntry with entryRequest, entryResponse, body.expires, and entry dependencies',
+      function () {
+        expect(requestStore.addEntry).toHaveBeenCalledWith(entryRequest, entryResponse, body.expires, [{
+          request: entryDependencies[0],
+          response: undefined
+        }]);
+      });
 
-    it('should call registerApiValidator with body', function() {
+    it('should call registerApiValidator with body', function () {
       expect(registerApiValidator).toHaveBeenCalledWith(body);
     });
 
-    it('should have a status of 201', function() {
+    it('should have a status of 201', function () {
       expect(registerResponse.status).toEqual(201);
     });
   });
 
-  describe('failure in registering mock api due to body in invalid format', function() {
+  describe('failure in registering mock api due to body in invalid format', function () {
     var json;
-    beforeEach(function() {
+    beforeEach(function () {
       json = {
         returnedFromRegisterApiValidator: {
           errors: ['some error']
@@ -113,22 +117,22 @@ describe('register api module', function () {
       registerResponse = registerAPI(request, body);
     });
 
-    it('should not call requestStore.addEntry', function() {
+    it('should not call requestStore.addEntry', function () {
       expect(requestStore.addEntry).not.toHaveBeenCalled();
     });
 
-    it('should call registerApiValidator with body', function() {
+    it('should call registerApiValidator with body', function () {
       expect(registerApiValidator).toHaveBeenCalledWith(body);
     });
 
-    it('should have a status of 400', function() {
+    it('should have a status of 400', function () {
       expect(registerResponse.status).toEqual(400);
     });
   });
 
-  describe('failure due to wrong request method', function() {
+  describe('failure due to wrong request method', function () {
     var json;
-    beforeEach(function() {
+    beforeEach(function () {
       json = {
         returnedFromRegisterApiValidator: {
           errors: ['another error']
@@ -141,15 +145,15 @@ describe('register api module', function () {
       registerResponse = registerAPI(request, body);
     });
 
-    it('should not call requestStore.addEntry', function() {
+    it('should not call requestStore.addEntry', function () {
       expect(requestStore.addEntry).not.toHaveBeenCalled();
     });
 
-    it('should not call registerApiValidator with body', function() {
+    it('should not call registerApiValidator with body', function () {
       expect(registerApiValidator).not.toHaveBeenCalledWith();
     });
 
-    it('should have a status of 400', function() {
+    it('should have a status of 400', function () {
       expect(registerResponse.status).toEqual(400);
     });
   });
