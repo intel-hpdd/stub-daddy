@@ -64,12 +64,30 @@ exports.wiretree = function registerApiModule(requestStore, models, config, regi
       );
 
       var dependencies = body.dependencies.map(function mapDependencies (dependency) {
-        return new models.Request(
-          dependency.method,
-          dependency.url,
-          dependency.data,
-          dependency.headers
+        var request = dependency.request || dependency;
+        var response = dependency.response;
+
+        // The request should always be passed in.
+        request =  new models.Request(
+          request.method,
+          request.url,
+          request.data,
+          request.headers
         );
+
+        // The response may or may not have been passed in.
+        if (response) {
+          response = new models.Response(
+            response.status,
+            response.headers,
+            response.data
+          );
+        }
+
+        return {
+          request: request,
+          response: response
+        };
       });
 
       logger.trace('registering request');

@@ -39,6 +39,7 @@ exports.wiretree = function models(config, url, querystring) {
     this.expires = expires;
     this.dependencies = dependencies;
     this.remainingCalls = (expires > 0) ? expires : 1;
+    this.calls = 0;
   }
 
   /**
@@ -52,6 +53,7 @@ exports.wiretree = function models(config, url, querystring) {
       this.remainingCalls -= 1;
     else if (this.expires === 0)
       this.remainingCalls = 1;
+    this.calls += 1;
   };
 
   /**
@@ -75,7 +77,7 @@ exports.wiretree = function models(config, url, querystring) {
    * @returns {boolean}
    */
   RequestEntry.prototype.isExpectedCallCount = function expectedCallCount() {
-    return (this.expires === 0) ? true : this.remainingCalls === 0;
+    return (this.expires === 0) ? this.calls > 0 : this.remainingCalls === 0;
   };
 
   /**

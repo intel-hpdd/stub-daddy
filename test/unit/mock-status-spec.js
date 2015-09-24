@@ -188,6 +188,7 @@ describe('test mock status', function() {
 
     it('should be satisfied when all calls are made to each entry', function () {
       entry1.updateCallCount();
+      entry2.updateCallCount();
       var result = mockStatus.haveRequestsBeenSatisfied(requestStore, requests);
       expect(result).toBeTruthy();
     });
