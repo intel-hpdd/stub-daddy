@@ -11,10 +11,10 @@ var querystring = require('querystring');
 describe('register api module', function () {
 
   var registerResponse, registerApiValidator, registerAPI, entryRequest, entryResponse, request, body, requestStore,
-    config, entryDependencies;
+    config, entryDependencies, models;
   beforeEach(function () {
     config = configModule(configulator);
-    var models = modelsModule(config, url, querystring);
+    models = modelsModule(config, url, querystring);
     var logger;
 
     body = {
@@ -83,22 +83,50 @@ describe('register api module', function () {
       };
 
       registerApiValidator.and.returnValue(json.returnedFromRegisterApiValidator);
-      registerResponse = registerAPI(request, body);
     });
 
     it('should call requestStore.addEntry with entryRequest, entryResponse, body.expires, and entry dependencies',
       function () {
+        registerResponse = registerAPI(request, body);
         expect(requestStore.addEntry).toHaveBeenCalledWith(entryRequest, entryResponse, body.expires, [{
           request: entryDependencies[0],
           response: undefined
         }]);
       });
 
+    it('should include dependency response if specified', function () {
+      body.dependencies[0] = {
+        request: {
+          method: config.methods.PUT,
+          url: '/put/path',
+          data: {key: 'value'},
+          headers: {headerKey: 'header value'}
+        },
+        response: {
+          status: 200,
+          headers: {},
+          data: {key: 'value'}
+        }
+      };
+      registerAPI(request, body);
+
+      expect(requestStore.addEntry).toHaveBeenCalledWith(entryRequest, entryResponse, body.expires, [{
+        request: entryDependencies[0],
+        response: new models.Response(
+          body.dependencies[0].response.status,
+          body.dependencies[0].response.headers,
+          body.dependencies[0].response.data
+        )
+      }]);
+    });
+
     it('should call registerApiValidator with body', function () {
+      registerResponse = registerAPI(request, body);
       expect(registerApiValidator).toHaveBeenCalledWith(body);
     });
 
     it('should have a status of 201', function () {
+      registerResponse = registerAPI(request, body);
       expect(registerResponse.status).toEqual(201);
     });
   });

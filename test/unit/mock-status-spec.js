@@ -137,8 +137,8 @@ describe('test mock status', function() {
       );
       response1 = new models.Response(
         200,
-        {key: 'value'},
-        {}
+        {},
+        {key: 'value'}
       );
       entry1 = new models.RequestEntry(request1, response1, 1, []);
 
@@ -150,8 +150,8 @@ describe('test mock status', function() {
       );
       response2 = new models.Response(
         200,
-        {key2: 'value2'},
-        {}
+        {},
+        {key2: 'value2'}
       );
       entry2 = new models.RequestEntry(request2, response2, 0, []);
 
@@ -163,20 +163,7 @@ describe('test mock status', function() {
         })
       };
 
-      requests = [
-        new models.Request(
-          config.methods.PUT,
-          '/api/filesystem/',
-          {},
-          {}
-        ),
-        new models.Request(
-          config.methods.GET,
-          '/api/alert/',
-          {},
-          {}
-        )
-      ];
+      requests = [request1, request2];
 
       mockStatus = mockStatusModule(requestMatcher, logger, _);
     });
@@ -210,6 +197,61 @@ describe('test mock status', function() {
       ));
       var result = mockStatus.haveRequestsBeenSatisfied(requestStore, requests);
       expect(result).toBeFalsy();
+    });
+
+    describe('with dependencies', function () {
+      describe('specified as a request only', function () {
+        it('should not match a call when dependencies have not been satisfied', function () {
+          entry2.dependencies = [request1];
+          entry2.updateCallCount();
+          var result = mockStatus.haveRequestsBeenSatisfied(requestStore, entry2.dependencies);
+          expect(result).toBe(false);
+        });
+
+        it('should match a call when dependencies have been satisfied', function () {
+          entry2.dependencies = [request1];
+          entry1.updateCallCount();
+          entry2.updateCallCount();
+
+          var result = mockStatus.haveRequestsBeenSatisfied(requestStore, entry2.dependencies);
+          expect(result).toBe(true);
+        });
+      });
+
+      describe('specified with request and response', function () {
+        it('should not match a call when dependencies have not been satisfied', function () {
+          entry2.dependencies = [{
+            request: request1,
+            response: response1
+          }];
+          entry2.updateCallCount();
+          var result = mockStatus.haveRequestsBeenSatisfied(requestStore, entry2.dependencies);
+          expect(result).toBe(false);
+        });
+
+        it('should not match a call when the request matches but the response does not', function () {
+          entry2.dependencies = [{
+            request: request1,
+            response: response2
+          }];
+          entry1.updateCallCount();
+          entry2.updateCallCount();
+          var result = mockStatus.haveRequestsBeenSatisfied(requestStore, entry2.dependencies);
+          expect(result).toBe(false);
+        });
+
+        it('should match a call when dependencies have been satisfied', function () {
+          entry2.dependencies = [{
+            request: request1,
+            response: response1
+          }];
+          entry1.updateCallCount();
+          entry2.updateCallCount();
+
+          var result = mockStatus.haveRequestsBeenSatisfied(requestStore, entry2.dependencies);
+          expect(result).toBe(true);
+        });
+      });
     });
   });
 });
