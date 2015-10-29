@@ -1,5 +1,5 @@
 {
-  "name": "@intel-js/stub-daddy",
+  "name": "intel-stub-daddy",
   "version": "1.0.5",
   "description": "Stub API service used for integration testing.",
   "main": "index.js",
@@ -17,7 +17,10 @@
   ],
   "repository" : {
     "type" : "git",
-    "url" : "https://github.com/intel-js/stub-daddy.git"
+    "url": "https://github.intel.com/IML/stub-daddy.git"
+  },
+  "publishConfig": {
+    "registry": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-local"
   },
   "author": "IML Team",
   "license": "MIT",
@@ -28,7 +31,7 @@
     "wiretree": "0.2.5",
     "yargs": "1.2.6",
     "promise": "5.0.0",
-    "@intel-js/lodash-mixins": "1.0.0"
+    "intel-lodash-mixins": "1.0.2"
   },
   "devDependencies": {
     "dotty": "0.0.2",

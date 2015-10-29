@@ -3,7 +3,7 @@
 var request = require('request-then');
 var format = require('util').format;
 var fixtures = require('../fixtures/standard-fixtures');
-var _ = require('@intel-js/lodash-mixins');
+var _ = require('intel-lodash-mixins');
 var wireTreeModule = require('../../index');
 
 ['http', 'https'].forEach(function testIntegrationTestsWithSecureAndNonSecureUrls (protocol) {

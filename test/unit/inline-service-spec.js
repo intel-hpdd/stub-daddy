@@ -1,7 +1,7 @@
 'use strict';
 var inlineService =  require('../../inline-service').wiretree;
 var format = require('util').format;
-var _ = require('@intel-js/lodash-mixins');
+var _ = require('intel-lodash-mixins');
 
 describe('inline-service', function () {
   var service, config, registerApiValidator, logger, router, requestValidator, requestStore, mockStatus;

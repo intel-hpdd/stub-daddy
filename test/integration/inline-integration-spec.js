@@ -3,7 +3,7 @@
 var wireTreeModule = require('../../index');
 var fixtures = require('../fixtures/standard-fixtures');
 var format = require('util').format;
-var _ = require('@intel-js/lodash-mixins');
+var _ = require('intel-lodash-mixins');
 
 describe('inline integration tests', function () {
 

@@ -33,7 +33,7 @@ var configulator = require('configulator');
 var fs = require('fs');
 var Promise = require('promise');
 var format = require('util').format;
-var _ = require('@intel-js/lodash-mixins');
+var _ = require('intel-lodash-mixins');
 
 /**
  * Creates the wiretree
