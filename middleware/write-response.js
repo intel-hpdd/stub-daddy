@@ -21,22 +21,16 @@
 
 'use strict';
 
-var clearRequireCache = require('./clear-require-cache');
+module.exports = function writeResponse (req, res, data, next) {
+  if (!res.clientRes.writeHead)
+    return next(req, res, data);
 
-module.exports = function stubDaddyFactory (overrides) {
-  clearRequireCache();
+  res.clientRes.writeHead(data.statusCode, data.headers);
 
-  var config = require('./config');
-  config.overrides(overrides);
+  if (data.data)
+    res.clientRes.write(JSON.stringify(data.data));
 
-  var fp = require('intel-fp/dist/fp');
-  var routes = require('./routes');
-  fp.map(fp.flow(fp.lensProp, fp.invoke(fp.__, [routes]), fp.invoke(fp.__, [])), Object.keys(routes));
+  res.clientRes.end();
 
-  return {
-    config: config,
-    webService: require('./web-service'),
-    inlineService: require('./inline-service'),
-    validator: require('./validators/register-api-validator')
-  };
+  next(req, res, data);
 };

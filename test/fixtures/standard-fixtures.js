@@ -16,7 +16,7 @@ var fixtures = {
             }
           }
         },
-        status: 400
+        statusCode: 400
       },
       {
         json: {
@@ -24,7 +24,7 @@ var fixtures = {
           method: 'POST',
           json: {
             response: {
-              status: 200,
+              statusCode: 200,
               json: {
                 name: 'will'
               },
@@ -34,7 +34,7 @@ var fixtures = {
             }
           }
         },
-        status: 400
+        statusCode: 400
       },
       {
         json: {
@@ -44,7 +44,7 @@ var fixtures = {
             expires: 0
           }
         },
-        status: 400
+        statusCode: 400
       },
       {
         json: {
@@ -58,7 +58,7 @@ var fixtures = {
               headers: {}
             },
             response: {
-              status: 200,
+              statusCode: 200,
               data: {
                 name: 'will'
               },
@@ -68,7 +68,7 @@ var fixtures = {
             }
           }
         },
-        status: 400
+        statusCode: 400
       },
       {
         json: {
@@ -84,7 +84,7 @@ var fixtures = {
             expires: 0
           }
         },
-        status: 400
+        statusCode: 400
       },
       {
         json: {
@@ -92,7 +92,7 @@ var fixtures = {
           method: 'POST',
           json: {
             response: {
-              status: 200,
+              statusCode: 200,
               data: {
                 name: 'will'
               },
@@ -103,7 +103,7 @@ var fixtures = {
             expires: 0
           }
         },
-        status: 400
+        statusCode: 400
       },
       {
         json: {
@@ -117,7 +117,7 @@ var fixtures = {
               headers: {}
             },
             response: {
-              status: 200,
+              statusCode: 200,
               data: {
                 name: 'will'
               },
@@ -129,7 +129,7 @@ var fixtures = {
             dependencies: []
           }
         },
-        status: 201
+        statusCode: 201
       }
     ],
     registerSuccessfulMockRequest: {
@@ -146,7 +146,7 @@ var fixtures = {
             }
           },
           response: {
-            status: 200,
+            statusCode: 200,
             data: {
               firstName: 'John',
               lastName: 'Doe',
@@ -163,7 +163,7 @@ var fixtures = {
           dependencies: []
         }
       },
-      status: 201
+      statusCode: 201
     },
     registerSuccessfulMockPOSTRequest: {
       json: {
@@ -182,7 +182,7 @@ var fixtures = {
             }
           },
           response: {
-            status: 200,
+            statusCode: 200,
             data: {
               firstName: 'John',
               lastName: 'Doe',
@@ -199,7 +199,7 @@ var fixtures = {
           dependencies: []
         }
       },
-      status: 201
+      statusCode: 201
     },
     registerRequestForExpireFunctionality: {
       json: {
@@ -218,7 +218,7 @@ var fixtures = {
             }
           },
           response: {
-            status: 200,
+            statusCode: 200,
             data: {
               firstName: 'Jane',
               lastName: 'Doe',
@@ -235,7 +235,7 @@ var fixtures = {
           dependencies: []
         }
       },
-      status: 201
+      statusCode: 201
     },
     registerRequestWithDynamicResponse: {
       json: {
@@ -253,7 +253,7 @@ var fixtures = {
             }
           },
           response: {
-            status: 200,
+            statusCode: 200,
             data: {}, // To be filled out by test
             headers: {
               authorization: 'BEARER token55',
@@ -264,7 +264,7 @@ var fixtures = {
           dependencies: []
         }
       },
-      status: 201
+      statusCode: 201
     },
     registerRequestForMockState: {
       json: {
@@ -283,7 +283,7 @@ var fixtures = {
             }
           },
           response: {
-            status: 200,
+            statusCode: 200,
             data: {
               firstName: 'Jane',
               lastName: 'Doe',
@@ -300,7 +300,7 @@ var fixtures = {
           dependencies: []
         }
       },
-      status: 201
+      statusCode: 201
     },
     registerRequestWithDependencies: {
       json: {
@@ -316,9 +316,9 @@ var fixtures = {
             }
           },
           response: {
-            status: 200,
+            statusCode: 200,
             data: {
-              status: 'OK'
+              statusCode: 'OK'
             },
             headers: {
               authorization: 'BEARER token55',

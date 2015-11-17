@@ -21,22 +21,19 @@
 
 'use strict';
 
-var clearRequireCache = require('./clear-require-cache');
+var format = require('util').format;
+var mockStatus = require('../lib/mock-status');
+var fp = require('intel-fp/dist/fp');
 
-module.exports = function stubDaddyFactory (overrides) {
-  clearRequireCache();
+module.exports = function handleError (req, res, data, next) {
+  var stringify = fp.curry(3, JSON.stringify)(fp.__, null, 2);
 
-  var config = require('./config');
-  config.overrides(overrides);
+  if (data.statusCode === 404)
+    throw new Error(format('Entry not found. Mock state is: %s',
+      stringify(mockStatus.getMockApiState())));
+  else if (data.statusCode >= 400)
+    throw new Error(format('There was an error with the request. The response is: %s and the mock state is %s',
+      stringify(data), stringify(mockStatus.getMockApiState())));
 
-  var fp = require('intel-fp/dist/fp');
-  var routes = require('./routes');
-  fp.map(fp.flow(fp.lensProp, fp.invoke(fp.__, [routes]), fp.invoke(fp.__, [])), Object.keys(routes));
-
-  return {
-    config: config,
-    webService: require('./web-service'),
-    inlineService: require('./inline-service'),
-    validator: require('./validators/register-api-validator')
-  };
+  next(req, res, data);
 };

@@ -21,22 +21,35 @@
 
 'use strict';
 
-var clearRequireCache = require('./clear-require-cache');
+var router = require('../router');
+var dynamicRequest = require('../lib/dynamic-request');
+var config = require('../config');
+var afterTimeout = require('../middleware/after-timeout');
+var validateRequest = require('../middleware/validate-request');
+var fp = require('intel-fp/dist/fp');
 
-module.exports = function stubDaddyFactory (overrides) {
-  clearRequireCache();
+module.exports = function wildcardRoute() {
+  router.route('(.*)')
+    .all(validateRequest)
+    .all(processRequest)
+    .all(afterTimeout);
 
-  var config = require('./config');
-  config.overrides(overrides);
+  function processRequest(req, res, data, next) {
+    var timeout;
+    var entry = dynamicRequest(req.clientReq, data);
 
-  var fp = require('intel-fp/dist/fp');
-  var routes = require('./routes');
-  fp.map(fp.flow(fp.lensProp, fp.invoke(fp.__, [routes]), fp.invoke(fp.__, [])), Object.keys(routes));
+    var response = {
+      statusCode: config.get('status').NOT_FOUND,
+      headers: config.get('standardHeaders')
+    };
 
-  return {
-    config: config,
-    webService: require('./web-service'),
-    inlineService: require('./inline-service'),
-    validator: require('./validators/register-api-validator')
-  };
+    if (entry) {
+      response = entry.response;
+      timeout = entry.timeout;
+    }
+
+    req.timeout = timeout;
+
+    next(req, res, response);
+  }
 };

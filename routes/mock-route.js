@@ -21,22 +21,23 @@
 
 'use strict';
 
-var clearRequireCache = require('./clear-require-cache');
+var router = require('../router');
+var registerApi = require('../lib/register-api');
+var validateMock = require('../middleware/validate-mock');
+var config = require('../config');
 
-module.exports = function stubDaddyFactory (overrides) {
-  clearRequireCache();
+module.exports = function mockRoute () {
+  router.route('/api/mock')
+    .post(validateMock)
+    .post(function (req, res, data, next) {
+      var response = {
+        statusCode: config.get('status').BAD_REQUEST,
+        headers: config.get('standardHeaders')
+      };
 
-  var config = require('./config');
-  config.overrides(overrides);
+      if (data != null)
+        response = registerApi(data);
 
-  var fp = require('intel-fp/dist/fp');
-  var routes = require('./routes');
-  fp.map(fp.flow(fp.lensProp, fp.invoke(fp.__, [routes]), fp.invoke(fp.__, [])), Object.keys(routes));
-
-  return {
-    config: config,
-    webService: require('./web-service'),
-    inlineService: require('./inline-service'),
-    validator: require('./validators/register-api-validator')
-  };
+      next(req, res, response);
+    });
 };

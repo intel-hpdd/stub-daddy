@@ -21,22 +21,29 @@
 
 'use strict';
 
-var clearRequireCache = require('./clear-require-cache');
+var logger = require('../logger');
 
-module.exports = function stubDaddyFactory (overrides) {
-  clearRequireCache();
+module.exports = function processData (req, res, next) {
+  if (!req.clientReq.on)
+    return next(req, res, req.clientReq.data);
 
-  var config = require('./config');
-  config.overrides(overrides);
+  var data;
+  req.clientReq.on('data', function handleData (chunk) {
+    if (chunk) {
+      data = data || '';
+      data += chunk.toString('utf8');
+    }
+  });
 
-  var fp = require('intel-fp/dist/fp');
-  var routes = require('./routes');
-  fp.map(fp.flow(fp.lensProp, fp.invoke(fp.__, [routes]), fp.invoke(fp.__, [])), Object.keys(routes));
+  req.clientReq.on('end', function handleEnd() {
+    logger.logByLevel({
+      DEBUG: [req.clientReq.parsedUrl.pathname, 'Request received:'],
+      TRACE: [{
+        pathname: req.clientReq.parsedUrl.pathname,
+        body: data ? data : undefined
+      }, 'Request received']
+    });
 
-  return {
-    config: config,
-    webService: require('./web-service'),
-    inlineService: require('./inline-service'),
-    validator: require('./validators/register-api-validator')
-  };
+    next(req, res, data);
+  });
 };

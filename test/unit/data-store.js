@@ -1,19 +1,12 @@
 /*jshint node: true*/
 'use strict';
 
-var config = {
-  methods: {
-    GET: 'GET'
-  }
-};
-
-var url = require('url');
-var querystring = require('querystring');
-var models = require('../../models').wiretree(config, url, querystring);
+var config = require('../../config');
+var entry = require('../../lib/entry');
 
 var body = {name: 'will'};
 var mockRequest = {
-  method: config.methods.GET,
+  method: 'GET',
   url: '/target',
   headers: {
     host: 'localhost:8888',
@@ -28,15 +21,37 @@ var mockRequest = {
   }
 };
 
-var searchRequest = new models.Request(config.methods.GET, mockRequest.url, body, mockRequest.headers);
+var searchRequest = {
+  method: 'GET',
+  url: mockRequest.url,
+  data: body,
+  headers: mockRequest.headers
+};
 
-var searchResponse = new models.Response(config.methods.GET, mockRequest.headers, body);
+var searchResponse = {
+  statusCode: 'GET',
+  headers: mockRequest.headers,
+  data: body
+};
 
 var searchDependencies = [
-  new models.Response(config.methods.PUT, mockRequest.url, body, mockRequest.headers)
+  {
+    method: 'PUT',
+    url: mockRequest.url,
+    data: body,
+    headers: mockRequest.headers
+  }
 ];
 
-var requestEntry = new models.RequestEntry(searchRequest, searchResponse, 0, searchDependencies);
+var requestEntry = {
+  request: searchRequest,
+  response: searchResponse,
+  expires: 0,
+  dependencies: searchDependencies,
+  timeout: 0,
+  remainingCalls: 1,
+  calls: 0
+};
 
 module.exports = {
   mockRequest: mockRequest,

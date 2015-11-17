@@ -1,9 +1,10 @@
 {
   "spec_dir": "test",
   "spec_files": [
-    "**/*.js"
+    "**/*-test.js"
   ],
   "helpers": [
     "**/boot.js"
-  ]
+  ],
+  "random": true
 }

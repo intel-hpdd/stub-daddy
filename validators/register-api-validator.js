@@ -1,74 +1,83 @@
-/*jshint node: true*/
+//
+// INTEL CONFIDENTIAL
+//
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
+//
+// The source code contained or described herein and all documents related
+// to the source code ("Material") are owned by Intel Corporation or its
+// suppliers or licensors. Title to the Material remains with Intel Corporation
+// or its suppliers and licensors. The Material contains trade secrets and
+// proprietary and confidential information of Intel or its suppliers and
+// licensors. The Material is protected by worldwide copyright and trade secret
+// laws and treaty provisions. No part of the Material may be used, copied,
+// reproduced, modified, published, uploaded, posted, transmitted, distributed,
+// or disclosed in any way without Intel's prior express written permission.
+//
+// No license under any patent, copyright, trade secret or other intellectual
+// property right is granted to or conferred upon you by disclosure or delivery
+// of the Materials, either expressly, by implication, inducement, estoppel or
+// otherwise. Any license under such intellectual property rights must be
+// express and approved by Intel in writing.
+
 'use strict';
 
-/**
- * Returns a function that will validate a mock API request against the required mock API request schema.
- * @returns {Function}
- */
-exports.wiretree = function registerApiValidatorModule(Validator) {
+var Validator = require('jsonschema').Validator;
 
-  // request schema
-  var requestSchema = {
-    id: '/RegisterRequest',
-    type: 'object',
-    required: true,
-    properties: {
-      method: {type: 'string', required: true},
-      url: {type: 'string', required: true},
-      data: {type: 'object', required: true},
-      headers: {type: 'object', required: true}
-    }
-  };
+// request schema
+var requestSchema = {
+  id: '/RegisterRequest',
+  type: 'object',
+  required: true,
+  properties: {
+    method: {type: 'string', required: true},
+    url: {type: 'string', required: true},
+    data: {type: 'object', required: true},
+    headers: {type: 'object', required: true}
+  }
+};
 
-  // response schema
-  var responseSchema = {
-    id: '/RegisterResponse',
-    type: 'object',
-    required: true,
-    properties: {
-      status: {type: 'integer', required: true},
-      data: {type: 'object', required: true},
-      headers: {type: 'object', required: true}
-    }
-  };
+// response schema
+var responseSchema = {
+  id: '/RegisterResponse',
+  type: 'object',
+  required: true,
+  properties: {
+    statusCode: {type: 'integer', required: true},
+    data: {type: 'object', required: true},
+    headers: {type: 'object', required: true}
+  }
+};
 
-  // Optional Dependencies
-  var dependenciesSchema = {
-    id: '/RegisterDependencies',
-    type: 'array',
-    required: true
-  };
+// Optional Dependencies
+var dependenciesSchema = {
+  id: '/RegisterDependencies',
+  type: 'array',
+  required: true
+};
 
-  // body schema
-  var bodySchema = {
-    id: '/RegisterApi',
-    type: 'object',
-    required: true,
-    properties: {
-      request: { $ref: '/RegisterRequest'},
-      response: { $ref: '/RegisterResponse'},
-      dependencies: { $ref: '/RegisterDependencies'},
-      expires: {type: 'integer', 'minimum': 0, required: true}
-    }
-  };
+// body schema
+var bodySchema = {
+  id: '/RegisterApi',
+  type: 'object',
+  required: true,
+  properties: {
+    request: { $ref: '/RegisterRequest'},
+    response: { $ref: '/RegisterResponse'},
+    dependencies: { $ref: '/RegisterDependencies'},
+    expires: {type: 'integer', 'minimum': -1, required: true}
+  }
+};
 
-  /**
-   * Validates the body against the RegisterApi schema
-   * @param {Object} body The body to validate
-   * @return {Object} object containing array of errors
-   */
-  return function validate(body) {
-    var v = new Validator();
+module.exports = function validate (body) {
+  var v = new Validator();
 
-    // json schema doesn't handle a null body but it will handle undefined. Cast this to
-    // undefined in either case.
-    if (body == null)
-      body = undefined;
+  // json schema doesn't handle a null body but it will handle undefined. Cast this to
+  // undefined in either case.
+  if (body == null)
+    body = undefined;
 
-    v.addSchema(requestSchema, '/RegisterRequest');
-    v.addSchema(responseSchema, '/RegisterResponse');
-    v.addSchema(dependenciesSchema, '/RegisterDependencies');
-    return v.validate(body, bodySchema);
-  };
-
+  v.addSchema(requestSchema, '/RegisterRequest');
+  v.addSchema(responseSchema, '/RegisterResponse');
+  v.addSchema(dependenciesSchema, '/RegisterDependencies');
+  return v.validate(body, bodySchema);
 };

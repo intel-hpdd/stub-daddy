@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -21,65 +21,14 @@
 
 'use strict';
 
-exports.wiretree = function configModule(configulator) {
-  var config = {
-    default: {
-      status: {
-        SUCCESS: 200,
-        CREATED: 201,
-        BAD_REQUEST: 400,
-        NOT_FOUND: 404,
-        INTERNAL_SERVER_ERROR: 500
-      },
-      methods: {
-        GET: 'GET',
-        PUT: 'PUT',
-        POST: 'POST',
-        DELETE: 'DELETE',
-        PATCH: 'PATCH'
-      },
-      standardHeaders: {
-        'Content-Type': 'application/json'
-      },
-      requestUrls: {
-        MOCK_REQUEST: '/api/mock',
-        MOCK_STATE: '/api/mockstate',
-        MOCK_LIST: '/api/mocklist'
-      },
-      port: 8888,
-      logName: 'stubdaddy',
-      get isProd() {
-        return process.env.NODE_ENV === 'production';
-      },
-      logger: {
-        logPath: '',
-        level: 'debug',
-        streams: ['stdout','file']
-      },
-      requestProtocol: 'https'
-    },
-    development: {
-      logger: {
-        logPath: '',
-        level: 'debug',
-        streams: ['file']
-      }
-    },
-    test:{
-      logger: {
-        logPath: '',
-        level: 'debug',
-        streams: ['file']
-      }
-    },
-    production: {
-      logger: {
-        logPath: '',
-        level: 'info',
-        streams: ['file']
-      }
-    }
-  };
+var fp = require('intel-fp/dist/fp');
+var join = require('path').join;
+var nconf = require('nconf');
 
-  return configulator(config);
-};
+var conf = new nconf.Provider()
+  .overrides()
+  .argv()
+  .env()
+  .file(join(__dirname, '/conf.json'));
+
+module.exports = conf;
