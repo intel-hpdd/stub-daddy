@@ -26,7 +26,9 @@ var dynamicRequest = require('../lib/dynamic-request');
 var config = require('../config');
 var afterTimeout = require('../middleware/after-timeout');
 var validateRequest = require('../middleware/validate-request');
+var mockStatus = require('../lib/mock-status');
 var fp = require('intel-fp/dist/fp');
+var format = require('util').format;
 
 module.exports = function wildcardRoute() {
   router.route('(.*)')
@@ -35,21 +37,14 @@ module.exports = function wildcardRoute() {
     .all(afterTimeout);
 
   function processRequest(req, res, data, next) {
-    var timeout;
     var entry = dynamicRequest(req.clientReq, data);
 
-    var response = {
-      statusCode: config.get('status').NOT_FOUND,
-      headers: config.get('standardHeaders')
-    };
+    if (!entry)
+      throw new Error(format('Entry not found. Mock state is: %s',
+        JSON.stringify(mockStatus.getMockApiState(), null, 2)));
 
-    if (entry) {
-      response = entry.response;
-      timeout = entry.timeout;
-    }
+    req.timeout = entry.timeout;
 
-    req.timeout = timeout;
-
-    next(req, res, response);
+    next(req, res, entry.response);
   }
 };

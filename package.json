@@ -37,7 +37,7 @@
   "devDependencies": {
     "eslint": "1.10.1",
     "dotty": "0.0.2",
-    "intel-req": "1.0.6",
+    "intel-req": "1.0.8",
     "jasmine": "2.4.1",
     "intel-jasmine-n-matchers": "2.1.1",
     "jscs": "2.5.1",

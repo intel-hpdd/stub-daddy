@@ -25,8 +25,10 @@ var requestValidator = require('../validators/request-validator');
 var format = require('util').format;
 
 module.exports = function validateMock (req, res, body, next) {
-  if (requestValidator(req.clientReq).errors.length === 0)
-    return next(req, res, body);
-  else
-    throw new Error (format('Request not in correct format when making call to: %s', req.clientReq.url));
+  var validationErrors = requestValidator(req.clientReq).errors;
+  if (validationErrors.length > 0)
+    throw new Error(format('Validation of request failed: %s',
+      JSON.stringify(validationErrors, null, 2)));
+
+  return next(req, res, body);
 };

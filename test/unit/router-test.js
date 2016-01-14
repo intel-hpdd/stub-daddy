@@ -39,8 +39,4 @@ describe('router', function () {
   it('should call addEnd with writeResponse', function () {
     expect(routerObj.addEnd).toHaveBeenCalledOnceWith('writeResponse');
   });
-
-  it('should call addEnd with handleError', function () {
-    expect(routerObj.addEnd).toHaveBeenCalledOnceWith('handleError');
-  });
 });

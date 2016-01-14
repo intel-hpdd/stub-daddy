@@ -27,13 +27,13 @@ describe('validate mock', function () {
     expect(next).toHaveBeenCalledOnceWith(req, res, body);
   });
 
-  it('should call next with null as the body if validation does not pass', function () {
+  it('should throw an error if validation does not pass', function () {
     registerApiValidator.and.returnValue({
       errors: ['error']
     });
 
-    validateMock(req, res, body, next);
-
-    expect(next).toHaveBeenCalledOnceWith(req, res, null);
+    expect(function () {
+      validateMock(req, res, body, next);
+    }).toThrow(jasmine.any(Error));
   });
 });

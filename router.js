@@ -26,5 +26,4 @@ var middleware = require('./middleware');
 module.exports = getRouter()
     .addStart(middleware.processData)
     .addStart(middleware.toJson)
-    .addEnd(middleware.writeResponse)
-    .addEnd(middleware.handleError);
+    .addEnd(middleware.writeResponse);

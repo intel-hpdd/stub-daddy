@@ -11,7 +11,7 @@ var errors;
 
 ['http', 'https'].forEach(function testIntegrationTestsWithSecureAndNonSecureUrls(protocol) {
   describe(format('integration tests for %s', protocol), function () {
-    var config, req, webService, makeRequest, stubDaddy, addError, spy, s;
+    var config, req, webService, makeRequest, stubDaddy, spy, s;
     beforeEach(function () {
       spy = jasmine.createSpy('spy');
       req = reqModule(protocol);
@@ -23,55 +23,24 @@ var errors;
       makeRequest = makeRequestFactory(urlString, req);
 
       webService.startService();
-
-      errors = [];
-      addError = errors.push.bind(errors);
-      process.on('uncaughtException', addError);
     });
 
     afterEach(function (done) {
-      errors.length = 0;
-      process.removeListener('uncaughtException', addError);
-
       webService.stopService(done.fail, done);
     });
 
-    function shouldThrowError (err) {
-      it('should throw an error', function (done) {
-        s.errors(spy)
-          .done(function () {
-            expect(spy).toHaveBeenCalledOnceWith(err, jasmine.any(Function));
-            done();
-          });
-      });
-    }
-
     function shouldCauseStubDaddyToCrashWithError () {
       it('should have ended stub daddy', function (done) {
-        s.errors(spy)
-          .done(function () {
-            expect(errors[0]).toEqual(jasmine.any(Error));
-            done();
-          });
-      });
-    }
-
-    function shouldNotCauseStubDaddyToCrash () {
-      it('should not have ended stub daddy', function (done) {
-        s.done(function () {
-          expect(errors.length).toEqual(0);
+        function addError (err) {
+          expect(err).toEqual(jasmine.any(Error));
+          process.removeListener('uncaughtException', addError);
           done();
-        });
-      });
-    }
+        }
 
-    function shouldHaveErrorStatusOf (code) {
-      it(format('should have a status code of %s', code), function (done) {
-        s.errors(spy)
-          .done(function () {
-            expect(spy.calls.argsFor(0)[0].statusCode).toEqual(code);
-            done();
-          });
+        process.on('uncaughtException', addError);
+
+        s.errors(fp.noop)
+          .done(fp.noop);
       });
     }
 
@@ -113,9 +82,7 @@ var errors;
           s = makeRequest({path: '/api/mock'});
         });
 
-        shouldThrowError(new Error(' From GET request to /api/mock/'));
         shouldCauseStubDaddyToCrashWithError();
-        shouldHaveErrorStatusOf(404);
       });
 
       describe('without response and expires', function () {
@@ -123,9 +90,7 @@ var errors;
           s = makeRequest(fixtures.integration.registerMockRequests[0].json);
         });
 
-        shouldThrowError(new Error(' From POST request to /api/mock/'));
         shouldCauseStubDaddyToCrashWithError();
-        shouldHaveErrorStatusOf(400);
       });
 
       describe('without request and expires', function () {
@@ -133,9 +98,7 @@ var errors;
           s = makeRequest(fixtures.integration.registerMockRequests[1].json);
         });
 
-        shouldThrowError(new Error(' From POST request to /api/mock/'));
         shouldCauseStubDaddyToCrashWithError();
-        shouldHaveErrorStatusOf(400);
       });
 
       describe('without request and response', function () {
@@ -143,9 +106,7 @@ var errors;
           s = makeRequest(fixtures.integration.registerMockRequests[2].json);
         });
 
-        shouldThrowError(new Error(' From POST request to /api/mock/'));
         shouldCauseStubDaddyToCrashWithError();
-        shouldHaveErrorStatusOf(400);
       });
 
       describe('without expires', function () {
@@ -153,9 +114,7 @@ var errors;
           s = makeRequest(fixtures.integration.registerMockRequests[3].json);
         });
 
-        shouldThrowError(new Error(' From POST request to /api/mock/'));
         shouldCauseStubDaddyToCrashWithError();
-        shouldHaveErrorStatusOf(400);
       });
 
       describe('without response', function () {
@@ -163,9 +122,7 @@ var errors;
           s = makeRequest(fixtures.integration.registerMockRequests[4].json);
         });
 
-        shouldThrowError(new Error(' From POST request to /api/mock/'));
         shouldCauseStubDaddyToCrashWithError();
-        shouldHaveErrorStatusOf(400);
       });
 
       describe('with all required fields', function () {
@@ -173,7 +130,6 @@ var errors;
           s = makeRequest(fixtures.integration.registerMockRequests[6].json);
         });
 
-        shouldNotCauseStubDaddyToCrash();
         shouldHaveStatusOf(201);
       });
     });
@@ -225,8 +181,6 @@ var errors;
           s = s.flatMap(makeRequest.bind(null, request));
         });
 
-        shouldHaveErrorStatusOf(404);
-        shouldThrowError(new Error(' From GET request to /user/profile?key=abc123/'));
         shouldCauseStubDaddyToCrashWithError();
       });
 
@@ -242,12 +196,10 @@ var errors;
           s = s.flatMap(makeRequest.bind(null, request));
         });
 
-        shouldHaveErrorStatusOf(404);
-        shouldThrowError(new Error(' From GET request to /user/profile?key=abc123&user=johndoe/'));
         shouldCauseStubDaddyToCrashWithError();
       });
 
-      describe('with non-matching header', function () {
+      describe('with no headers', function () {
         beforeEach(function () {
           var request = {
             path: '/user/profile?key=abc123&user=johndoe',
@@ -257,8 +209,6 @@ var errors;
           s = s.flatMap(makeRequest.bind(null, request));
         });
 
-        shouldHaveErrorStatusOf(404);
-        shouldThrowError(new Error(' From GET request to /user/profile?key=abc123&user=johndoe/'));
         shouldCauseStubDaddyToCrashWithError();
       });
     });
@@ -336,8 +286,6 @@ var errors;
               s = s.flatMap(makeRequest.bind(null, request));
             });
 
-            shouldHaveErrorStatusOf(404);
-            shouldThrowError(new Error(format(' From %s request to /user/profile/', method)));
             shouldCauseStubDaddyToCrashWithError();
           });
 
@@ -355,8 +303,6 @@ var errors;
               s = s.flatMap(makeRequest.bind(null, request));
             });
 
-            shouldHaveErrorStatusOf(404);
-            shouldThrowError(new Error(format(' From %s request to /user/profile/', method)));
             shouldCauseStubDaddyToCrashWithError();
           });
 
@@ -372,8 +318,6 @@ var errors;
               s = s.flatMap(makeRequest.bind(null, request));
             });
 
-            shouldHaveErrorStatusOf(404);
-            shouldThrowError(new Error(format(' From %s request to /user/profile/', method)));
             shouldCauseStubDaddyToCrashWithError();
           });
         });
@@ -421,9 +365,7 @@ var errors;
               s = s.flatMap(makeRequest.bind(null, callOptions));
             });
 
-            shouldHaveErrorStatusOf(404);
-            shouldThrowError(new Error(' From POST request to /user/profile/'));
-            shouldCauseStubDaddyToCrashWithError(shouldCauseStubDaddyToCrashWithError);
+            shouldCauseStubDaddyToCrashWithError();
           });
         });
       });
@@ -433,7 +375,7 @@ var errors;
       var requestOptions, callOptions, stateOptions;
 
       beforeEach(function () {
-        requestOptions = obj.merge({}, fixtures.integration.registerRequestForMockState.json);
+        requestOptions = obj.clone(fixtures.integration.registerRequestForMockState.json);
 
         callOptions = {
           path: requestOptions.json.request.url,
@@ -480,28 +422,14 @@ var errors;
           s = s.flatMap(makeRequest.bind(null, callOptions));
         });
 
-        shouldHaveErrorStatusOf(404);
-        shouldThrowError(new Error(' From POST request to /user/profile/'));
         shouldCauseStubDaddyToCrashWithError();
-
-        describe('check the mock state', function () {
-          beforeEach(function () {
-            s = s.errors(fp.flip(2, fp.flow(fp.invoke(fp.__, [null, undefined]))))
-              .flatMap(makeRequest.bind(null, stateOptions));
-          });
-
-          shouldHaveErrorStatusOf(400);
-          shouldThrowError(jasmine.any(Error));
-
-          shouldCauseStubDaddyToCrashWithError();
-        });
       });
     });
 
     describe('register a mock', function () {
       var requestOptions;
       beforeEach(function () {
-        requestOptions = obj.merge({}, fixtures.integration.registerRequestForMockState.json);
+        requestOptions = obj.clone(fixtures.integration.registerRequestForMockState.json);
         requestOptions.json.expires = 2;
 
         s = makeRequest(requestOptions);
@@ -536,9 +464,6 @@ var errors;
             s = s.flatMap(makeRequest.bind(null, stateOptions));
           });
 
-          shouldHaveErrorStatusOf(400);
-          shouldThrowError(jasmine.any(Error));
-
           shouldCauseStubDaddyToCrashWithError(jasmine.any(Error));
         });
       });
@@ -547,7 +472,7 @@ var errors;
     describe('register a mock', function () {
       var requestOptions;
       beforeEach(function () {
-        requestOptions = obj.merge({}, fixtures.integration.registerRequestForMockState.json);
+        requestOptions = obj.clone(fixtures.integration.registerRequestForMockState.json);
         requestOptions.json.expires = 1;
 
         s = makeRequest(requestOptions);
@@ -576,28 +501,7 @@ var errors;
             s = s.flatMap(makeRequest.bind(null, callOptions));
           });
 
-          shouldHaveErrorStatusOf(404);
-          shouldThrowError(new Error(' From POST request to /user/profile/', jasmine.any(Function)));
           shouldCauseStubDaddyToCrashWithError();
-
-          describe('check the mock state', function () {
-            var stateOptions;
-            beforeEach(function () {
-              stateOptions = {
-                path: '/api/mockstate',
-                method: 'GET'
-              };
-
-              s = s
-                .errors(fp.flip(2, fp.flow(fp.invoke(fp.__, [null, undefined]))))
-                .flatMap(makeRequest.bind(null, stateOptions));
-            });
-
-            shouldHaveErrorStatusOf(400);
-            shouldThrowError(jasmine.any(Error));
-
-            shouldCauseStubDaddyToCrashWithError();
-          });
         });
       });
     });
@@ -785,8 +689,6 @@ var errors;
           s = s.flatMap(makeRequest.bind(null, filesystemCall));
         });
 
-        shouldHaveErrorStatusOf(404);
-        shouldThrowError(new Error(' From GET request to /usr/filesystem?type=someType/', jasmine.any(Function)));
         shouldCauseStubDaddyToCrashWithError();
       });
 
@@ -820,10 +722,10 @@ var errors;
   });
 });
 
-function makeRequestFactory(urlString, req) {
+function makeRequestFactory (urlString, req) {
   var serverHttpUrl = url.parse(urlString);
 
-  return function makeRequest(options) {
+  return function makeRequest (options) {
     if (!options)
       throw new Error('Options is required to make a request.');
 

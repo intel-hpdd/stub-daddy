@@ -97,25 +97,12 @@ describe('wildcard route', function () {
     describe('without an entry', function () {
       beforeEach(function () {
         dynamicRequest.and.returnValue(undefined);
-        routeHandler(req, res, data, next);
       });
 
-      it('should call dynamicRequest', function () {
-        expect(dynamicRequest).toHaveBeenCalledOnceWith(req.clientReq, data);
-      });
-
-      it('should invoke next', function () {
-        expect(next).toHaveBeenCalledOnceWith({
-          clientReq: {},
-          timeout: undefined
-        }, {
-          clientRes: {}
-        }, {
-          statusCode: 404,
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
+      it('should throw an error', function () {
+        expect(function () {
+          routeHandler(req, res, data, next);
+        }).toThrow(jasmine.any(Error));
       });
     });
   });

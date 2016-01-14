@@ -38,6 +38,6 @@ describe('validate request', function () {
 
     expect(function () {
       validateRequest(req, res, body, next);
-    }).toThrow(new Error ('Request not in correct format when making call to: /user/profile'));
+    }).toThrow(jasmine.any(Error));
   });
 });

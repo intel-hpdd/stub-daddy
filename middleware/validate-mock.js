@@ -24,8 +24,10 @@
 var registerApiValidator = require('../validators/register-api-validator');
 
 module.exports = function validateMock (req, res, body, next) {
-  if (registerApiValidator(body).errors.length === 0)
-    return next(req, res, body);
+  var validationErrors = registerApiValidator(body).errors;
+  if (validationErrors.length > 0)
+    throw new Error(format('Validation of mock failed: %s',
+      JSON.stringify(validationErrors, null, 2)));
 
-  return next(req, res, null);
+  return next(req, res, body);
 };
