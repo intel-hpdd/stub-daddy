@@ -64,7 +64,11 @@ function flushEntries() {
 function executeService(boundCreateServer, port) {
   server = boundCreateServer(onRequestReceived).listen(port);
   server.on('connection', handleSocketConnection);
-  server.on('clientError', logger.error.bind(logger));
+  server.on('clientError', function onClientError (err) {
+    logger.error({
+      err: err
+    }, 'Received client error event');
+  });
   logger.info(format('Starting service on %s://localhost:%s', config.get('requestProtocol'), port));
 
   return server;
