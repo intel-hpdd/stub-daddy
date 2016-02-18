@@ -34,6 +34,7 @@ var http = require('http');
 var https = require('https');
 var entry = require('./lib/entry');
 var entries = require('./lib/entries');
+var clearTimeouts = require('./middleware/after-timeout').clearTimeouts;
 
 var filePath = join.bind(null, __dirname);
 var keyPem = fs.readFileSync(filePath('key.pem'), 'utf8');
@@ -94,6 +95,9 @@ module.exports = {
 
     if (sockets.length > 0)
       logger.trace(format('Destroying %s remaining socket connections.', sockets.length));
+
+    // Clear out any timeouts in the middleware that might be waiting.
+    clearTimeouts();
 
     // Make sure all sockets have been closed
     while (sockets.length > 0) {
