@@ -214,9 +214,6 @@ function makeRequestFactory(urlString, req) {
       strictSSL: false,
       path: options.url,
       json: obj.clone(options.data),
-      headers: {
-        'Connection': 'close'
-      },
       localhost: serverHttpUrl.href,
       host: serverHttpUrl.host,
       hostname: serverHttpUrl.hostname,

@@ -7,7 +7,6 @@ var obj = require('intel-obj');
 var stubDaddyModule = require('../../server');
 var url = require('url');
 var fp = require('intel-fp/dist/fp');
-var errors;
 
 ['http', 'https'].forEach(function testIntegrationTestsWithSecureAndNonSecureUrls(protocol) {
   describe(format('integration tests for %s', protocol), function () {
@@ -731,9 +730,6 @@ function makeRequestFactory (urlString, req) {
 
     options = obj.merge({}, options, {
       strictSSL: false,
-      headers: {
-        'Connection': 'close'
-      },
       localhost: serverHttpUrl.href,
       host: serverHttpUrl.host,
       hostname: serverHttpUrl.hostname,
