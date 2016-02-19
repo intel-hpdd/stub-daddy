@@ -7,7 +7,7 @@ var fp = require('intel-fp/dist/fp');
 var obj = require('intel-obj');
 
 describe('webservice module', function () {
-  var webservice, entry, mockStatus, logger, fs, request, dispatch, spy, config, entries, parseUrl;
+  var webservice, entry, mockStatus, logger, fs, request, dispatch, spy, config, entries, parseUrl, afterTimeout;
 
   beforeEach(function () {
     spy = jasmine.createSpy('spy');
@@ -45,6 +45,10 @@ describe('webservice module', function () {
         return 'cert-data';
     });
 
+    afterTimeout = {
+      clearTimeouts: jasmine.createSpy('clearTimeouts')
+    };
+
     parseUrl = {
       parse: jasmine.createSpy('parse')
     };
@@ -58,6 +62,7 @@ describe('webservice module', function () {
       'https': request,
       './lib/entries': entries,
       './lib/entry': entry,
+      './middleware/after-timeout': afterTimeout,
       'url': parseUrl
     });
   });
@@ -233,6 +238,10 @@ describe('webservice module', function () {
 
         it('should flush the requests in the mockStatus module', function () {
           expect(mockStatus.flushRequests).toHaveBeenCalledOnce();
+        });
+
+        it('should clear out all timeouts', function () {
+          expect(afterTimeout.clearTimeouts).toHaveBeenCalledOnce();
         });
 
         describe('on close event', function () {

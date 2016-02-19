@@ -61,4 +61,33 @@ describe('after timeout', function () {
       });
     });
   });
+
+  describe('clear timeouts', function () {
+    var req, res, body, next;
+    beforeEach(function () {
+      req = {
+        timeout: 10000
+      };
+
+      next = jasmine.createSpy('next');
+      res = {};
+      body = {};
+
+      afterTimeout(req, res, body, next);
+    });
+
+    it('should not have called next', function () {
+      expect(next).not.toHaveBeenCalled();
+    });
+
+    describe('force clear the timeouts', function () {
+      beforeEach(function () {
+        afterTimeout.clearTimeouts();
+      });
+
+      it('should not have called next', function () {
+        expect(next).not.toHaveBeenCalled();
+      });
+    });
+  });
 });

@@ -22,12 +22,23 @@
 'use strict';
 
 var fp = require('intel-fp/dist/fp');
+var timeouts = [];
 
 module.exports = function afterTimeout (req, res, body, next) {
-  if (req.timeout)
-    setTimeout(function () {
+
+  if (req.timeout) {
+    var id = setTimeout(function () {
+      timeouts.splice(timeouts.indexOf(id), 1);
       next(req, res, body);
     }, req.timeout);
-  else
+
+    timeouts.push(id);
+  } else {
     next(req, res, body);
+  }
+};
+
+module.exports.clearTimeouts = function clearTimeouts () {
+  timeouts.forEach(clearTimeout);
+  timeouts = [];
 };
