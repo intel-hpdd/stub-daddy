@@ -330,12 +330,15 @@ describe('entry', () => {
         mockRequestMatcher.and.callFake(req1 => req2 => req1.url === req2.url);
 
         entry1 = {
-          request: fixtures.integration.registerRequestWithDependencies.json
-            .json.request,
-          response: fixtures.integration.registerRequestWithDependencies.json
-            .json.response,
-          expires: fixtures.integration.registerRequestWithDependencies.json
-            .json.expires,
+          request:
+            fixtures.integration.registerRequestWithDependencies.json.json
+              .request,
+          response:
+            fixtures.integration.registerRequestWithDependencies.json.json
+              .response,
+          expires:
+            fixtures.integration.registerRequestWithDependencies.json.json
+              .expires,
           dependencies: [
             {
               ...fixtures.integration.registerRequestWithDependencies.json.json

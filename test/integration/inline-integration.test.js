@@ -18,7 +18,9 @@ describe('inline integration tests', () => {
 
     req = reqModule('https');
 
-    const urlString = `${stubDaddy.config.get('requestProtocol')}://localhost:${port}`;
+    const urlString = `${stubDaddy.config.get(
+      'requestProtocol'
+    )}://localhost:${port}`;
     makeRequest = makeRequestFactory(urlString, req);
   });
 
