@@ -1,5 +1,3 @@
-'use strict';
-
 var stubDaddyModule = require('../../server');
 var format = require('util').format;
 var getReq = require('intel-req');

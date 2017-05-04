@@ -1,5 +1,3 @@
-'use strict';
-
 var afterTimeout = require('../../../middleware/after-timeout');
 
 describe('after timeout', function () {

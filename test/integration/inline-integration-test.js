@@ -1,5 +1,3 @@
-'use strict';
-
 var stubDaddyModule = require('../../server');
 var reqModule = require('intel-req');
 var fixtures = require('../fixtures/standard-fixtures');

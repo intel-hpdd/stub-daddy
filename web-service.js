@@ -19,8 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-'use strict';
-
 var join = require('path').join;
 var dispatch = require('./lib/dispatch');
 var mockStatus = require('./lib/mock-status');

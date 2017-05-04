@@ -1,5 +1,3 @@
-'use strict';
-
 var fp = require('intel-fp/dist/fp');
 var obj = require('intel-obj');
 var stubDaddy = require('../../server');

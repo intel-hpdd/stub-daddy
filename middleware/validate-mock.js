@@ -19,8 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-'use strict';
-
 var registerApiValidator = require('../validators/register-api-validator');
 
 module.exports = function validateMock (req, res, body, next) {
