@@ -1,24 +1,24 @@
-var stubDaddyModule = require('../../server');
-var reqModule = require('@mfl/req');
-var fixtures = require('../fixtures/standard-fixtures');
-var format = require('util').format;
-var url = require('url');
-var obj = require('@mfl/obj');
-var fp = require('@mfl/fp');
-var req = require('@mfl/req');
-var config = require('../../config');
+const stubDaddyModule = require('../../server');
+const reqModule = require('@mfl/req');
+const fixtures = require('../fixtures/standard-fixtures');
+const format = require('util').format;
+const url = require('url');
+const obj = require('@mfl/obj');
+const fp = require('@mfl/fp');
+const req = require('@mfl/req');
+const config = require('../../config');
 
 describe('inline integration tests', function() {
-  var service, makeRequest, webService, req;
+  let service, makeRequest, webService, req;
 
   beforeEach(function() {
-    var stubDaddy = stubDaddyModule();
+    const stubDaddy = stubDaddyModule();
     service = stubDaddy.inlineService;
     webService = stubDaddy.webService;
 
     req = reqModule();
 
-    var urlString = format(
+    const urlString = format(
       '%s://localhost:%s',
       config.get('requestProtocol'),
       config.get('port')
@@ -35,7 +35,7 @@ describe('inline integration tests', function() {
   });
 
   describe('create mock', function() {
-    var mock, result, spy;
+    let mock, result, spy;
 
     ['request', 'response', 'expires', 'dependencies'].forEach(function(
       valueToRemove
@@ -88,7 +88,7 @@ describe('inline integration tests', function() {
   });
 
   describe('check mock state', function() {
-    var mock, state, spy, s;
+    let mock, state, spy, s;
 
     describe('with all registered requests called appropriately', function() {
       it('should be in good state', function(done) {
@@ -130,7 +130,7 @@ describe('inline integration tests', function() {
   });
 
   describe('check mock list', function() {
-    var mock, registeredMocks;
+    let mock, registeredMocks;
 
     beforeEach(function() {
       mock = fp.flow(obj.clone, fp.curry(2, obj.merge)(fp.__, { expires: 1 }))(
@@ -186,7 +186,7 @@ describe('inline integration tests', function() {
     });
 
     describe('after a request to a registered call has been made', function() {
-      var s;
+      let s;
       beforeEach(function() {
         s = makeRequest(mock.request);
       });
@@ -208,7 +208,7 @@ describe('inline integration tests', function() {
 });
 
 function omit(name) {
-  var picker = fp.flow(fp.eq(name), fp.not);
+  const picker = fp.flow(fp.eq(name), fp.not);
   return obj.pickBy(
     fp.flip(2, picker),
     fixtures.integration.registerSuccessfulMockRequest.json.json
@@ -216,7 +216,7 @@ function omit(name) {
 }
 
 function makeRequestFactory(urlString, req) {
-  var serverHttpUrl = url.parse(urlString);
+  const serverHttpUrl = url.parse(urlString);
 
   return function makeRequest(options) {
     if (!options) throw new Error('Options is required to make a request.');

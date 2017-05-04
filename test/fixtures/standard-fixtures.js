@@ -1,4 +1,4 @@
-var fixtures = {
+const fixtures = {
   integration: {
     registerMockRequests: [
       {
@@ -328,7 +328,7 @@ var fixtures = {
             {
               method: 'PUT',
               url: '/api/filesystem/',
-              data: {id: 1},
+              data: { id: 1 },
               headers: {
                 authorization: 'BEARER token55'
               }
@@ -348,14 +348,14 @@ module.exports = fixtures;
  * recursively.
  * @param {Object|Array} obj
  */
-function deepFreeze (obj) {
+function deepFreeze(obj) {
   Object.freeze(obj);
 
   Object.keys(obj)
-    .filter(function removeNonObjects (key) {
-      return (typeof obj[key] === 'object');
+    .filter(function removeNonObjects(key) {
+      return typeof obj[key] === 'object';
     })
-    .forEach(function freezeProps (key) {
+    .forEach(function freezeProps(key) {
       deepFreeze(obj[key]);
     });
 }

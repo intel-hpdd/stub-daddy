@@ -20,11 +20,9 @@
 // express and approved by Intel in writing.
 
 module.exports = function toJson(req, res, data, next) {
-  if (!data)
-    return next(req, res, {});
+  if (!data) return next(req, res, {});
 
-  if (typeof data === 'string')
-    data = JSON.parse(data);
+  if (typeof data === 'string') data = JSON.parse(data);
 
   next(req, res, data);
 };

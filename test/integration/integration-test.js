@@ -1,17 +1,17 @@
-var reqModule = require('@mfl/req');
-var format = require('util').format;
-var fixtures = require('../fixtures/standard-fixtures');
-var obj = require('@mfl/obj');
-var stubDaddyModule = require('../../server');
-var url = require('url');
-var fp = require('@mfl/fp');
+const reqModule = require('@mfl/req');
+const format = require('util').format;
+const fixtures = require('../fixtures/standard-fixtures');
+const obj = require('@mfl/obj');
+const stubDaddyModule = require('../../server');
+const url = require('url');
+const fp = require('@mfl/fp');
 
 [
   'http',
   'https'
 ].forEach(function testIntegrationTestsWithSecureAndNonSecureUrls(protocol) {
   describe(format('integration tests for %s', protocol), function() {
-    var config, req, webService, makeRequest, stubDaddy, spy, s;
+    let config, req, webService, makeRequest, stubDaddy, spy, s;
     beforeEach(function() {
       spy = jasmine.createSpy('spy');
       req = reqModule(protocol);
@@ -19,7 +19,7 @@ var fp = require('@mfl/fp');
       config = stubDaddy.config;
       webService = stubDaddy.webService;
 
-      var urlString = format(
+      const urlString = format(
         '%s://localhost:%s',
         config.get('requestProtocol'),
         config.get('port')
@@ -67,9 +67,9 @@ var fp = require('@mfl/fp');
 
     function shouldReceiveResponseAfterTimeout(timeout) {
       it('should receive response after specified time', function(done) {
-        var now = Date.now();
+        const now = Date.now();
         s.each(spy).done(function() {
-          var difference = Date.now() - now;
+          const difference = Date.now() - now;
           expect(timeout - difference < 100).toEqual(true);
           done();
         });
@@ -135,7 +135,7 @@ var fp = require('@mfl/fp');
     });
 
     describe('register a mock with a query string', function() {
-      var requestOptions;
+      let requestOptions;
       beforeEach(function() {
         requestOptions = obj.clone(
           fixtures.integration.registerSuccessfulMockRequest.json
@@ -147,7 +147,7 @@ var fp = require('@mfl/fp');
 
       describe('call registered mock with all required parameters', function() {
         beforeEach(function() {
-          var request = {
+          const request = {
             path: '/user/profile?user=johndoe&key=abc123',
             headers: requestOptions.json.request.headers
           };
@@ -164,7 +164,7 @@ var fp = require('@mfl/fp');
 
       describe('with all required parameters and query parameters reversed', function() {
         beforeEach(function() {
-          var request = {
+          const request = {
             path: '/user/profile?key=abc123&user=johndoe',
             headers: requestOptions.json.request.headers
           };
@@ -181,7 +181,7 @@ var fp = require('@mfl/fp');
 
       describe('with missing parameter', function() {
         beforeEach(function() {
-          var request = {
+          const request = {
             path: '/user/profile?key=abc123',
             headers: requestOptions.json.request.headers
           };
@@ -194,7 +194,7 @@ var fp = require('@mfl/fp');
 
       describe('with non-matching header', function() {
         beforeEach(function() {
-          var request = {
+          const request = {
             path: '/user/profile?key=abc123&user=johndoe',
             headers: {
               authorization: 'BEARER token5'
@@ -209,7 +209,7 @@ var fp = require('@mfl/fp');
 
       describe('with no headers', function() {
         beforeEach(function() {
-          var request = {
+          const request = {
             path: '/user/profile?key=abc123&user=johndoe',
             headers: {}
           };
@@ -222,7 +222,7 @@ var fp = require('@mfl/fp');
     });
 
     describe('register a mock with a timeout of 500ms', function() {
-      var requestOptions;
+      let requestOptions;
       beforeEach(function() {
         requestOptions = obj.merge(
           {},
@@ -237,7 +237,7 @@ var fp = require('@mfl/fp');
 
       describe('call registered mock', function() {
         beforeEach(function() {
-          var request = {
+          const request = {
             path: requestOptions.json.request.url,
             headers: requestOptions.json.request.headers
           };
@@ -255,8 +255,8 @@ var fp = require('@mfl/fp');
     });
 
     describe('register a mock', function() {
-      var methods = ['POST', 'PUT', 'PATCH'];
-      var requestOptions;
+      const methods = ['POST', 'PUT', 'PATCH'];
+      let requestOptions;
 
       beforeEach(function() {
         requestOptions = obj.merge(
@@ -276,7 +276,7 @@ var fp = require('@mfl/fp');
 
           describe('call the mock with all required parameters', function() {
             beforeEach(function() {
-              var request = {
+              const request = {
                 method: method,
                 path: requestOptions.json.request.url,
                 json: requestOptions.json.request.data,
@@ -295,7 +295,7 @@ var fp = require('@mfl/fp');
 
           describe('call the mock with missing parameter', function() {
             beforeEach(function() {
-              var request = {
+              const request = {
                 method: method,
                 path: requestOptions.json.request.url,
                 body: { key: 'abc123' },
@@ -310,7 +310,7 @@ var fp = require('@mfl/fp');
 
           describe('call the mock with incorrect header', function() {
             beforeEach(function() {
-              var request = {
+              const request = {
                 method: method,
                 path: requestOptions.json.request.url,
                 body: requestOptions.json.request.data,
@@ -327,7 +327,7 @@ var fp = require('@mfl/fp');
 
           describe('call the mock without required header', function() {
             beforeEach(function() {
-              var request = {
+              const request = {
                 method: requestOptions.json.request.method,
                 path: requestOptions.json.request.url,
                 body: JSON.stringify(requestOptions.json.request.data),
@@ -344,7 +344,7 @@ var fp = require('@mfl/fp');
     });
 
     describe('register a mock', function() {
-      var requestOptions, callOptions;
+      let requestOptions, callOptions;
 
       beforeEach(function() {
         requestOptions = obj.merge(
@@ -399,7 +399,7 @@ var fp = require('@mfl/fp');
     });
 
     describe('register a mock', function() {
-      var requestOptions, callOptions, stateOptions;
+      let requestOptions, callOptions, stateOptions;
 
       beforeEach(function() {
         requestOptions = obj.clone(
@@ -459,7 +459,7 @@ var fp = require('@mfl/fp');
     });
 
     describe('register a mock', function() {
-      var requestOptions;
+      let requestOptions;
       beforeEach(function() {
         requestOptions = obj.clone(
           fixtures.integration.registerRequestForMockState.json
@@ -472,7 +472,7 @@ var fp = require('@mfl/fp');
       shouldHaveStatusOf(201);
 
       describe('call the mock', function() {
-        var callOptions;
+        let callOptions;
         beforeEach(function() {
           callOptions = {
             path: requestOptions.json.request.url,
@@ -491,7 +491,7 @@ var fp = require('@mfl/fp');
         );
 
         describe('check the mock state', function() {
-          var stateOptions;
+          let stateOptions;
           beforeEach(function() {
             stateOptions = {
               path: '/api/mockstate',
@@ -507,7 +507,7 @@ var fp = require('@mfl/fp');
     });
 
     describe('register a mock', function() {
-      var requestOptions;
+      let requestOptions;
       beforeEach(function() {
         requestOptions = obj.clone(
           fixtures.integration.registerRequestForMockState.json
@@ -520,7 +520,7 @@ var fp = require('@mfl/fp');
       shouldHaveStatusOf(201);
 
       describe('call the mock', function() {
-        var callOptions;
+        let callOptions;
         beforeEach(function() {
           callOptions = {
             path: requestOptions.json.request.url,
@@ -549,7 +549,7 @@ var fp = require('@mfl/fp');
     });
 
     describe('register two mocks', function() {
-      var requestOptions1, requestOptions2, callOptions1, callOptions2;
+      let requestOptions1, requestOptions2, callOptions1, callOptions2;
       beforeEach(function() {
         requestOptions1 = obj.merge(
           {},
@@ -609,7 +609,7 @@ var fp = require('@mfl/fp');
     });
 
     describe('register mocks with dependencies', function() {
-      var standardAlertRequest,
+      let standardAlertRequest,
         alertRequest,
         filesystemRequest,
         alertCall,
@@ -700,7 +700,7 @@ var fp = require('@mfl/fp');
     });
 
     describe('register mocks with dependencies using querystring', function() {
-      var profileRequest, filesystemRequest, profileCall, filesystemCall;
+      let profileRequest, filesystemRequest, profileCall, filesystemCall;
 
       beforeEach(function() {
         profileRequest = obj.merge(
@@ -796,7 +796,7 @@ var fp = require('@mfl/fp');
 });
 
 function makeRequestFactory(urlString, req) {
-  var serverHttpUrl = url.parse(urlString);
+  const serverHttpUrl = url.parse(urlString);
 
   return function makeRequest(options) {
     if (!options) throw new Error('Options is required to make a request.');

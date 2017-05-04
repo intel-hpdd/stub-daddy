@@ -19,11 +19,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var fp = require('@mfl/fp');
-var join = require('path').join;
-var nconf = require('nconf');
+const fp = require('@mfl/fp');
+const join = require('path').join;
+const nconf = require('nconf');
 
-var conf = new nconf.Provider()
+const conf = new nconf.Provider()
   .overrides()
   .argv()
   .env()

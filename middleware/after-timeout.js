@@ -19,13 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var fp = require('@mfl/fp');
-var timeouts = [];
+const fp = require('@mfl/fp');
+let timeouts = [];
 
-module.exports = function afterTimeout (req, res, body, next) {
-
+module.exports = function afterTimeout(req, res, body, next) {
   if (req.timeout) {
-    var id = setTimeout(function () {
+    var id = setTimeout(function() {
       timeouts.splice(timeouts.indexOf(id), 1);
       next(req, res, body);
     }, req.timeout);
@@ -36,7 +35,7 @@ module.exports = function afterTimeout (req, res, body, next) {
   }
 };
 
-module.exports.clearTimeouts = function clearTimeouts () {
+module.exports.clearTimeouts = function clearTimeouts() {
   timeouts.forEach(clearTimeout);
   timeouts = [];
 };

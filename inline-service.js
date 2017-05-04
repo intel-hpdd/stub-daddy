@@ -19,20 +19,21 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var config = require('./config');
-var logger = require('./logger');
-var mockStatus = require('./lib/mock-status');
-var format = require('util').format;
-var fp = require('@mfl/fp');
-var entries = require('./lib/entries');
-var entry = require('./lib/entry');
-var parseUrl = require('url').parse;
-var dispatch = require('./lib/dispatch');
+const config = require('./config');
+const logger = require('./logger');
+const mockStatus = require('./lib/mock-status');
+const format = require('util').format;
+const fp = require('@mfl/fp');
+const entries = require('./lib/entries');
+const entry = require('./lib/entry');
+const parseUrl = require('url').parse;
+const dispatch = require('./lib/dispatch');
 
-var stringifyObj = fp.curry(3, JSON.stringify)(fp.__, null, 2);
+const stringifyObj = fp.curry(3, JSON.stringify)(fp.__, null, 2);
 
 function handleError(item, type, errors) {
-  var message = format('The %s is invalid: \n\n %s \n\n Reasons: \n\n %s',
+  const message = format(
+    'The %s is invalid: \n\n %s \n\n Reasons: \n\n %s',
     type,
     stringifyObj(item),
     stringifyObj(errors)
@@ -42,27 +43,42 @@ function handleError(item, type, errors) {
 }
 
 function mock(mock) {
-  var url = config.get('requestUrls').MOCK_REQUEST;
-  return dispatch(url, 'POST', {
-    data: mock,
-    parsedUrl: parseUrl(url)
-  }, {});
+  const url = config.get('requestUrls').MOCK_REQUEST;
+  return dispatch(
+    url,
+    'POST',
+    {
+      data: mock,
+      parsedUrl: parseUrl(url)
+    },
+    {}
+  );
 }
 
 function mockState() {
-  var url = config.get('requestUrls').MOCK_STATE;
+  const url = config.get('requestUrls').MOCK_STATE;
 
-  return dispatch(url, 'GET', {
-    parsedUrl: parseUrl(url)
-  }, {});
+  return dispatch(
+    url,
+    'GET',
+    {
+      parsedUrl: parseUrl(url)
+    },
+    {}
+  );
 }
 
 function registeredMocks() {
-  var url = config.get('requestUrls').MOCK_LIST;
+  const url = config.get('requestUrls').MOCK_LIST;
 
-  return dispatch(url, 'GET', {
-    parsedUrl: parseUrl(url)
-  }, {});
+  return dispatch(
+    url,
+    'GET',
+    {
+      parsedUrl: parseUrl(url)
+    },
+    {}
+  );
 }
 
 function makeRequest(options) {

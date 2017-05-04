@@ -1,12 +1,20 @@
-var proxyquire = require('proxyquire').noPreserveCache().noCallThru();
-var fixtures = require('../fixtures/standard-fixtures');
-var fp = require('@mfl/fp');
-var obj = require('@mfl/obj');
+const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
+const fixtures = require('../fixtures/standard-fixtures');
+const fp = require('@mfl/fp');
+const obj = require('@mfl/obj');
 
-describe('inline-service', function () {
-  var service, registerApiValidator, logger, requestValidator, entry, mockStatus,
-    spy, dispatch, mockState, parseUrl;
-  beforeEach(function () {
+describe('inline-service', function() {
+  let service,
+    registerApiValidator,
+    logger,
+    requestValidator,
+    entry,
+    mockStatus,
+    spy,
+    dispatch,
+    mockState,
+    parseUrl;
+  beforeEach(function() {
     spy = jasmine.createSpy('spy');
     registerApiValidator = jasmine.createSpy('registerApiValidator');
     logger = {
@@ -72,38 +80,41 @@ describe('inline-service', function () {
       './lib/entry': entry,
       './lib/mock-status': mockStatus,
       './lib/dispatch': dispatch,
-      'url': parseUrl
+      url: parseUrl
     });
   });
 
-  describe('mock', function () {
-    var mock;
+  describe('mock', function() {
+    let mock;
 
-    describe('mocking', function () {
-      var result;
-      beforeEach(function () {
+    describe('mocking', function() {
+      let result;
+      beforeEach(function() {
         mock = {
           request: {},
           response: {},
           expires: 1
         };
 
-        registerApiValidator.and.returnValue({errors: []});
+        registerApiValidator.and.returnValue({ errors: [] });
       });
 
-      it('should call dispatch', function () {
-        parseUrl.parse.and.returnValue({path: '/api/mock'});
+      it('should call dispatch', function() {
+        parseUrl.parse.and.returnValue({ path: '/api/mock' });
         result = service.mock(mock);
-        expect(dispatch).toHaveBeenCalledOnceWith('/api/mock',
+        expect(dispatch).toHaveBeenCalledOnceWith(
+          '/api/mock',
           'POST',
           {
             data: mock,
-            parsedUrl: {path: '/api/mock'}
-          }, {});
+            parsedUrl: { path: '/api/mock' }
+          },
+          {}
+        );
       });
 
-      it('should return the data, headers and status', function () {
-        dispatch.and.callFake(function dispatch (url, verb, request, response) {
+      it('should return the data, headers and status', function() {
+        dispatch.and.callFake(function dispatch(url, verb, request, response) {
           return {
             statusCode: 201,
             headers: {},
@@ -120,21 +131,26 @@ describe('inline-service', function () {
       });
     });
 
-    describe('requesting the registered mock list', function () {
-      var result;
-      beforeEach(function () {
-        requestValidator.and.returnValue({errors: []});
+    describe('requesting the registered mock list', function() {
+      let result;
+      beforeEach(function() {
+        requestValidator.and.returnValue({ errors: [] });
       });
 
-      it('should call dispatch', function () {
-        parseUrl.parse.and.returnValue({path: '/api/mocklist'});
+      it('should call dispatch', function() {
+        parseUrl.parse.and.returnValue({ path: '/api/mocklist' });
         result = service.registeredMocks();
-        expect(dispatch).toHaveBeenCalledOnceWith('/api/mocklist', 'GET', {
-          parsedUrl: {path: '/api/mocklist'}
-        }, {});
+        expect(dispatch).toHaveBeenCalledOnceWith(
+          '/api/mocklist',
+          'GET',
+          {
+            parsedUrl: { path: '/api/mocklist' }
+          },
+          {}
+        );
       });
 
-      it('should return the data, headers and status', function () {
+      it('should return the data, headers and status', function() {
         dispatch.and.callFake(function dispatch() {
           return {
             statusCode: 201,
@@ -152,22 +168,27 @@ describe('inline-service', function () {
       });
     });
 
-    describe('requesting the mock state', function () {
-      var result;
-      beforeEach(function () {
-        requestValidator.and.returnValue({errors: []});
+    describe('requesting the mock state', function() {
+      let result;
+      beforeEach(function() {
+        requestValidator.and.returnValue({ errors: [] });
       });
 
-      it('should call dispatch', function () {
-        parseUrl.parse.and.returnValue({path: '/api/mockstate'});
+      it('should call dispatch', function() {
+        parseUrl.parse.and.returnValue({ path: '/api/mockstate' });
         result = service.mockState();
-        expect(dispatch).toHaveBeenCalledOnceWith('/api/mockstate', 'GET', {
-          parsedUrl: {path: '/api/mockstate'}
-        }, {});
+        expect(dispatch).toHaveBeenCalledOnceWith(
+          '/api/mockstate',
+          'GET',
+          {
+            parsedUrl: { path: '/api/mockstate' }
+          },
+          {}
+        );
       });
 
-      it('should return the data, headers and status', function () {
-        dispatch.and.callFake(function dispatch () {
+      it('should return the data, headers and status', function() {
+        dispatch.and.callFake(function dispatch() {
           return {
             statusCode: 200,
             headers: {},
@@ -184,26 +205,26 @@ describe('inline-service', function () {
       });
     });
 
-    describe('flushing the system', function () {
-      var result;
-      beforeEach(function () {
+    describe('flushing the system', function() {
+      let result;
+      beforeEach(function() {
         result = service.flush();
       });
 
-      it('should call entry.flushEntries', function () {
+      it('should call entry.flushEntries', function() {
         expect(entry.flushEntries).toHaveBeenCalledOnce();
       });
 
-      it('should call mockStatus.flushRequests', function () {
+      it('should call mockStatus.flushRequests', function() {
         expect(mockStatus.flushRequests).toHaveBeenCalledOnce();
       });
     });
 
-    describe('making a dynamic request', function () {
-      var s;
-      beforeEach(function () {
-        requestValidator.and.returnValue({errors: []});
-        parseUrl.parse.and.returnValue({path: '/api/magic'});
+    describe('making a dynamic request', function() {
+      let s;
+      beforeEach(function() {
+        requestValidator.and.returnValue({ errors: [] });
+        parseUrl.parse.and.returnValue({ path: '/api/magic' });
         s = service.makeRequest({
           url: '/api/magic',
           method: 'GET',
@@ -211,13 +232,18 @@ describe('inline-service', function () {
         });
       });
 
-      it('should call dispatch', function () {
-        expect(dispatch).toHaveBeenCalledOnceWith('/api/magic', 'GET', {
-          url: '/api/magic',
-          parsedUrl: {path: '/api/magic'},
-          method: 'GET',
-          headers: {}
-        }, {});
+      it('should call dispatch', function() {
+        expect(dispatch).toHaveBeenCalledOnceWith(
+          '/api/magic',
+          'GET',
+          {
+            url: '/api/magic',
+            parsedUrl: { path: '/api/magic' },
+            method: 'GET',
+            headers: {}
+          },
+          {}
+        );
       });
     });
   });

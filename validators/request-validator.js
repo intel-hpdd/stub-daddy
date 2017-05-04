@@ -19,24 +19,24 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var Validator = require('jsonschema').Validator;
+const Validator = require('jsonschema').Validator;
 
-var schema = {
+const schema = {
   id: '/schema',
   type: 'object',
   required: true,
   properties: {
-    url: {type: 'string', minimum: 0, required: true},
-    method: {type: 'string', minimum: 0, required: true},
-    data: {type: 'object'},
-    headers: {type: 'object', required: true}
+    url: { type: 'string', minimum: 0, required: true },
+    method: { type: 'string', minimum: 0, required: true },
+    data: { type: 'object' },
+    headers: { type: 'object', required: true }
   }
 };
 
-module.exports = function validate (body) {
-  var v = new Validator();
+module.exports = function validate(body) {
+  const v = new Validator();
 
-  body = (body) ? body : undefined;
+  body = body ? body : undefined;
 
   return v.validate(body, schema);
 };

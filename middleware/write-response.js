@@ -19,14 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-module.exports = function writeResponse (req, res, data, next) {
-  if (!res.clientRes.writeHead)
-    return next(req, res, data);
+module.exports = function writeResponse(req, res, data, next) {
+  if (!res.clientRes.writeHead) return next(req, res, data);
 
   res.clientRes.writeHead(data.statusCode, data.headers);
 
-  if (data.data)
-    res.clientRes.write(JSON.stringify(data.data));
+  if (data.data) res.clientRes.write(JSON.stringify(data.data));
 
   res.clientRes.end();
 

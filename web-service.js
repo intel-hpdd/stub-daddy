@@ -19,31 +19,31 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var join = require('path').join;
-var dispatch = require('./lib/dispatch');
-var mockStatus = require('./lib/mock-status');
-var config = require('./config');
-var url = require('url');
-var logger = require('./logger');
-var fp = require('@mfl/fp');
-var fs = require('fs');
-var format = require('util').format;
-var http = require('http');
-var https = require('https');
-var entry = require('./lib/entry');
-var entries = require('./lib/entries');
-var clearTimeouts = require('./middleware/after-timeout').clearTimeouts;
+const join = require('path').join;
+const dispatch = require('./lib/dispatch');
+const mockStatus = require('./lib/mock-status');
+const config = require('./config');
+const url = require('url');
+const logger = require('./logger');
+const fp = require('@mfl/fp');
+const fs = require('fs');
+const format = require('util').format;
+const http = require('http');
+const https = require('https');
+const entry = require('./lib/entry');
+const entries = require('./lib/entries');
+const clearTimeouts = require('./middleware/after-timeout').clearTimeouts;
 
-var filePath = join.bind(null, __dirname);
-var keyPem = fs.readFileSync(filePath('key.pem'), 'utf8');
-var certPem = fs.readFileSync(filePath('cert.pem'), 'utf8');
+const filePath = join.bind(null, __dirname);
+const keyPem = fs.readFileSync(filePath('key.pem'), 'utf8');
+const certPem = fs.readFileSync(filePath('cert.pem'), 'utf8');
 
-var server;
-var sockets = [];
+let server;
+let sockets = [];
 
 function handleSocketConnection(socket) {
   sockets.push(socket);
-  socket.on('close', function () {
+  socket.on('close', function() {
     return sockets.splice(sockets.indexOf(socket), 1);
   });
 }
@@ -63,12 +63,21 @@ function flushEntries() {
 function executeService(boundCreateServer, port) {
   server = boundCreateServer(onRequestReceived).listen(port);
   server.on('connection', handleSocketConnection);
-  server.on('clientError', function onClientError (err) {
-    logger.error({
-      err: err
-    }, 'Received client error event');
+  server.on('clientError', function onClientError(err) {
+    logger.error(
+      {
+        err: err
+      },
+      'Received client error event'
+    );
   });
-  logger.info(format('Starting service on %s://localhost:%s', config.get('requestProtocol'), port));
+  logger.info(
+    format(
+      'Starting service on %s://localhost:%s',
+      config.get('requestProtocol'),
+      port
+    )
+  );
 
   return server;
 }
@@ -78,10 +87,13 @@ module.exports = {
     sockets = [];
 
     if (config.get('requestProtocol') === 'https')
-      server = executeService(https.createServer.bind(https, {
-        key: keyPem,
-        cert: certPem
-      }), config.get('port'));
+      server = executeService(
+        https.createServer.bind(https, {
+          key: keyPem,
+          cert: certPem
+        }),
+        config.get('port')
+      );
     else
       server = executeService(http.createServer.bind(http), config.get('port'));
 
@@ -92,14 +104,16 @@ module.exports = {
     logger.info('Service stopping...');
 
     if (sockets.length > 0)
-      logger.trace(format('Destroying %s remaining socket connections.', sockets.length));
+      logger.trace(
+        format('Destroying %s remaining socket connections.', sockets.length)
+      );
 
     // Clear out any timeouts in the middleware that might be waiting.
     clearTimeouts();
 
     // Make sure all sockets have been closed
     while (sockets.length > 0) {
-      var socket = sockets.shift();
+      const socket = sockets.shift();
       socket.server = server;
       socket.destroy();
     }
@@ -107,9 +121,8 @@ module.exports = {
     flushEntries();
 
     server.close();
-    server.on('close', function (err) {
-      if (err)
-        onError(err);
+    server.on('close', function(err) {
+      if (err) onError(err);
 
       done();
     });

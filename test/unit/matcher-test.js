@@ -1,19 +1,18 @@
-var proxyquire = require('proxyquire').noPreserveCache().noCallThru();
-var entry = require('../../lib/entry');
-var url = require('url');
-var obj = require('@mfl/obj');
+const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
+const entry = require('../../lib/entry');
+const url = require('url');
+const obj = require('@mfl/obj');
 
-describe('test matcher module', function () {
+describe('test matcher module', function() {
+  let requestMatcher, incomingRequest, registeredRequest, config;
 
-  var requestMatcher, incomingRequest, registeredRequest, config;
-
-  beforeEach(function () {
+  beforeEach(function() {
     config = require('../../config');
-    var data1 = {
+    const data1 = {
       item1: 'item1 value',
       item2: 'item2 value'
     };
-    var headers1 = {
+    const headers1 = {
       host: 'localhost:8888',
       connection: 'keep-alive',
       'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko)',
@@ -34,10 +33,10 @@ describe('test matcher module', function () {
       headers: headers1
     };
 
-    var registeredData = {
+    const registeredData = {
       item2: 'item2 value'
     };
-    var registeredHeaders = {
+    const registeredHeaders = {
       custom: 'my custom header'
     };
 
@@ -54,73 +53,73 @@ describe('test matcher module', function () {
     requestMatcher = proxyquire('../../matcher', {});
   });
 
-  it('should match with required properties and extra properties in incoming request', function () {
-    var result = requestMatcher(incomingRequest, registeredRequest);
+  it('should match with required properties and extra properties in incoming request', function() {
+    const result = requestMatcher(incomingRequest, registeredRequest);
 
     expect(result).toBeTruthy();
   });
 
-  it('should not match if the required parameters in the querystring do not match', function () {
+  it('should not match if the required parameters in the querystring do not match', function() {
     registeredRequest.qs.name = 'will';
 
-    var result = requestMatcher(incomingRequest, registeredRequest);
+    const result = requestMatcher(incomingRequest, registeredRequest);
 
     expect(result).toBeFalsy();
   });
 
-  it('should match if the required parameters in the querystring match', function () {
+  it('should match if the required parameters in the querystring match', function() {
     registeredRequest.qs.name = 'will';
     incomingRequest.qs.name = 'will';
     incomingRequest.qs.hobbies = 'surfing';
 
-    var result = requestMatcher(incomingRequest, registeredRequest);
+    const result = requestMatcher(incomingRequest, registeredRequest);
 
     expect(result).toBeTruthy();
   });
 
-  it('should match with required properties and NO extra properties in incoming request', function () {
+  it('should match with required properties and NO extra properties in incoming request', function() {
     incomingRequest.data = obj.clone(registeredRequest.data);
     incomingRequest.headers = obj.clone(registeredRequest.headers);
 
-    var result = requestMatcher(incomingRequest, registeredRequest);
+    const result = requestMatcher(incomingRequest, registeredRequest);
 
     expect(result).toBeTruthy();
   });
 
-  it('should NOT match because one of the required data properties is not in the incoming request', function () {
+  it('should NOT match because one of the required data properties is not in the incoming request', function() {
     registeredRequest.data.extraParam = 'extra param value';
 
     // In order for this to pass, the incoming request would need to have 'extraParam' on
     // the data property. But it doesn't, so this should fail.
-    var result = requestMatcher(incomingRequest, registeredRequest);
+    const result = requestMatcher(incomingRequest, registeredRequest);
 
     expect(result).toBeFalsy();
   });
 
-  it('should NOT match because one of the required header properties is not in the incoming request', function () {
+  it('should NOT match because one of the required header properties is not in the incoming request', function() {
     registeredRequest.headers.extraParam = 'extra param value';
 
     // In order for this to pass, the incoming request would need to have 'extraParam' on
     // the headers property. But it doesn't, so this should fail.
-    var result = requestMatcher(incomingRequest, registeredRequest);
+    const result = requestMatcher(incomingRequest, registeredRequest);
 
     expect(result).toBeFalsy();
   });
 
-  it('should NOT match because the method does not match', function () {
+  it('should NOT match because the method does not match', function() {
     registeredRequest.method = 'POST';
 
     // The incoming request method is GET so this doesn't match.
-    var result = requestMatcher(incomingRequest, registeredRequest);
+    const result = requestMatcher(incomingRequest, registeredRequest);
 
     expect(result).toBeFalsy();
   });
 
-  it('should NOT match because the url does not match', function () {
+  it('should NOT match because the url does not match', function() {
     registeredRequest.url = 'bla';
 
     // The incoming request is /some/path so this doesn't match.
-    var result = requestMatcher(incomingRequest, registeredRequest);
+    const result = requestMatcher(incomingRequest, registeredRequest);
 
     expect(result).toBeFalsy();
   });

@@ -1,17 +1,26 @@
-var proxyquire = require('proxyquire').noPreserveCache().noCallThru();
+const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
 
 describe('test logger', function() {
-  var logger, newLogger, createLoggerParameter, bunyan;
+  let logger, newLogger, createLoggerParameter, bunyan;
 
   beforeEach(function() {
-    newLogger = {key: 'logger'};
+    newLogger = { key: 'logger' };
 
     bunyan = {
-      createLogger: jasmine.createSpy('createLogger').and.returnValue(newLogger),
+      createLogger: jasmine
+        .createSpy('createLogger')
+        .and.returnValue(newLogger),
       stdSerializers: {
         err: jasmine.createSpy('err')
       },
-      nameFromLevel: {10: 'TRACE', 20: 'DEBUG', 30: 'INFO', 40: 'WARN', 50: 'ERROR', 60: 'FATAL'}
+      nameFromLevel: {
+        10: 'TRACE',
+        20: 'DEBUG',
+        30: 'INFO',
+        40: 'WARN',
+        50: 'ERROR',
+        60: 'FATAL'
+      }
     };
 
     createLoggerParameter = {
@@ -29,7 +38,7 @@ describe('test logger', function() {
     };
 
     logger = proxyquire('../../logger', {
-      'bunyan': bunyan
+      bunyan: bunyan
     });
   });
 
@@ -38,6 +47,6 @@ describe('test logger', function() {
   });
 
   it('should return the logger instance', function() {
-    expect(logger).toEqual({logByLevel: jasmine.any(Function)});
+    expect(logger).toEqual({ logByLevel: jasmine.any(Function) });
   });
 });

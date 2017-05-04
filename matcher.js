@@ -19,29 +19,39 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var url = require('url');
-var fp = require('@mfl/fp');
-var obj = require('@mfl/obj');
-var picker = require('./lib/picker');
-var deepEq = require('deep-equal');
+const url = require('url');
+const fp = require('@mfl/fp');
+const obj = require('@mfl/obj');
+const picker = require('./lib/picker');
+const deepEq = require('deep-equal');
 
 function compare(registeredRequest, incomingRequest, property) {
-  var propertyLens = fp.lensProp(property);
-  var pickFromObj = obj.pickBy(picker(Object.keys(propertyLens(registeredRequest))));
-  var registeredRequestObj = pickFromObj(propertyLens(registeredRequest));
-  var incomingRequestObj = pickFromObj(propertyLens(incomingRequest));
+  const propertyLens = fp.lensProp(property);
+  const pickFromObj = obj.pickBy(
+    picker(Object.keys(propertyLens(registeredRequest)))
+  );
+  const registeredRequestObj = pickFromObj(propertyLens(registeredRequest));
+  const incomingRequestObj = pickFromObj(propertyLens(incomingRequest));
 
   return deepEq(registeredRequestObj, incomingRequestObj);
 }
 
-module.exports = fp.curry(2, function match (incomingRequest, registeredRequest) {
-  var isMatch = (incomingRequest.method === registeredRequest.method) &&
-    (url.parse(incomingRequest.url).pathname === url.parse(registeredRequest.url).pathname);
+module.exports = fp.curry(2, function match(
+  incomingRequest,
+  registeredRequest
+) {
+  const isMatch =
+    incomingRequest.method === registeredRequest.method &&
+    url.parse(incomingRequest.url).pathname ===
+      url.parse(registeredRequest.url).pathname;
 
   // For data, we only care to verify that the data in the registered request exists
   // in the incoming request. It's perfectly fine if the incoming request contains more
   // data than what's in the registered request.
-  return isMatch && compare(registeredRequest, incomingRequest, 'data') &&
+  return (
+    isMatch &&
+    compare(registeredRequest, incomingRequest, 'data') &&
     compare(registeredRequest, incomingRequest, 'qs') &&
-    compare(registeredRequest, incomingRequest, 'headers');
+    compare(registeredRequest, incomingRequest, 'headers')
+  );
 });

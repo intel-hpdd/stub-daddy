@@ -1,8 +1,8 @@
-var proxyquire = require('proxyquire').noPreserveCache().noCallThru();
+const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
 
-describe('to json middleware', function () {
-  var toJson, logger, req, res, data, next;
-  beforeEach(function () {
+describe('to json middleware', function() {
+  let toJson, logger, req, res, data, next;
+  beforeEach(function() {
     logger = jasmine.createSpy('logger');
     toJson = proxyquire('../../../middleware/to-json', {
       '../logger': logger
@@ -15,7 +15,7 @@ describe('to json middleware', function () {
     toJson(req, res, data, next);
   });
 
-  it('should call next with parsed data', function () {
-    expect(next).toHaveBeenCalledOnceWith(req, res, {name: 'will'});
+  it('should call next with parsed data', function() {
+    expect(next).toHaveBeenCalledOnceWith(req, res, { name: 'will' });
   });
 });

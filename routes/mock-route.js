@@ -19,22 +19,22 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var router = require('../router');
-var registerApi = require('../lib/register-api');
-var validateMock = require('../middleware/validate-mock');
-var config = require('../config');
+const router = require('../router');
+const registerApi = require('../lib/register-api');
+const validateMock = require('../middleware/validate-mock');
+const config = require('../config');
 
-module.exports = function mockRoute () {
-  router.route('/api/mock')
+module.exports = function mockRoute() {
+  router
+    .route('/api/mock')
     .post(validateMock)
-    .post(function (req, res, data, next) {
-      var response = {
+    .post(function(req, res, data, next) {
+      let response = {
         statusCode: config.get('status').BAD_REQUEST,
         headers: config.get('standardHeaders')
       };
 
-      if (data != null)
-        response = registerApi(data);
+      if (data != null) response = registerApi(data);
 
       next(req, res, response);
     });

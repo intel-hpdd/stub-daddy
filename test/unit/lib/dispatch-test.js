@@ -1,9 +1,9 @@
-var proxyquire = require('proxyquire').noPreserveCache().noCallThru();
+const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
 
-describe('dispatch', function () {
-  var dispatch, router, url, verb, clientReq, clientRes, result;
+describe('dispatch', function() {
+  let dispatch, router, url, verb, clientReq, clientRes, result;
 
-  beforeEach(function () {
+  beforeEach(function() {
     url = '/api/mock';
     verb = 'POST';
     clientReq = {};
@@ -20,19 +20,24 @@ describe('dispatch', function () {
     result = dispatch(url, verb, clientReq, clientRes);
   });
 
-  it('should call router.go', function () {
-    expect(router.go).toHaveBeenCalledOnceWith(url, {
-      verb: verb,
-      clientReq: clientReq
-    }, {
-      clientRes: clientRes
-    }, jasmine.any(Function));
+  it('should call router.go', function() {
+    expect(router.go).toHaveBeenCalledOnceWith(
+      url,
+      {
+        verb: verb,
+        clientReq: clientReq
+      },
+      {
+        clientRes: clientRes
+      },
+      jasmine.any(Function)
+    );
   });
 
-  it('should return the response', function () {
-    var cb = router.go.calls.argsFor(0)[3];
+  it('should return the response', function() {
+    const cb = router.go.calls.argsFor(0)[3];
 
-    cb({}, {}, {foo: 'bar'});
+    cb({}, {}, { foo: 'bar' });
     expect(result).toEqual({
       foo: 'bar'
     });
