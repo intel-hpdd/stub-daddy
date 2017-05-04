@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.intel.com/MFL/stub-daddy.git"
+    "url": "git@github.com:intel-hpdd/stub-daddy.git"
   },
   "publishConfig": {
     "access": "public"
@@ -23,26 +23,22 @@
   "author": "MFL Team",
   "license": "MIT",
   "dependencies": {
-    "bunyan": "1.5.1",
-    "nconf": "0.8.2",
-    "jsonschema": "0.4.0",
-    "@mfl/fp": "3.5.0",
-    "@mfl/obj": "3.0.0",
-    "@mfl/router": "4.1.0",
-    "@mfl/dirp": "1.0.5",
-    "mkdirp": "0.5.1",
+    "@mfl/fp": "8.0.1",
+    "@mfl/obj": "6.0.1",
+    "@mfl/router": "6.0.1",
+    "bunyan": "1.8.10",
     "deep-equal": "1.0.1",
-    "immutable": "3.7.6"
+    "jsonschema": "0.4.0",
+    "nconf": "0.8.4"
   },
   "devDependencies": {
-    "eslint": "1.10.1",
-    "dotty": "0.0.2",
-    "@mfl/req": "1.0.9",
-    "jasmine": "2.4.1",
     "@mfl/jasmine-n-matchers": "2.1.1",
+    "@mfl/req": "3.0.4",
+    "dotty": "0.0.2",
+    "eslint": "1.10.1",
+    "jasmine": "2.4.1",
     "jscs": "2.5.1",
-    "krusty-jasmine-reporter": "1.0.0",
-    "pre-commit": "1.1.2",
+    "pre-commit": "1.2.2",
     "proxyquire": "1.7.3"
   }
 }
