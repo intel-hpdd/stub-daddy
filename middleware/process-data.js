@@ -19,14 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var logger = require('../logger');
+const logger = require('../logger');
 
-module.exports = function processData (req, res, next) {
-  if (!req.clientReq.on)
-    return next(req, res, req.clientReq.data);
+module.exports = function processData(req, res, next) {
+  if (!req.clientReq.on) return next(req, res, req.clientReq.data);
 
-  var data;
-  req.clientReq.on('data', function handleData (chunk) {
+  let data;
+  req.clientReq.on('data', function handleData(chunk) {
     if (chunk) {
       data = data || '';
       data += chunk.toString('utf8');
@@ -36,10 +35,13 @@ module.exports = function processData (req, res, next) {
   req.clientReq.on('end', function handleEnd() {
     logger.logByLevel({
       DEBUG: [req.clientReq.parsedUrl.pathname, 'Request received:'],
-      TRACE: [{
-        pathname: req.clientReq.parsedUrl.pathname,
-        body: data ? data : undefined
-      }, 'Request received']
+      TRACE: [
+        {
+          pathname: req.clientReq.parsedUrl.pathname,
+          body: data ? data : undefined
+        },
+        'Request received'
+      ]
     });
 
     next(req, res, data);

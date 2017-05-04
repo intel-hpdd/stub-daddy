@@ -1,9 +1,18 @@
-var proxyquire = require('proxyquire').noPreserveCache().noCallThru();
-var config = require('../../../config');
+const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
+const config = require('../../../config');
 
-describe('wildcard route', function () {
-  var wildcardRoute, router, dynamicRequest, req, res, data, next, response, afterTimeout, validateRequest;
-  beforeEach(function () {
+describe('wildcard route', function() {
+  let wildcardRoute,
+    router,
+    dynamicRequest,
+    req,
+    res,
+    data,
+    next,
+    response,
+    afterTimeout,
+    validateRequest;
+  beforeEach(function() {
     router = {
       all: jasmine.createSpy('router.all'),
       route: jasmine.createSpy('router.route')
@@ -42,31 +51,31 @@ describe('wildcard route', function () {
     wildcardRoute();
   });
 
-  it('should call router.route', function () {
+  it('should call router.route', function() {
     expect(router.route).toHaveBeenCalledOnceWith('(.*)');
   });
 
-  it('should call router.all', function () {
+  it('should call router.all', function() {
     expect(router.all).toHaveBeenCalledThriceWith(jasmine.any(Function));
   });
 
-  it('should call router.all with afterTimeout', function () {
+  it('should call router.all with afterTimeout', function() {
     expect(router.all).toHaveBeenCalledOnceWith(afterTimeout);
   });
 
-  it('should call router.all with validateRequest', function () {
+  it('should call router.all with validateRequest', function() {
     expect(router.all).toHaveBeenCalledOnceWith(validateRequest);
   });
 
-  describe('handling the route', function () {
-    var routeHandler;
+  describe('handling the route', function() {
+    let routeHandler;
 
-    beforeEach(function () {
+    beforeEach(function() {
       routeHandler = router.all.calls.argsFor(1)[0];
     });
 
-    describe('with an entry', function () {
-      beforeEach(function () {
+    describe('with an entry', function() {
+      beforeEach(function() {
         dynamicRequest.and.returnValue({
           response: response,
           timeout: 500
@@ -74,31 +83,35 @@ describe('wildcard route', function () {
         routeHandler(req, res, data, next);
       });
 
-      it('should call dynamicRequest', function () {
+      it('should call dynamicRequest', function() {
         expect(dynamicRequest).toHaveBeenCalledOnceWith(req.clientReq, data);
       });
 
-      it('should invoke next', function () {
-        expect(next).toHaveBeenCalledOnceWith({
-          clientReq: {},
-          timeout: 500
-        }, {
-          clientRes: {}
-        }, {
-          statusCode: 200,
-          headers: {},
-          data: data
-        });
+      it('should invoke next', function() {
+        expect(next).toHaveBeenCalledOnceWith(
+          {
+            clientReq: {},
+            timeout: 500
+          },
+          {
+            clientRes: {}
+          },
+          {
+            statusCode: 200,
+            headers: {},
+            data: data
+          }
+        );
       });
     });
 
-    describe('without an entry', function () {
-      beforeEach(function () {
+    describe('without an entry', function() {
+      beforeEach(function() {
         dynamicRequest.and.returnValue(undefined);
       });
 
-      it('should throw an error', function () {
-        expect(function () {
+      it('should throw an error', function() {
+        expect(function() {
           routeHandler(req, res, data, next);
         }).toThrow(jasmine.any(Error));
       });

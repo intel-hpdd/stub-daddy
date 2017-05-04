@@ -1,8 +1,8 @@
-var proxyquire = require('proxyquire').noPreserveCache().noCallThru();
+const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
 
-describe('mock list', function () {
-  var mockList, config, entries;
-  beforeEach(function () {
+describe('mock list', function() {
+  let mockList, config, entries;
+  beforeEach(function() {
     config = require('../../../config');
     entries = ['entries'];
     mockList = proxyquire('../../../lib/mock-list', {
@@ -10,13 +10,13 @@ describe('mock list', function () {
     });
   });
 
-  describe('GET request', function () {
-    var result;
-    beforeEach(function () {
+  describe('GET request', function() {
+    let result;
+    beforeEach(function() {
       result = mockList();
     });
 
-    it('should return a successful response', function () {
+    it('should return a successful response', function() {
       expect(result).toEqual({
         statusCode: config.get('status').SUCCESS,
         data: ['entries'],

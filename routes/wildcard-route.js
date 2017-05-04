@@ -19,27 +19,32 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var router = require('../router');
-var dynamicRequest = require('../lib/dynamic-request');
-var config = require('../config');
-var afterTimeout = require('../middleware/after-timeout');
-var validateRequest = require('../middleware/validate-request');
-var mockStatus = require('../lib/mock-status');
-var fp = require('@mfl/fp');
-var format = require('util').format;
+const router = require('../router');
+const dynamicRequest = require('../lib/dynamic-request');
+const config = require('../config');
+const afterTimeout = require('../middleware/after-timeout');
+const validateRequest = require('../middleware/validate-request');
+const mockStatus = require('../lib/mock-status');
+const fp = require('@mfl/fp');
+const format = require('util').format;
 
 module.exports = function wildcardRoute() {
-  router.route('(.*)')
+  router
+    .route('(.*)')
     .all(validateRequest)
     .all(processRequest)
     .all(afterTimeout);
 
   function processRequest(req, res, data, next) {
-    var entry = dynamicRequest(req.clientReq, data);
+    const entry = dynamicRequest(req.clientReq, data);
 
     if (!entry)
-      throw new Error(format('Entry not found. Mock state is: %s',
-        JSON.stringify(mockStatus.getMockApiState(), null, 2)));
+      throw new Error(
+        format(
+          'Entry not found. Mock state is: %s',
+          JSON.stringify(mockStatus.getMockApiState(), null, 2)
+        )
+      );
 
     req.timeout = entry.timeout;
 

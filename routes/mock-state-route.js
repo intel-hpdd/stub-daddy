@@ -19,12 +19,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var router = require('../router');
-var mockState = require('../lib/mock-state');
+const router = require('../router');
+const mockState = require('../lib/mock-state');
 
-module.exports = function mockStateRoute () {
-  router.route('/api/mockstate')
-    .get(function (req, res, data, next) {
-      next(req, res, mockState());
-    });
+module.exports = function mockStateRoute() {
+  router.route('/api/mockstate').get(function(req, res, data, next) {
+    next(req, res, mockState());
+  });
 };

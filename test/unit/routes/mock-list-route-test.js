@@ -1,8 +1,8 @@
-var proxyquire = require('proxyquire').noPreserveCache().noCallThru();
+const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
 
-describe('mock list route', function () {
-  var mockListRoute, router, mockList, req, res, next, response, data;
-  beforeEach(function () {
+describe('mock list route', function() {
+  let mockListRoute, router, mockList, req, res, next, response, data;
+  beforeEach(function() {
     router = {
       get: jasmine.createSpy('router.get'),
       route: jasmine.createSpy('router.route')
@@ -33,33 +33,37 @@ describe('mock list route', function () {
     mockListRoute();
   });
 
-  it('should call router.route', function () {
+  it('should call router.route', function() {
     expect(router.route).toHaveBeenCalledOnceWith('/api/mocklist');
   });
 
-  it('should call router.get', function () {
+  it('should call router.get', function() {
     expect(router.get).toHaveBeenCalledOnceWith(jasmine.any(Function));
   });
 
-  describe('handling the route', function () {
-    var routeHandler;
-    beforeEach(function () {
+  describe('handling the route', function() {
+    let routeHandler;
+    beforeEach(function() {
       routeHandler = router.get.calls.argsFor(0)[0];
       routeHandler(req, res, data, next);
     });
 
-    it('should call mockList', function () {
+    it('should call mockList', function() {
       expect(mockList).toHaveBeenCalledOnceWith();
     });
 
-    it('should invoke next', function () {
-      expect(next).toHaveBeenCalledOnceWith(req, {
-        clientRes: {}
-      }, {
-        statusCode: 200,
-        headers: {},
-        data: 'some data'
-      });
+    it('should invoke next', function() {
+      expect(next).toHaveBeenCalledOnceWith(
+        req,
+        {
+          clientRes: {}
+        },
+        {
+          statusCode: 200,
+          headers: {},
+          data: 'some data'
+        }
+      );
     });
   });
 });

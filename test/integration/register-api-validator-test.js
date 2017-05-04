@@ -1,9 +1,9 @@
-var dotty = require('dotty');
-var registerApiValidator;
+const dotty = require('dotty');
+let registerApiValidator;
 
 describe('test register api body against validator', function() {
-  var body;
-  var config = {
+  let body;
+  const config = {
     methods: {
       POST: 'POST'
     }
@@ -36,38 +36,40 @@ describe('test register api body against validator', function() {
         }
       },
       expires: 0,
-      dependencies: [{
-        method: 'PUT',
-        url: '/api/filesystem/',
-        data: {},
-        headers: {}
-      }]
+      dependencies: [
+        {
+          method: 'PUT',
+          url: '/api/filesystem/',
+          data: {},
+          headers: {}
+        }
+      ]
     };
 
     registerApiValidator = require('../../validators/register-api-validator');
   });
 
   it('should validate the body with a successful response', function() {
-    var result = registerApiValidator(body);
+    const result = registerApiValidator(body);
     expect(result.errors.length).toEqual(0);
   });
 
   it('should validate a string with a failed response', function() {
-    var result = registerApiValidator('some string');
+    const result = registerApiValidator('some string');
     expect(result.errors.length).toEqual(5);
   });
 
   it('should validate an undefined body with a failed response', function() {
-    var result = registerApiValidator(undefined);
+    const result = registerApiValidator(undefined);
     expect(result.errors.length).toEqual(1);
   });
 
   it('should validate a null body with a failed response', function() {
-    var result = registerApiValidator(null);
+    const result = registerApiValidator(null);
     expect(result.errors.length).toEqual(1);
   });
 
-  var bodyComponents = [
+  const bodyComponents = [
     'request.method',
     'request.url',
     'request.data',
@@ -79,12 +81,11 @@ describe('test register api body against validator', function() {
     'request',
     'response'
   ];
-  bodyComponents.forEach(function (element) {
-    it('should validate the body with a failed response due to a missing required field', function () {
+  bodyComponents.forEach(function(element) {
+    it('should validate the body with a failed response due to a missing required field', function() {
       dotty.remove(body, element);
-      var result = registerApiValidator(body);
+      const result = registerApiValidator(body);
       expect(result.errors.length).toBeGreaterThan(0);
     });
   });
-
 });

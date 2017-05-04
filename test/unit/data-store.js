@@ -1,9 +1,9 @@
 /*jshint node: true*/
-var config = require('../../config');
-var entry = require('../../lib/entry');
+const config = require('../../config');
+const entry = require('../../lib/entry');
 
-var body = {name: 'will'};
-var mockRequest = {
+const body = { name: 'will' };
+const mockRequest = {
   method: 'GET',
   url: '/target',
   headers: {
@@ -19,20 +19,20 @@ var mockRequest = {
   }
 };
 
-var searchRequest = {
+const searchRequest = {
   method: 'GET',
   url: mockRequest.url,
   data: body,
   headers: mockRequest.headers
 };
 
-var searchResponse = {
+const searchResponse = {
   statusCode: 'GET',
   headers: mockRequest.headers,
   data: body
 };
 
-var searchDependencies = [
+const searchDependencies = [
   {
     method: 'PUT',
     url: mockRequest.url,
@@ -41,7 +41,7 @@ var searchDependencies = [
   }
 ];
 
-var requestEntry = {
+const requestEntry = {
   request: searchRequest,
   response: searchResponse,
   expires: 0,

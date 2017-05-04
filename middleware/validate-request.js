@@ -19,14 +19,18 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var requestValidator = require('../validators/request-validator');
-var format = require('util').format;
+const requestValidator = require('../validators/request-validator');
+const format = require('util').format;
 
-module.exports = function validateMock (req, res, body, next) {
-  var validationErrors = requestValidator(req.clientReq).errors;
+module.exports = function validateMock(req, res, body, next) {
+  const validationErrors = requestValidator(req.clientReq).errors;
   if (validationErrors.length > 0)
-    throw new Error(format('Validation of request failed: %s',
-      JSON.stringify(validationErrors, null, 2)));
+    throw new Error(
+      format(
+        'Validation of request failed: %s',
+        JSON.stringify(validationErrors, null, 2)
+      )
+    );
 
   return next(req, res, body);
 };

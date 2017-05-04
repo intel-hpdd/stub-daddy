@@ -19,17 +19,20 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var clearRequireCache = require('./clear-require-cache');
+const clearRequireCache = require('./clear-require-cache');
 
-module.exports = function stubDaddyFactory (overrides) {
+module.exports = function stubDaddyFactory(overrides) {
   clearRequireCache();
 
-  var config = require('./config');
+  const config = require('./config');
   config.overrides(overrides);
 
-  var fp = require('@mfl/fp');
-  var routes = require('./routes');
-  fp.map(fp.flow(fp.lensProp, fp.invoke(fp.__, [routes]), fp.invoke(fp.__, [])), Object.keys(routes));
+  const fp = require('@mfl/fp');
+  const routes = require('./routes');
+  fp.map(
+    fp.flow(fp.lensProp, fp.invoke(fp.__, [routes]), fp.invoke(fp.__, [])),
+    Object.keys(routes)
+  );
 
   return {
     config: config,

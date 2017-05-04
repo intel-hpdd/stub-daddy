@@ -1,17 +1,17 @@
-var proxyquire = require('proxyquire').noPreserveCache().noCallThru();
+const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
 
-describe('validate request', function () {
-  var requestValidator, validateRequest, req, res, body, next;
-  beforeEach(function () {
+describe('validate request', function() {
+  let requestValidator, validateRequest, req, res, body, next;
+  beforeEach(function() {
     requestValidator = jasmine.createSpy('requestValidator');
 
     req = {
-      clientReq : {
+      clientReq: {
         url: '/user/profile'
       }
     };
     res = {};
-    body = {foo: 'bar'};
+    body = { foo: 'bar' };
     next = jasmine.createSpy('next');
 
     validateRequest = proxyquire('../../../middleware/validate-request', {
@@ -19,7 +19,7 @@ describe('validate request', function () {
     });
   });
 
-  it('should call next with the body if validation passes', function () {
+  it('should call next with the body if validation passes', function() {
     requestValidator.and.returnValue({
       errors: []
     });
@@ -29,12 +29,12 @@ describe('validate request', function () {
     expect(next).toHaveBeenCalledOnceWith(req, res, body);
   });
 
-  it('should throw an error if validation does not pass', function () {
+  it('should throw an error if validation does not pass', function() {
     requestValidator.and.returnValue({
       errors: ['error']
     });
 
-    expect(function () {
+    expect(function() {
       validateRequest(req, res, body, next);
     }).toThrow(jasmine.any(Error));
   });

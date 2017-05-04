@@ -18,8 +18,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var getRouter = require('@mfl/router');
-var middleware = require('./middleware');
+const getRouter = require('@mfl/router');
+const middleware = require('./middleware');
 
 module.exports = getRouter()
   .addStart(middleware.processData)

@@ -1,15 +1,15 @@
-var stubDaddyModule = require('../../server');
-var format = require('util').format;
-var getReq = require('@mfl/req');
-var url = require('url');
+const stubDaddyModule = require('../../server');
+const format = require('util').format;
+const getReq = require('@mfl/req');
+const url = require('url');
 
 describe('re-poll test', function() {
-  var config, stubDaddy, req, serverHttpUrl, spy;
+  let config, stubDaddy, req, serverHttpUrl, spy;
   beforeEach(function() {
     stubDaddy = stubDaddyModule();
     config = stubDaddy.config;
     req = getReq(config.get('requestProtocol'));
-    var urlString = format(
+    const urlString = format(
       '%s://localhost:%s',
       config.get('requestProtocol'),
       config.get('port')
@@ -24,7 +24,7 @@ describe('re-poll test', function() {
   });
 
   describe('first call', function() {
-    var options, s;
+    let options, s;
     beforeEach(function() {
       spy = jasmine.createSpy('spy');
 

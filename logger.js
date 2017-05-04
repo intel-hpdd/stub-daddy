@@ -19,14 +19,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var fp = require('@mfl/fp');
-var bunyan = require('bunyan');
-var path = require('path');
-var config = require('./config');
-var logPath = config.get('logger').logPath;
-var level = config.get('logger').level;
+const fp = require('@mfl/fp');
+const bunyan = require('bunyan');
+const path = require('path');
+const config = require('./config');
+const logPath = config.get('logger').logPath;
+const level = config.get('logger').level;
 
-var streams = {
+const streams = {
   stdout: {
     type: 'stream',
     level: level,
@@ -39,9 +39,12 @@ var streams = {
   }
 };
 
-var envStreams = fp.map(fp.flow(fp.lensProp, fp.invoke(fp.__, [streams])), config.get('logger').streams);
+const envStreams = fp.map(
+  fp.flow(fp.lensProp, fp.invoke(fp.__, [streams])),
+  config.get('logger').streams
+);
 
-var logger = bunyan.createLogger({
+const logger = bunyan.createLogger({
   name: config.get('logName'),
   serializers: {
     err: bunyan.stdSerializers.err
@@ -49,29 +52,33 @@ var logger = bunyan.createLogger({
   streams: envStreams
 });
 
-var extendedLogger = Object.create(logger);
+const extendedLogger = Object.create(logger);
 
 extendedLogger.logByLevel = function logByLevel(data) {
   if (typeof data !== 'object' || Object.keys(data).length === 0)
-    throw new Error('A log level and corresponding message must be passed to logByLevel');
-  var levels = Object.keys(data);
-  var lowestLevel = logger.level();
+    throw new Error(
+      'A log level and corresponding message must be passed to logByLevel'
+    );
+  const levels = Object.keys(data);
+  const lowestLevel = logger.level();
 
   // Take the lowest level specified in the data
-  var levelToLog = levels.map(function convertKeysToNumericValues(key) {
-    return bunyan.resolveLevel(key);
-  }).filter(function byLowestLevel(level) {
-    return level >= lowestLevel;
-  }).sort(function fromLowestToHeighest(a, b) {
-    return a - b;
-  })[0];
+  const levelToLog = levels
+    .map(function convertKeysToNumericValues(key) {
+      return bunyan.resolveLevel(key);
+    })
+    .filter(function byLowestLevel(level) {
+      return level >= lowestLevel;
+    })
+    .sort(function fromLowestToHeighest(a, b) {
+      return a - b;
+    })[0];
 
   // If no levelToLog has been set then there is no reason to log. This can occur if the only log levels
   // passed into data are levels that are below lowest level.
-  if (!levelToLog)
-    return;
+  if (!levelToLog) return;
 
-  var levelKey = bunyan.nameFromLevel[levelToLog];
+  const levelKey = bunyan.nameFromLevel[levelToLog];
   logger[levelKey].apply(logger, data[levelKey.toUpperCase()]);
 };
 
