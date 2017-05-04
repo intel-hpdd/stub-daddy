@@ -1,5 +1,3 @@
-'use strict';
-
 var dotty = require('dotty');
 var registerApiValidator;
 

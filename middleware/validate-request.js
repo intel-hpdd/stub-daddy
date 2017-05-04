@@ -19,8 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-'use strict';
-
 var requestValidator = require('../validators/request-validator');
 var format = require('util').format;
 

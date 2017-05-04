@@ -1,5 +1,3 @@
-'use strict';
-
 var proxyquire = require('proxyquire').noPreserveCache().noCallThru();
 var entry = require('../../../lib/entry');
 var fp = require('intel-fp/dist/fp');

@@ -1,6 +1,4 @@
 /*jshint node: true*/
-'use strict';
-
 var config = require('../../config');
 var entry = require('../../lib/entry');
 

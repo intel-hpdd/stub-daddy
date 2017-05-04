@@ -1,5 +1,3 @@
-'use strict';
-
 var proxyquire = require('proxyquire').noPreserveCache().noCallThru();
 
 describe('router', function () {

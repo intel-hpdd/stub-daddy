@@ -19,8 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-'use strict';
-
 module.exports = function writeResponse (req, res, data, next) {
   if (!res.clientRes.writeHead)
     return next(req, res, data);

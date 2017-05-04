@@ -1,5 +1,3 @@
-'use strict';
-
 var writeResponse = require('../../../middleware/write-response');
 
 describe('write response middleware', function () {

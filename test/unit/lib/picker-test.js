@@ -1,5 +1,3 @@
-'use strict';
-
 var picker = require('../../../lib/picker');
 var obj = require('intel-obj');
 

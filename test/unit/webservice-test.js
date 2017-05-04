@@ -1,6 +1,4 @@
 /*jshint node: true*/
-'use strict';
-
 var proxyquire = require('proxyquire').noPreserveCache().noCallThru();
 var format = require('util').format;
 var fp = require('intel-fp/dist/fp');

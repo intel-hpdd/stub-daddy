@@ -19,8 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-'use strict';
-
 module.exports = function toJson(req, res, data, next) {
   if (!data)
     return next(req, res, {});

@@ -1,5 +1,3 @@
-'use strict';
-
 var reqModule = require('intel-req');
 var format = require('util').format;
 var fixtures = require('../fixtures/standard-fixtures');

@@ -1,5 +1,3 @@
-'use strict';
-
 var fixtures = {
   integration: {
     registerMockRequests: [
