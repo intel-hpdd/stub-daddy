@@ -1,7 +1,7 @@
 var proxyquire = require('proxyquire').noPreserveCache().noCallThru();
 var fixtures = require('../../fixtures/standard-fixtures');
-var fp = require('intel-fp/dist/fp');
-var obj = require('intel-obj');
+var fp = require('@mfl/fp');
+var obj = require('@mfl/obj');
 var dataStore = require('../data-store');
 var url = require('url');
 

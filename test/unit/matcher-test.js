@@ -1,7 +1,7 @@
 var proxyquire = require('proxyquire').noPreserveCache().noCallThru();
 var entry = require('../../lib/entry');
 var url = require('url');
-var obj = require('intel-obj');
+var obj = require('@mfl/obj');
 
 describe('test matcher module', function () {
 

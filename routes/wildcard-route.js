@@ -25,7 +25,7 @@ var config = require('../config');
 var afterTimeout = require('../middleware/after-timeout');
 var validateRequest = require('../middleware/validate-request');
 var mockStatus = require('../lib/mock-status');
-var fp = require('intel-fp/dist/fp');
+var fp = require('@mfl/fp');
 var format = require('util').format;
 
 module.exports = function wildcardRoute() {

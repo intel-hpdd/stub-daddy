@@ -20,8 +20,8 @@
 // express and approved by Intel in writing.
 
 var url = require('url');
-var fp = require('intel-fp/dist/fp');
-var obj = require('intel-obj');
+var fp = require('@mfl/fp');
+var obj = require('@mfl/obj');
 var picker = require('./lib/picker');
 var deepEq = require('deep-equal');
 

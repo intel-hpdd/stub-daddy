@@ -19,9 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var fp = require('intel-fp/dist/fp');
+var fp = require('@mfl/fp');
 var join = require('path').join;
-var obj = require('intel-obj');
+var obj = require('@mfl/obj');
 
 function getExpr (p) {
   return new RegExp(join(__dirname, p) + '/[\\w-_]+\\.js$');

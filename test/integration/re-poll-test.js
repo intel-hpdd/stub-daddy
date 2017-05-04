@@ -1,29 +1,31 @@
 var stubDaddyModule = require('../../server');
 var format = require('util').format;
-var getReq = require('intel-req');
+var getReq = require('@mfl/req');
 var url = require('url');
 
-describe('re-poll test', function () {
+describe('re-poll test', function() {
   var config, stubDaddy, req, serverHttpUrl, spy;
-  beforeEach(function () {
+  beforeEach(function() {
     stubDaddy = stubDaddyModule();
     config = stubDaddy.config;
     req = getReq(config.get('requestProtocol'));
-    var urlString = format('%s://localhost:%s', config.get('requestProtocol'), config.get('port'));
+    var urlString = format(
+      '%s://localhost:%s',
+      config.get('requestProtocol'),
+      config.get('port')
+    );
     serverHttpUrl = url.parse(urlString);
 
-    stubDaddy.webService
-      .startService();
+    stubDaddy.webService.startService();
   });
 
-  afterEach(function (done) {
-    stubDaddy.webService
-      .stopService(done.fail, done);
+  afterEach(function(done) {
+    stubDaddy.webService.stopService(done.fail, done);
   });
 
-  describe('first call', function () {
+  describe('first call', function() {
     var options, s;
-    beforeEach(function () {
+    beforeEach(function() {
       spy = jasmine.createSpy('spy');
 
       stubDaddy.inlineService.mock({
@@ -87,32 +89,33 @@ describe('re-poll test', function () {
       s = req.bufferRequest(options);
     });
 
-    it('should return a 304 on the first call', function (done) {
-      s.errors(done.fail)
-        .each(spy)
-        .done(function () {
-          expect(spy).toHaveBeenCalledOnceWith({
-            body: null,
-            headers: {
-              date: jasmine.any(String),
-              connection: 'keep-alive'
-            },
-            statusCode: 304
-          });
-          done();
+    it('should return a 304 on the first call', function(done) {
+      s.errors(done.fail).each(spy).done(function() {
+        expect(spy).toHaveBeenCalledOnceWith({
+          body: null,
+          headers: {
+            date: jasmine.any(String),
+            connection: 'keep-alive'
+          },
+          statusCode: 304
         });
+        done();
+      });
     });
 
-    it('should return a 200 on the second call', function (done) {
-      s.flatMap(req.bufferRequest.bind(null, options))
+    it('should return a 200 on the second call', function(done) {
+      s
+        .flatMap(req.bufferRequest.bind(null, options))
         .errors(done.fail)
         .each(spy)
-        .done(function () {
+        .done(function() {
           expect(spy).toHaveBeenCalledOnceWith({
             body: {
-              objects: [{
-                foo: 'bar'
-              }]
+              objects: [
+                {
+                  foo: 'bar'
+                }
+              ]
             },
             headers: {
               date: jasmine.any(String),
@@ -125,7 +128,5 @@ describe('re-poll test', function () {
           done();
         });
     });
-
   });
-
 });

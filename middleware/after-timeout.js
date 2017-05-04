@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var fp = require('intel-fp/dist/fp');
+var fp = require('@mfl/fp');
 var timeouts = [];
 
 module.exports = function afterTimeout (req, res, body, next) {

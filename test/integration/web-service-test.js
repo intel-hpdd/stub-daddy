@@ -1,5 +1,5 @@
-var fp = require('intel-fp/dist/fp');
-var obj = require('intel-obj');
+var fp = require('@mfl/fp');
+var obj = require('@mfl/obj');
 var stubDaddy = require('../../server');
 var fixtures = require('../fixtures/standard-fixtures');
 
