@@ -110,13 +110,11 @@ describe('inline-service', function() {
       });
 
       it('should return the data, headers and status', function() {
-        dispatch.and.callFake(function dispatch() {
-          return {
-            statusCode: 201,
-            headers: {},
-            data: {}
-          };
-        });
+        dispatch.and.callFake(() => ({
+          statusCode: 201,
+          headers: {},
+          data: {}
+        }));
 
         result = service.mock(mock);
         expect(result).toEqual({
@@ -147,13 +145,11 @@ describe('inline-service', function() {
       });
 
       it('should return the data, headers and status', function() {
-        dispatch.and.callFake(function dispatch() {
-          return {
-            statusCode: 201,
-            headers: {},
-            data: [fixtures.integration.registerSuccessfulMockRequest.json.json]
-          };
-        });
+        dispatch.and.callFake(() => ({
+          statusCode: 201,
+          headers: {},
+          data: [fixtures.integration.registerSuccessfulMockRequest.json.json]
+        }));
 
         result = service.registeredMocks();
         expect(result).toEqual({
@@ -184,13 +180,11 @@ describe('inline-service', function() {
       });
 
       it('should return the data, headers and status', function() {
-        dispatch.and.callFake(function dispatch() {
-          return {
-            statusCode: 200,
-            headers: {},
-            data: mockState
-          };
-        });
+        dispatch.and.callFake(() => ({
+          statusCode: 200,
+          headers: {},
+          data: mockState
+        }));
         result = service.mockState();
 
         expect(result).toEqual({

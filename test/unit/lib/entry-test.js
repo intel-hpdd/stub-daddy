@@ -315,9 +315,7 @@ describe('entry', function() {
     describe('updating an entry', function() {
       let filesystemEntry, filterFilesystemEntry, entry1, entry2;
       beforeEach(function() {
-        requestMatcher.and.callFake(function(req1, req2) {
-          return req1.url === req2.url;
-        });
+        requestMatcher.and.callFake((req1, req2) => req1.url === req2.url);
 
         entry1 = {
           request: fixtures.integration.registerRequestWithDependencies.json
@@ -503,17 +501,10 @@ describe('entry', function() {
           response3.data.name = 'Wayne';
           entry.addEntry(request3, response3, 0, [], 0, entries);
 
-          mockStatus.haveRequestsBeenSatisfied.and.callFake(function(
-            dependencies
-          ) {
-            // Let the second entry and the entry that doesn't match be satisfied. This will be a good test
-            // because we should NOT get back the entry that doesn't match, even though its dependencies have
-            // been met.
-
-            return (
+          mockStatus.haveRequestsBeenSatisfied.and.callFake(
+            dependencies =>
               dependencies.length === 0 || dependencies[0].data.name === 'Joe'
-            );
-          });
+          );
 
           foundEntries = entry.findEntriesByRequest(
             mockStatus,

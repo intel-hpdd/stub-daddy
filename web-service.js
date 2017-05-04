@@ -43,9 +43,7 @@ let sockets = [];
 
 function handleSocketConnection(socket) {
   sockets.push(socket);
-  socket.on('close', function() {
-    return sockets.splice(sockets.indexOf(socket), 1);
-  });
+  socket.on('close', () => sockets.splice(sockets.indexOf(socket), 1));
 }
 
 function onRequestReceived(req, res) {
@@ -128,7 +126,5 @@ export default {
     });
   },
 
-  getConnectionCount: function getConnectionCount() {
-    return sockets.length;
-  }
+  getConnectionCount: () => sockets.length
 };

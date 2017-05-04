@@ -68,9 +68,7 @@ describe('register api module', function() {
       addEntry: jasmine.createSpy('addEntry'),
       parsedQueryData: jasmine
         .createSpy('parsedQueryData')
-        .and.callFake(function(parsedUrl) {
-          return querystring.parse(parsedUrl.query);
-        })
+        .and.callFake(parsedUrl => querystring.parse(parsedUrl.query))
     };
 
     const logger = jasmine.createSpyObj('logger', ['info', 'debug', 'trace']);
