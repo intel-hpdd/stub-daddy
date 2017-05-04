@@ -19,12 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-const router = require('../router');
-const registerApi = require('../lib/register-api');
-const validateMock = require('../middleware/validate-mock');
-const config = require('../config');
+import router from '../router';
 
-module.exports = function mockRoute() {
+import registerApi from '../lib/register-api';
+import validateMock from '../middleware/validate-mock';
+import config from '../config';
+
+export default function mockRoute() {
   router
     .route('/api/mock')
     .post(validateMock)
@@ -38,4 +39,4 @@ module.exports = function mockRoute() {
 
       next(req, res, response);
     });
-};
+}

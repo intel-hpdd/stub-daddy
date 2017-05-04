@@ -19,9 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-const registerApiValidator = require('../validators/register-api-validator');
+import registerApiValidator from '../validators/register-api-validator';
+import { format } from 'utils';
 
-module.exports = function validateMock(req, res, body, next) {
+export default function validateMock(req, res, body, next) {
   const validationErrors = registerApiValidator(body).errors;
   if (validationErrors.length > 0)
     throw new Error(
@@ -32,4 +33,4 @@ module.exports = function validateMock(req, res, body, next) {
     );
 
   return next(req, res, body);
-};
+}

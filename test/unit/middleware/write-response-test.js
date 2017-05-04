@@ -1,4 +1,4 @@
-const writeResponse = require('../../../middleware/write-response');
+import writeResponse from '../../../middleware/write-response';
 
 describe('write response middleware', function() {
   let req, res, next, response;

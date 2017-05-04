@@ -19,11 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-const url = require('url');
-const fp = require('@mfl/fp');
-const obj = require('@mfl/obj');
-const picker = require('./lib/picker');
-const deepEq = require('deep-equal');
+import url from 'url';
+
+import * as fp from '@mfl/fp';
+import * as obj from '@mfl/obj';
+import picker from './lib/picker';
+import deepEq from 'deep-equal';
 
 function compare(registeredRequest, incomingRequest, property) {
   const propertyLens = fp.lensProp(property);
@@ -36,10 +37,7 @@ function compare(registeredRequest, incomingRequest, property) {
   return deepEq(registeredRequestObj, incomingRequestObj);
 }
 
-module.exports = fp.curry(2, function match(
-  incomingRequest,
-  registeredRequest
-) {
+export default fp.curry(2, function match(incomingRequest, registeredRequest) {
   const isMatch =
     incomingRequest.method === registeredRequest.method &&
     url.parse(incomingRequest.url).pathname ===

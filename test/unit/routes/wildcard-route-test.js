@@ -1,5 +1,4 @@
 const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
-const config = require('../../../config');
 
 describe('wildcard route', function() {
   let wildcardRoute,

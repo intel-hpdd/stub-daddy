@@ -19,5 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-const dirp = require('intel-dirp');
-module.exports = dirp(__dirname);
+import dirp from 'intel-dirp';
+
+export default dirp(__dirname);

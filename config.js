@@ -19,9 +19,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-const fp = require('@mfl/fp');
-const join = require('path').join;
-const nconf = require('nconf');
+import { join } from 'path';
+import nconf from 'nconf';
 
 const conf = new nconf.Provider()
   .overrides()
@@ -29,4 +28,4 @@ const conf = new nconf.Provider()
   .env()
   .file(join(__dirname, '/conf.json'));
 
-module.exports = conf;
+export default conf;

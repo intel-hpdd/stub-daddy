@@ -1,4 +1,4 @@
-const afterTimeout = require('../../../middleware/after-timeout');
+import afterTimeout from '../../../middleware/after-timeout';
 
 describe('after timeout', function() {
   let req, res, data;

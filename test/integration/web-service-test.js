@@ -1,21 +1,18 @@
-const fp = require('@mfl/fp');
-const obj = require('@mfl/obj');
-const stubDaddy = require('../../server');
-const fixtures = require('../fixtures/standard-fixtures');
+import * as obj from '@mfl/obj';
+import stubDaddy from '../../server';
+import fixtures from '../fixtures/standard-fixtures';
 
 describe('web service', function() {
-  let webService, instance, spy;
+  let webService, instance;
 
   beforeEach(function() {
-    spy = jasmine.createSpy('spy');
     instance = stubDaddy();
     webService = instance.webService;
   });
 
   describe('starting the service', function() {
-    let count, spy2;
+    let count;
     beforeEach(function(done) {
-      spy2 = jasmine.createSpy('spy2');
       webService.startService();
       count = webService.getConnectionCount();
 

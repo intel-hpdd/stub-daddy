@@ -1,8 +1,6 @@
 /*jshint node: true*/
 const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
-const format = require('util').format;
-const fp = require('@mfl/fp');
-const obj = require('@mfl/obj');
+import { format } from 'util';
 
 describe('webservice module', function() {
   let webservice,
@@ -12,14 +10,12 @@ describe('webservice module', function() {
     fs,
     request,
     dispatch,
-    spy,
     config,
     entries,
     parseUrl,
     afterTimeout;
 
   beforeEach(function() {
-    spy = jasmine.createSpy('spy');
     config = require('../../config');
 
     request = {

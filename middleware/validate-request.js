@@ -19,10 +19,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-const requestValidator = require('../validators/request-validator');
-const format = require('util').format;
+import requestValidator from '../validators/request-validator';
 
-module.exports = function validateMock(req, res, body, next) {
+import { format } from 'util';
+
+export default function validateMock(req, res, body, next) {
   const validationErrors = requestValidator(req.clientReq).errors;
   if (validationErrors.length > 0)
     throw new Error(
@@ -33,4 +34,4 @@ module.exports = function validateMock(req, res, body, next) {
     );
 
   return next(req, res, body);
-};
+}

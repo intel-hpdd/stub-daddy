@@ -1,10 +1,10 @@
-const reqModule = require('@mfl/req');
-const format = require('util').format;
-const fixtures = require('../fixtures/standard-fixtures');
-const obj = require('@mfl/obj');
-const stubDaddyModule = require('../../server');
-const url = require('url');
-const fp = require('@mfl/fp');
+import reqModule from '@mfl/req';
+import { format } from 'util';
+import fixtures from '../fixtures/standard-fixtures';
+import * as obj from '@mfl/obj';
+import stubDaddyModule from '../../server';
+import url from 'url';
+import * as fp from '@mfl/fp';
 
 [
   'http',

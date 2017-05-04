@@ -19,20 +19,20 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-const join = require('path').join;
-const dispatch = require('./lib/dispatch');
-const mockStatus = require('./lib/mock-status');
-const config = require('./config');
-const url = require('url');
-const logger = require('./logger');
-const fp = require('@mfl/fp');
-const fs = require('fs');
-const format = require('util').format;
-const http = require('http');
-const https = require('https');
-const entry = require('./lib/entry');
-const entries = require('./lib/entries');
-const clearTimeouts = require('./middleware/after-timeout').clearTimeouts;
+import { join } from 'path';
+
+import dispatch from './lib/dispatch';
+import mockStatus from './lib/mock-status';
+import config from './config';
+import url from 'url';
+import logger from './logger';
+import fs from 'fs';
+import { format } from 'util';
+import http from 'http';
+import https from 'https';
+import entry from './lib/entry';
+import entries from './lib/entries';
+import { clearTimeouts } from './middleware/after-timeout';
 
 const filePath = join.bind(null, __dirname);
 const keyPem = fs.readFileSync(filePath('key.pem'), 'utf8');
@@ -82,7 +82,7 @@ function executeService(boundCreateServer, port) {
   return server;
 }
 
-module.exports = {
+export default {
   startService: function startService() {
     sockets = [];
 

@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-const Validator = require('jsonschema').Validator;
+import { Validator } from 'jsonschema';
 
 // request schema
 const requestSchema = {
@@ -66,7 +66,7 @@ const bodySchema = {
   }
 };
 
-module.exports = function validate(body) {
+export default function validate(body) {
   const v = new Validator();
 
   // json schema doesn't handle a null body but it will handle undefined. Cast this to
@@ -77,4 +77,4 @@ module.exports = function validate(body) {
   v.addSchema(responseSchema, '/RegisterResponse');
   v.addSchema(dependenciesSchema, '/RegisterDependencies');
   return v.validate(body, bodySchema);
-};
+}

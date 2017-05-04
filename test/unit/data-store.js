@@ -1,7 +1,3 @@
-/*jshint node: true*/
-const config = require('../../config');
-const entry = require('../../lib/entry');
-
 const body = { name: 'will' };
 const mockRequest = {
   method: 'GET',
@@ -51,7 +47,7 @@ const requestEntry = {
   calls: 0
 };
 
-module.exports = {
+export default {
   mockRequest: mockRequest,
   searchRequest: searchRequest,
   searchResponse: searchResponse,

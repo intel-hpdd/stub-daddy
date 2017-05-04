@@ -1,9 +1,9 @@
 const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
-const fixtures = require('../../fixtures/standard-fixtures');
-const fp = require('@mfl/fp');
-const obj = require('@mfl/obj');
-const dataStore = require('../data-store');
-const url = require('url');
+import fixtures from '../../fixtures/standard-fixtures';
+import * as fp from '@mfl/fp';
+import * as obj from '@mfl/obj';
+import dataStore from '../data-store';
+import url from 'url';
 
 describe('entry', function() {
   let entry, logger, mockStatus, requestMatcher;

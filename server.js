@@ -19,9 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-const clearRequireCache = require('./clear-require-cache');
+import clearRequireCache from './clear-require-cache';
 
-module.exports = function stubDaddyFactory(overrides) {
+export default function stubDaddyFactory(overrides) {
   clearRequireCache();
 
   const config = require('./config');
@@ -40,4 +40,4 @@ module.exports = function stubDaddyFactory(overrides) {
     inlineService: require('./inline-service'),
     validator: require('./validators/register-api-validator')
   };
-};
+}

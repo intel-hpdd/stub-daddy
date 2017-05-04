@@ -19,9 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-const fp = require('@mfl/fp');
-const join = require('path').join;
-const obj = require('@mfl/obj');
+import * as fp from '@mfl/fp';
+
+import { join } from 'path';
 
 function getExpr(p) {
   return new RegExp(join(__dirname, p) + '/[\\w-_]+\\.js$');
@@ -31,8 +31,8 @@ const tests = ['', 'routes', 'lib', 'middleware', 'validators'].map(
   fp.flow(getExpr, fp.invokeMethodN(1, 'test'))
 );
 
-module.exports = function clearRequireCache() {
+export default function clearRequireCache() {
   Object.keys(require.cache).filter(fp.anyPass(tests)).forEach(function(x) {
     delete require.cache[x];
   });
-};
+}

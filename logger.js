@@ -19,10 +19,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-const fp = require('@mfl/fp');
-const bunyan = require('bunyan');
-const path = require('path');
-const config = require('./config');
+import * as fp from '@mfl/fp';
+
+import bunyan from 'bunyan';
+import path from 'path';
+import config from './config';
 const logPath = config.get('logger').logPath;
 const level = config.get('logger').level;
 
@@ -82,4 +83,4 @@ extendedLogger.logByLevel = function logByLevel(data) {
   logger[levelKey].apply(logger, data[levelKey.toUpperCase()]);
 };
 
-module.exports = extendedLogger;
+export default extendedLogger;
