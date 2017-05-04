@@ -27,7 +27,7 @@ module.exports = function stubDaddyFactory (overrides) {
   var config = require('./config');
   config.overrides(overrides);
 
-  var fp = require('intel-fp/dist/fp');
+  var fp = require('@mfl/fp');
   var routes = require('./routes');
   fp.map(fp.flow(fp.lensProp, fp.invoke(fp.__, [routes]), fp.invoke(fp.__, [])), Object.keys(routes));
 

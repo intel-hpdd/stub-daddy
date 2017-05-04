@@ -1,5 +1,5 @@
 var picker = require('../../../lib/picker');
-var obj = require('intel-obj');
+var obj = require('@mfl/obj');
 
 describe('picker', function () {
   var user, userPicker;

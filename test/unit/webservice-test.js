@@ -1,8 +1,8 @@
 /*jshint node: true*/
 var proxyquire = require('proxyquire').noPreserveCache().noCallThru();
 var format = require('util').format;
-var fp = require('intel-fp/dist/fp');
-var obj = require('intel-obj');
+var fp = require('@mfl/fp');
+var obj = require('@mfl/obj');
 
 describe('webservice module', function () {
   var webservice, entry, mockStatus, logger, fs, request, dispatch, spy, config, entries, parseUrl, afterTimeout;

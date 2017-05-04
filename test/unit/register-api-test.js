@@ -1,6 +1,6 @@
 var proxyquire = require('proxyquire').noPreserveCache().noCallThru();
 var entry = require('../../lib/entry');
-var fp = require('intel-fp/dist/fp');
+var fp = require('@mfl/fp');
 var url = require('url');
 var querystring = require('querystring');
 

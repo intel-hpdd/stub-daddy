@@ -1,8 +1,8 @@
 var proxyquire = require('proxyquire').noPreserveCache().noCallThru();
 
-describe('router', function () {
+describe('router', function() {
   var router, routerObj, intelRouter, middleware;
-  beforeEach(function () {
+  beforeEach(function() {
     routerObj = {
       addStart: jasmine.createSpy('routerObj.addStart'),
       addEnd: jasmine.createSpy('routerObj.addEnd')
@@ -21,20 +21,20 @@ describe('router', function () {
     };
 
     router = proxyquire('../../router', {
-      'intel-router': intelRouter,
+      '@mfl/router': intelRouter,
       './middleware': middleware
     });
   });
 
-  it('should call addStart with processData', function () {
+  it('should call addStart with processData', function() {
     expect(routerObj.addStart).toHaveBeenCalledOnceWith('processData');
   });
 
-  it('should call addStart with toJson', function () {
+  it('should call addStart with toJson', function() {
     expect(routerObj.addStart).toHaveBeenCalledOnceWith('toJson');
   });
 
-  it('should call addEnd with writeResponse', function () {
+  it('should call addEnd with writeResponse', function() {
     expect(routerObj.addEnd).toHaveBeenCalledOnceWith('writeResponse');
   });
 });
