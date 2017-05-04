@@ -65,15 +65,9 @@ extendedLogger.logByLevel = function logByLevel(data) {
 
   // Take the lowest level specified in the data
   const levelToLog = levels
-    .map(function convertKeysToNumericValues(key) {
-      return bunyan.resolveLevel(key);
-    })
-    .filter(function byLowestLevel(level) {
-      return level >= lowestLevel;
-    })
-    .sort(function fromLowestToHeighest(a, b) {
-      return a - b;
-    })[0];
+    .map(key => bunyan.resolveLevel(key))
+    .filter(level => level >= lowestLevel)
+    .sort((a, b) => a - b)[0];
 
   // If no levelToLog has been set then there is no reason to log. This can occur if the only log levels
   // passed into data are levels that are below lowest level.

@@ -352,9 +352,7 @@ function deepFreeze(obj) {
   Object.freeze(obj);
 
   Object.keys(obj)
-    .filter(function removeNonObjects(key) {
-      return typeof obj[key] === 'object';
-    })
+    .filter(key => typeof obj[key] === 'object')
     .forEach(function freezeProps(key) {
       deepFreeze(obj[key]);
     });

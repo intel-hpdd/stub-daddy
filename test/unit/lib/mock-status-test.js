@@ -209,9 +209,7 @@ describe('test mock status', function() {
       entry = {
         isExpectedCallCount: jasmine
           .createSpy('isExpectedCallCount')
-          .and.callFake(function(entry) {
-            return entry.remainingCalls === 0;
-          }),
+          .and.callFake(entry => entry.remainingCalls === 0),
         updateCallCount: jasmine
           .createSpy('updateCallCount')
           .and.callFake(function(entry) {
