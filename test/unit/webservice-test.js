@@ -1,4 +1,3 @@
-/*jshint node: true*/
 const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
 import { format } from 'util';
 
