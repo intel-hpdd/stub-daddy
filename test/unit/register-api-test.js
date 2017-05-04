@@ -1,24 +1,18 @@
 const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
-const entry = require('../../lib/entry');
-const fp = require('@mfl/fp');
-const url = require('url');
-const querystring = require('querystring');
+import querystring from 'querystring';
 
 describe('register api module', function() {
   let registerResponse,
     registerAPI,
     entryRequest,
     entryResponse,
-    request,
     body,
     entryDependencies,
-    config,
     entry,
     entries;
 
   beforeEach(function() {
-    let logger;
-    config = require('../../config');
+    require('../../config');
 
     body = {
       request: {
@@ -42,9 +36,6 @@ describe('register api module', function() {
         }
       ],
       expires: 0
-    };
-    request = {
-      method: 'POST'
     };
 
     entryRequest = {
@@ -82,7 +73,7 @@ describe('register api module', function() {
         })
     };
 
-    logger = jasmine.createSpyObj('logger', ['info', 'debug', 'trace']);
+    const logger = jasmine.createSpyObj('logger', ['info', 'debug', 'trace']);
     registerAPI = proxyquire('../../lib/register-api', {
       '../logger': logger,
       './entries': entries,
@@ -91,13 +82,6 @@ describe('register api module', function() {
   });
 
   describe('successfully register a mock api with a body in the correct format', function() {
-    let json;
-    beforeEach(function() {
-      json = {
-        statusCode: 201
-      };
-    });
-
     it('should call entry.addEntry', function() {
       registerResponse = registerAPI(body);
       expect(entry.addEntry).toHaveBeenCalledOnceWith(

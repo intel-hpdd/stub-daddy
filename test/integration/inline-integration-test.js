@@ -1,12 +1,11 @@
-const stubDaddyModule = require('../../server');
-const reqModule = require('@mfl/req');
-const fixtures = require('../fixtures/standard-fixtures');
-const format = require('util').format;
-const url = require('url');
-const obj = require('@mfl/obj');
-const fp = require('@mfl/fp');
-const req = require('@mfl/req');
-const config = require('../../config');
+import stubDaddyModule from '../../server';
+import reqModule from '@mfl/req';
+import fixtures from '../fixtures/standard-fixtures';
+import { format } from 'util';
+import url from 'url';
+import * as obj from '@mfl/obj';
+import * as fp from '@mfl/fp';
+import config from '../../config';
 
 describe('inline integration tests', function() {
   let service, makeRequest, webService, req;
@@ -88,17 +87,16 @@ describe('inline integration tests', function() {
   });
 
   describe('check mock state', function() {
-    let mock, state, spy, s;
+    let mock;
 
     describe('with all registered requests called appropriately', function() {
       it('should be in good state', function(done) {
-        spy = jasmine.createSpy('spy');
         mock = obj.clone(
           fixtures.integration.registerSuccessfulMockPOSTRequest.json.json
         );
         service.mock(mock);
 
-        s = makeRequest(mock.request).each(function() {
+        makeRequest(mock.request).each(function() {
           expect(service.mockState()).toEqual({
             data: [],
             headers: {
@@ -114,7 +112,7 @@ describe('inline integration tests', function() {
     describe('with an invalid request made', function() {
       it('should indicate an error in the mock state', function() {
         expect(function() {
-          s = service
+          service
             .makeRequest({
               method: 'POST',
               url: '/invalid/rest/call',

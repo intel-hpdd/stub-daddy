@@ -1,5 +1,5 @@
-const picker = require('../../../lib/picker');
-const obj = require('@mfl/obj');
+import picker from '../../../lib/picker';
+import * as obj from '@mfl/obj';
 
 describe('picker', function() {
   let user, userPicker;

@@ -19,11 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-const router = require('../router');
-const flushState = require('../lib/flush-state');
+import router from '../router';
 
-module.exports = function flushRoute() {
+import flushState from '../lib/flush-state';
+
+export default function flushRoute() {
   router.route('/api/flush').delete(function(req, res, data, next) {
     next(req, res, flushState());
   });
-};
+}

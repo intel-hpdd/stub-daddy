@@ -1,7 +1,7 @@
 const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
 
 describe('router', function() {
-  let router, routerObj, intelRouter, middleware;
+  let routerObj, intelRouter, middleware;
   beforeEach(function() {
     routerObj = {
       addStart: jasmine.createSpy('routerObj.addStart'),
@@ -20,7 +20,7 @@ describe('router', function() {
       handleError: 'handleError'
     };
 
-    router = proxyquire('../../router', {
+    proxyquire('../../router', {
       '@mfl/router': intelRouter,
       './middleware': middleware
     });

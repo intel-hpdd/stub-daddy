@@ -1,7 +1,5 @@
 const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
-const fixtures = require('../fixtures/standard-fixtures');
-const fp = require('@mfl/fp');
-const obj = require('@mfl/obj');
+import fixtures from '../fixtures/standard-fixtures';
 
 describe('inline-service', function() {
   let service,
@@ -10,12 +8,10 @@ describe('inline-service', function() {
     requestValidator,
     entry,
     mockStatus,
-    spy,
     dispatch,
     mockState,
     parseUrl;
   beforeEach(function() {
-    spy = jasmine.createSpy('spy');
     registerApiValidator = jasmine.createSpy('registerApiValidator');
     logger = {
       info: jasmine.createSpy('logger.info'),
@@ -114,7 +110,7 @@ describe('inline-service', function() {
       });
 
       it('should return the data, headers and status', function() {
-        dispatch.and.callFake(function dispatch(url, verb, request, response) {
+        dispatch.and.callFake(function dispatch() {
           return {
             statusCode: 201,
             headers: {},
@@ -206,9 +202,8 @@ describe('inline-service', function() {
     });
 
     describe('flushing the system', function() {
-      let result;
       beforeEach(function() {
-        result = service.flush();
+        service.flush();
       });
 
       it('should call entry.flushEntries', function() {
@@ -221,11 +216,10 @@ describe('inline-service', function() {
     });
 
     describe('making a dynamic request', function() {
-      let s;
       beforeEach(function() {
         requestValidator.and.returnValue({ errors: [] });
         parseUrl.parse.and.returnValue({ path: '/api/magic' });
-        s = service.makeRequest({
+        service.makeRequest({
           url: '/api/magic',
           method: 'GET',
           headers: {}

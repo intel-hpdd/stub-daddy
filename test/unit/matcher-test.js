@@ -1,13 +1,11 @@
 const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
-const entry = require('../../lib/entry');
-const url = require('url');
-const obj = require('@mfl/obj');
+import url from 'url';
+import * as obj from '@mfl/obj';
 
 describe('test matcher module', function() {
-  let requestMatcher, incomingRequest, registeredRequest, config;
+  let requestMatcher, incomingRequest, registeredRequest;
 
   beforeEach(function() {
-    config = require('../../config');
     const data1 = {
       item1: 'item1 value',
       item2: 'item2 value'

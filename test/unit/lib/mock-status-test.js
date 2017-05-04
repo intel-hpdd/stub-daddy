@@ -1,5 +1,4 @@
 const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
-const entry = require('../../../lib/entry');
 
 describe('test mock status', function() {
   let request,
@@ -7,12 +6,10 @@ describe('test mock status', function() {
     requestMatcherInner,
     mockStatus,
     logger,
-    config,
     entries,
     entry;
 
   beforeEach(function() {
-    config = require('../../../config');
     request = {
       method: 'GET',
       url: '/system/status',

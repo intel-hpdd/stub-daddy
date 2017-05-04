@@ -19,28 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-const config = require('./config');
-const logger = require('./logger');
-const mockStatus = require('./lib/mock-status');
-const format = require('util').format;
-const fp = require('@mfl/fp');
-const entries = require('./lib/entries');
-const entry = require('./lib/entry');
-const parseUrl = require('url').parse;
-const dispatch = require('./lib/dispatch');
+import config from './config';
 
-const stringifyObj = fp.curry(3, JSON.stringify)(fp.__, null, 2);
-
-function handleError(item, type, errors) {
-  const message = format(
-    'The %s is invalid: \n\n %s \n\n Reasons: \n\n %s',
-    type,
-    stringifyObj(item),
-    stringifyObj(errors)
-  );
-
-  throw new Error(message);
-}
+import mockStatus from './lib/mock-status';
+import entries from './lib/entries';
+import entry from './lib/entry';
+import { parse as parseUrl } from 'url';
+import dispatch from './lib/dispatch';
 
 function mock(mock) {
   const url = config.get('requestUrls').MOCK_REQUEST;
@@ -91,7 +76,7 @@ function flush() {
   mockStatus.flushRequests();
 }
 
-module.exports = {
+export default {
   mock: mock,
   mockState: mockState,
   registeredMocks: registeredMocks,

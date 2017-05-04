@@ -19,16 +19,15 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-const router = require('../router');
-const dynamicRequest = require('../lib/dynamic-request');
-const config = require('../config');
-const afterTimeout = require('../middleware/after-timeout');
-const validateRequest = require('../middleware/validate-request');
-const mockStatus = require('../lib/mock-status');
-const fp = require('@mfl/fp');
-const format = require('util').format;
+import router from '../router';
 
-module.exports = function wildcardRoute() {
+import dynamicRequest from '../lib/dynamic-request';
+import afterTimeout from '../middleware/after-timeout';
+import validateRequest from '../middleware/validate-request';
+import mockStatus from '../lib/mock-status';
+import { format } from 'util';
+
+export default function wildcardRoute() {
   router
     .route('(.*)')
     .all(validateRequest)
@@ -50,4 +49,4 @@ module.exports = function wildcardRoute() {
 
     next(req, res, entry.response);
   }
-};
+}

@@ -341,7 +341,7 @@ const fixtures = {
 };
 deepFreeze(fixtures);
 
-module.exports = fixtures;
+export default fixtures;
 
 /**
  * Freezes an object and it's properties

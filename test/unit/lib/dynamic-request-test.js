@@ -1,8 +1,7 @@
 const proxyquire = require('proxyquire').noPreserveCache().noCallThru();
-const entry = require('../../../lib/entry');
-const fp = require('@mfl/fp');
-const url = require('url');
-const querystring = require('querystring');
+
+import url from 'url';
+import querystring from 'querystring';
 
 const bodies = [{ name: 'will' }, undefined];
 bodies.forEach(function(body) {
@@ -14,13 +13,10 @@ bodies.forEach(function(body) {
       searchRequest,
       searchResponse,
       logger,
-      config,
       entries,
       entry1,
-      entry2,
-      spy;
+      entry2;
     beforeEach(function() {
-      config = require('../../../config');
       mockStatus = jasmine.createSpyObj('mockStatus', [
         'recordRequest',
         'recordNonMatchingRequest'
@@ -107,8 +103,6 @@ bodies.forEach(function(body) {
           }),
         canMakeRequest: jasmine.createSpy('canMakeRequest')
       };
-
-      spy = jasmine.createSpy('spy');
 
       dynamicRequest = proxyquire('../../../lib/dynamic-request', {
         './mock-status': mockStatus,

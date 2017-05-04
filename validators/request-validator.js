@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-const Validator = require('jsonschema').Validator;
+import { Validator } from 'jsonschema';
 
 const schema = {
   id: '/schema',
@@ -33,10 +33,10 @@ const schema = {
   }
 };
 
-module.exports = function validate(body) {
+export default function validate(body) {
   const v = new Validator();
 
   body = body ? body : undefined;
 
   return v.validate(body, schema);
-};
+}

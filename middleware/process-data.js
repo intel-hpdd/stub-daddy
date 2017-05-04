@@ -19,9 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-const logger = require('../logger');
+import logger from '../logger';
 
-module.exports = function processData(req, res, next) {
+export default function processData(req, res, next) {
   if (!req.clientReq.on) return next(req, res, req.clientReq.data);
 
   let data;
@@ -46,4 +46,4 @@ module.exports = function processData(req, res, next) {
 
     next(req, res, data);
   });
-};
+}

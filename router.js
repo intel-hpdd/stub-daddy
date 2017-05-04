@@ -18,10 +18,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-const getRouter = require('@mfl/router');
-const middleware = require('./middleware');
+import getRouter from '@mfl/router';
 
-module.exports = getRouter()
+import middleware from './middleware';
+
+export default getRouter()
   .addStart(middleware.processData)
   .addStart(middleware.toJson)
   .addEnd(middleware.writeResponse);

@@ -1,4 +1,4 @@
-const dotty = require('dotty');
+import dotty from 'dotty';
 let registerApiValidator;
 
 describe('test register api body against validator', function() {

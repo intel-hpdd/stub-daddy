@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-module.exports = function writeResponse(req, res, data, next) {
+export default function writeResponse(req, res, data, next) {
   if (!res.clientRes.writeHead) return next(req, res, data);
 
   res.clientRes.writeHead(data.statusCode, data.headers);
@@ -29,4 +29,4 @@ module.exports = function writeResponse(req, res, data, next) {
   res.clientRes.end();
 
   next(req, res, data);
-};
+}

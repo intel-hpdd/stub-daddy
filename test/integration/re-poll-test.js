@@ -1,7 +1,7 @@
-const stubDaddyModule = require('../../server');
-const format = require('util').format;
-const getReq = require('@mfl/req');
-const url = require('url');
+import stubDaddyModule from '../../server';
+import { format } from 'util';
+import getReq from '@mfl/req';
+import url from 'url';
 
 describe('re-poll test', function() {
   let config, stubDaddy, req, serverHttpUrl, spy;

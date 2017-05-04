@@ -1,1 +1,1 @@
-require('@mfl/jasmine-n-matchers');
+import '@mfl/jasmine-n-matchers';
