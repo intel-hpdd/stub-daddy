@@ -19,6 +19,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import dirp from 'intel-dirp';
-
-export default dirp(__dirname);
+export { default as flushRoute } from './flush-route.js';
+export { default as mockListRoute } from './mock-list-route.js';
+export { default as mockRoute } from './mock-route.js';
+export { default as mockStateRoute } from './mock-state-route.js';
+export { default as wildcardRoute } from './wildcard-route.js';

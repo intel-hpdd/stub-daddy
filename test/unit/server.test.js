@@ -11,8 +11,8 @@ describe('server test', function() {
 
   beforeEach(function() {
     mockRoutes = {
-      route1: { default: jasmine.createSpy('route1') },
-      route2: { default: jasmine.createSpy('route2') }
+      route1: jasmine.createSpy('route1'),
+      route2: jasmine.createSpy('route2')
     };
 
     mockStatus = 'mockStatus';
@@ -41,7 +41,7 @@ describe('server test', function() {
   });
 
   it('should invoke route1', function() {
-    expect(mockRoutes.route1.default).toHaveBeenCalledOnceWith(
+    expect(mockRoutes.route1).toHaveBeenCalledOnceWith(
       router,
       jasmine.any(Array),
       mockStatus
@@ -49,7 +49,7 @@ describe('server test', function() {
   });
 
   it('should invoke route2', function() {
-    expect(mockRoutes.route2.default).toHaveBeenCalledOnceWith(
+    expect(mockRoutes.route2).toHaveBeenCalledOnceWith(
       router,
       jasmine.any(Array),
       mockStatus

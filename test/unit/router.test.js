@@ -1,8 +1,8 @@
 import { describe, beforeEach, it, jasmine, expect, jest } from '../jasmine.js';
 
-describe('router', function() {
+describe('router', () => {
   let routerObj, mockIntelRouter, mockMiddleware;
-  beforeEach(function() {
+  beforeEach(() => {
     routerObj = {
       addStart: jasmine.createSpy('routerObj.addStart'),
       addEnd: jasmine.createSpy('routerObj.addEnd')
@@ -14,12 +14,12 @@ describe('router', function() {
       .createSpy('intelRouter')
       .and.returnValue(routerObj);
     mockMiddleware = {
-      processData: { default: 'processData' },
-      toJson: { default: 'toJson' },
-      afterTimeout: { default: 'afterTimeout' },
-      toStream: { default: 'toStream' },
-      writeResponse: { default: 'writeResponse' },
-      handleError: { default: 'handleError' }
+      processData: 'processData',
+      toJson: 'toJson',
+      afterTimeout: 'afterTimeout',
+      toStream: 'toStream',
+      writeResponse: 'writeResponse',
+      handleError: 'handleError'
     };
 
     jest.mock('@mfl/router', () => mockIntelRouter);
@@ -27,15 +27,15 @@ describe('router', function() {
     require('../../router').default();
   });
 
-  it('should call addStart with processData', function() {
+  it('should call addStart with processData', () => {
     expect(routerObj.addStart).toHaveBeenCalledOnceWith('processData');
   });
 
-  it('should call addStart with toJson', function() {
+  it('should call addStart with toJson', () => {
     expect(routerObj.addStart).toHaveBeenCalledOnceWith('toJson');
   });
 
-  it('should call addEnd with writeResponse', function() {
+  it('should call addEnd with writeResponse', () => {
     expect(routerObj.addEnd).toHaveBeenCalledOnceWith('writeResponse');
   });
 });
