@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "debug": "node --debug-brk ./node_modules/.bin/jest --runInBand",
+    "cover": "NODE_ENV=test yarn test -- --coverage",
     "eslint": "eslint ./"
   },
   "pre-commit": [
