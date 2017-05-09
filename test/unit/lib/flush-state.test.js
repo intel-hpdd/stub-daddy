@@ -7,7 +7,7 @@ import {
   jest
 } from '../../jasmine.js';
 
-describe('flush state', function() {
+describe('flush state', () => {
   let mockEntry, mockStatus, mockEntries, result;
 
   beforeEach(() => {

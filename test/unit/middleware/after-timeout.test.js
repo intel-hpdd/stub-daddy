@@ -21,15 +21,15 @@ describe('after timeout', () => {
       };
     });
 
-    it('should pass the request to next asynchronously', function(done) {
-      afterTimeout(req, res, data, function(request) {
+    it('should pass the request to next asynchronously', done => {
+      afterTimeout(req, res, data, request => {
         expect(request).toEqual(req);
         done();
       });
     });
 
-    it('should pass the response to next', function(done) {
-      afterTimeout(req, res, data, function(request, response) {
+    it('should pass the response to next', done => {
+      afterTimeout(req, res, data, (request, response) => {
         expect(response).toEqual({
           clientRes: {}
         });
@@ -37,8 +37,8 @@ describe('after timeout', () => {
       });
     });
 
-    it('should pass the data to next', function(done) {
-      afterTimeout(req, res, data, function(request, response, data) {
+    it('should pass the data to next', done => {
+      afterTimeout(req, res, data, (request, response, data) => {
         expect(data).toEqual({
           foo: 'bar'
         });

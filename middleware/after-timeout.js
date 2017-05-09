@@ -23,7 +23,7 @@ let timeouts = [];
 
 export default function afterTimeout(req, res, body, next) {
   if (req.timeout) {
-    const id = setTimeout(function() {
+    const id = setTimeout(() => {
       timeouts.splice(timeouts.indexOf(id), 1);
       next(req, res, body);
     }, req.timeout);

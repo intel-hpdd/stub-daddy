@@ -51,7 +51,7 @@ describe('web service', () => {
       );
     });
 
-    afterEach(function(done) {
+    afterEach(done => {
       webService.stopService(done.fail, () => {
         webService2.stopService(done.fail, done);
       });

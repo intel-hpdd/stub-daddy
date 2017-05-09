@@ -223,7 +223,7 @@ describe('to verify requests status', () => {
         .and.callFake(entry => entry.remainingCalls === 0),
       updateCallCount: jasmine
         .createSpy('updateCallCount')
-        .and.callFake(function(entry) {
+        .and.callFake(entry => {
           entry.calls += 1;
           entry.remainingCalls -= 1;
         })
