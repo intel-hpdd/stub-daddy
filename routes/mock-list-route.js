@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2016 Intel Corporation All Rights Reserved.
+// Copyright 2013-2017 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,12 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import router from '../router';
-
 import mockList from '../lib/mock-list';
 
-export default function mockRoute() {
-  router.route('/api/mocklist').get(function(req, res, data, next) {
-    next(req, res, mockList());
+export default (router, entries) => {
+  router.route('/api/mocklist').get((req, res, data, next) => {
+    next(req, res, mockList(entries));
   });
-}
+};

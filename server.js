@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2016 Intel Corporation All Rights Reserved.
+// Copyright 2013-2017 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,25 +19,36 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import clearRequireCache from './clear-require-cache';
+import nconf from './config';
+import routes from './routes';
+import routerFactory from './router.js';
+import mockStatusFactory from './lib/mock-status.js';
+import * as fp from '@mfl/fp';
 
 export default function stubDaddyFactory(overrides) {
-  clearRequireCache();
+  const entries = [];
+  const mockStatus = mockStatusFactory();
+  const config = nconf.overrides(overrides);
+  const router = routerFactory();
 
-  const config = require('./config');
-  config.overrides(overrides);
-
-  const fp = require('@mfl/fp');
-  const routes = require('./routes');
-  fp.map(
-    fp.flow(fp.lensProp, fp.invoke(fp.__, [routes]), fp.invoke(fp.__, [])),
+  fp.map(x => routes[x].default(router, entries, mockStatus))(
     Object.keys(routes)
   );
 
   return {
-    config: config,
-    webService: require('./web-service'),
-    inlineService: require('./inline-service'),
-    validator: require('./validators/register-api-validator')
+    config,
+    webService: require('./web-service').default(
+      config,
+      router,
+      entries,
+      mockStatus
+    ),
+    inlineService: require('./inline-service').default(
+      config,
+      router,
+      entries,
+      mockStatus
+    ),
+    validator: require('./validators/register-api-validator').default
   };
 }

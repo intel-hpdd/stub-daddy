@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2016 Intel Corporation All Rights Reserved.
+// Copyright 2013-2017 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,24 +19,19 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import router from '../router';
-
 import registerApi from '../lib/register-api';
 import validateMock from '../middleware/validate-mock';
 import config from '../config';
 
-export default function mockRoute() {
-  router
-    .route('/api/mock')
-    .post(validateMock)
-    .post(function(req, res, data, next) {
-      let response = {
-        statusCode: config.get('status').BAD_REQUEST,
-        headers: config.get('standardHeaders')
-      };
+export default (router, entries) => {
+  router.route('/api/mock').post(validateMock).post((req, res, data, next) => {
+    let response = {
+      statusCode: config.get('status').BAD_REQUEST,
+      headers: config.get('standardHeaders')
+    };
 
-      if (data != null) response = registerApi(data);
+    if (data != null) response = registerApi(data, entries);
 
-      next(req, res, response);
-    });
-}
+    next(req, res, response);
+  });
+};

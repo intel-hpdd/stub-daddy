@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2016 Intel Corporation All Rights Reserved.
+// Copyright 2013-2017 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,25 +19,20 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import url from 'url';
-
-import * as fp from '@mfl/fp';
+import * as url from 'url';
 import * as obj from '@mfl/obj';
 import picker from './lib/picker';
 import deepEq from 'deep-equal';
 
 function compare(registeredRequest, incomingRequest, property) {
-  const propertyLens = fp.lensProp(property);
-  const pickFromObj = obj.pickBy(
-    picker(Object.keys(propertyLens(registeredRequest)))
-  );
-  const registeredRequestObj = pickFromObj(propertyLens(registeredRequest));
-  const incomingRequestObj = pickFromObj(propertyLens(incomingRequest));
+  const pickBy = picker(Object.keys(registeredRequest[property]));
+  const registeredRequestObj = obj.pickBy(pickBy, registeredRequest[property]);
+  const incomingRequestObj = obj.pickBy(pickBy, incomingRequest[property]);
 
   return deepEq(registeredRequestObj, incomingRequestObj);
 }
 
-export default fp.curry(2, function match(incomingRequest, registeredRequest) {
+export default incomingRequest => registeredRequest => {
   const isMatch =
     incomingRequest.method === registeredRequest.method &&
     url.parse(incomingRequest.url).pathname ===
@@ -52,4 +47,4 @@ export default fp.curry(2, function match(incomingRequest, registeredRequest) {
     compare(registeredRequest, incomingRequest, 'qs') &&
     compare(registeredRequest, incomingRequest, 'headers')
   );
-});
+};

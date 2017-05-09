@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2016 Intel Corporation All Rights Reserved.
+// Copyright 2013-2017 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -22,109 +22,109 @@
 import { join } from 'path';
 
 import dispatch from './lib/dispatch';
-import mockStatus from './lib/mock-status';
-import config from './config';
-import url from 'url';
+import * as url from 'url';
 import logger from './logger';
 import fs from 'fs';
 import { format } from 'util';
 import http from 'http';
 import https from 'https';
 import entry from './lib/entry';
-import entries from './lib/entries';
 import { clearTimeouts } from './middleware/after-timeout';
 
 const filePath = join.bind(null, __dirname);
 const keyPem = fs.readFileSync(filePath('key.pem'), 'utf8');
 const certPem = fs.readFileSync(filePath('cert.pem'), 'utf8');
 
-let server;
-let sockets = [];
+export default (config, router, entries, mockStatus) => {
+  let server;
+  let sockets = [];
 
-function handleSocketConnection(socket) {
-  sockets.push(socket);
-  socket.on('close', () => sockets.splice(sockets.indexOf(socket), 1));
-}
+  const dispatcher = dispatch(router);
+  function handleSocketConnection(socket) {
+    sockets.push(socket);
+    socket.on('close', () => sockets.splice(sockets.indexOf(socket), 1));
+  }
 
-function onRequestReceived(req, res) {
-  req.url = req.url.replace(/\/*$/, '');
-  req.parsedUrl = url.parse(req.url);
+  function onRequestReceived(req, res) {
+    req.url = req.url.replace(/\/*$/, '');
+    req.parsedUrl = url.parse(req.url);
 
-  dispatch(req.url, req.method, req, res);
-}
+    dispatcher(req.url, req.method, req, res);
+  }
 
-function flushEntries() {
-  entry.flushEntries(entries);
-  mockStatus.flushRequests();
-}
+  function flushEntries(entries) {
+    entry.flushEntries(entries);
+    mockStatus.flushRequests();
+  }
 
-function executeService(boundCreateServer, port) {
-  server = boundCreateServer(onRequestReceived).listen(port);
-  server.on('connection', handleSocketConnection);
-  server.on('clientError', function onClientError(err) {
-    logger.error(
-      {
-        err: err
-      },
-      'Received client error event'
-    );
-  });
-  logger.info(
-    format(
-      'Starting service on %s://localhost:%s',
-      config.get('requestProtocol'),
-      port
-    )
-  );
-
-  return server;
-}
-
-export default {
-  startService: function startService() {
-    sockets = [];
-
-    if (config.get('requestProtocol') === 'https')
-      server = executeService(
-        https.createServer.bind(https, {
-          key: keyPem,
-          cert: certPem
-        }),
-        config.get('port')
+  function executeService(boundCreateServer, port, protocol) {
+    server = boundCreateServer(onRequestReceived).listen(port);
+    server.on('connection', handleSocketConnection);
+    server.on('clientError', err => {
+      logger.error(
+        {
+          err: err
+        },
+        'Received client error event'
       );
-    else
-      server = executeService(http.createServer.bind(http), config.get('port'));
+    });
+    logger.info(`Starting service on ${protocol}://localhost:${port}`);
 
     return server;
-  },
+  }
 
-  stopService: function stopService(onError, done) {
-    logger.info('Service stopping...');
+  return {
+    startService() {
+      sockets = [];
 
-    if (sockets.length > 0)
-      logger.trace(
-        format('Destroying %s remaining socket connections.', sockets.length)
-      );
+      if (config.get('requestProtocol') === 'https')
+        server = executeService(
+          https.createServer.bind(https, {
+            key: keyPem,
+            cert: certPem
+          }),
+          config.get('port'),
+          config.get('requestProtocol')
+        );
+      else
+        server = executeService(
+          http.createServer.bind(http),
+          config.get('port'),
+          config.get('requestProtocol')
+        );
 
-    // Clear out any timeouts in the middleware that might be waiting.
-    clearTimeouts();
+      return server;
+    },
 
-    // Make sure all sockets have been closed
-    while (sockets.length > 0) {
-      const socket = sockets.shift();
-      socket.server = server;
-      socket.destroy();
-    }
+    stopService(onError, done) {
+      logger.info('Service stopping...');
 
-    flushEntries();
+      if (sockets.length > 0)
+        logger.trace(
+          format('Destroying %s remaining socket connections.', sockets.length)
+        );
 
-    server.close();
-    server.on('close', function(err) {
-      if (err) onError(err);
+      // Clear out any timeouts in the middleware that might be waiting.
+      clearTimeouts();
 
-      done();
-    });
-  },
+      // Make sure all sockets have been closed
+      while (sockets.length > 0) {
+        const socket = sockets.shift();
+        socket.server = server;
+        socket.destroy();
+      }
 
-  getConnectionCount: () => sockets.length
+      flushEntries(entries);
+
+      server.once('close', err => {
+        if (err) onError(err);
+
+        done();
+      });
+
+      server.close();
+    },
+
+    getConnectionCount: () => sockets.length
+  };
 };

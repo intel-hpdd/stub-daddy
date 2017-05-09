@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2016 Intel Corporation All Rights Reserved.
+// Copyright 2013-2017 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -40,10 +40,7 @@ const streams = {
   }
 };
 
-const envStreams = fp.map(
-  fp.flow(fp.lensProp, fp.invoke(fp.__, [streams])),
-  config.get('logger').streams
-);
+const envStreams = fp.map(x => streams[x])(config.get('logger').streams);
 
 const logger = bunyan.createLogger({
   name: config.get('logName'),
@@ -55,7 +52,7 @@ const logger = bunyan.createLogger({
 
 const extendedLogger = Object.create(logger);
 
-extendedLogger.logByLevel = function logByLevel(data) {
+extendedLogger.logByLevel = data => {
   if (typeof data !== 'object' || Object.keys(data).length === 0)
     throw new Error(
       'A log level and corresponding message must be passed to logByLevel'
