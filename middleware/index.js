@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2016 Intel Corporation All Rights Reserved.
+// Copyright 2013-2017 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,6 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import dirp from 'intel-dirp';
-
-export default dirp(__dirname);
+export { default as afterTimeout } from './after-timeout.js';
+export { default as processData } from './process-data.js';
+export { default as toJson } from './to-json.js';
+export { default as validateMock } from './validate-mock.js';
+export { default as validateRequest } from './validate-request.js';
+export { default as writeResponse } from './write-response.js';

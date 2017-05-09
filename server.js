@@ -20,10 +20,9 @@
 // express and approved by Intel in writing.
 
 import nconf from './config';
-import routes from './routes';
+import * as routes from './routes';
 import routerFactory from './router.js';
 import mockStatusFactory from './lib/mock-status.js';
-import * as fp from '@mfl/fp';
 
 export default function stubDaddyFactory(overrides) {
   const entries = [];
@@ -31,9 +30,9 @@ export default function stubDaddyFactory(overrides) {
   const config = nconf.overrides(overrides);
   const router = routerFactory();
 
-  fp.map(x => routes[x].default(router, entries, mockStatus))(
-    Object.keys(routes)
-  );
+  Object.keys(routes)
+    .filter(x => x !== 'default')
+    .map(x => routes[x](router, entries, mockStatus));
 
   return {
     config,

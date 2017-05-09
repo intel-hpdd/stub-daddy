@@ -19,10 +19,10 @@
 // express and approved by Intel in writing.
 
 import getRouter from '@mfl/router';
-import middleware from './middleware';
+import * as middleware from './middleware';
 
 export default () =>
   getRouter()
-    .addStart(middleware.processData.default)
-    .addStart(middleware.toJson.default)
-    .addEnd(middleware.writeResponse.default);
+    .addStart(middleware.processData)
+    .addStart(middleware.toJson)
+    .addEnd(middleware.writeResponse);
