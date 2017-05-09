@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2016 Intel Corporation All Rights Reserved.
+// Copyright 2013-2017 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -20,17 +20,13 @@
 // express and approved by Intel in writing.
 
 import registerApiValidator from '../validators/register-api-validator';
-import { format } from 'utils';
 
-export default function validateMock(req, res, body, next) {
+export default (req, res, body, next) => {
   const validationErrors = registerApiValidator(body).errors;
   if (validationErrors.length > 0)
     throw new Error(
-      format(
-        'Validation of mock failed: %s',
-        JSON.stringify(validationErrors, null, 2)
-      )
+      `Validation of mock failed: ${JSON.stringify(validationErrors, null, 2)}`
     );
 
   return next(req, res, body);
-}
+};

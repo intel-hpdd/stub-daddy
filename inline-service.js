@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2016 Intel Corporation All Rights Reserved.
+// Copyright 2013-2017 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,67 +19,58 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import config from './config';
-
-import mockStatus from './lib/mock-status';
-import entries from './lib/entries';
 import entry from './lib/entry';
 import { parse as parseUrl } from 'url';
 import dispatch from './lib/dispatch';
 
-function mock(mock) {
-  const url = config.get('requestUrls').MOCK_REQUEST;
-  return dispatch(
-    url,
-    'POST',
-    {
-      data: mock,
-      parsedUrl: parseUrl(url)
+export default (config, router, entries, mockStatus) => {
+  const dispatcher = dispatch(router);
+
+  return {
+    mock: mock => {
+      const url = config.get('requestUrls').MOCK_REQUEST;
+
+      return dispatcher(
+        url,
+        'POST',
+        {
+          data: mock,
+          parsedUrl: parseUrl(url)
+        },
+        {}
+      );
     },
-    {}
-  );
-}
+    mockState: () => {
+      const url = config.get('requestUrls').MOCK_STATE;
 
-function mockState() {
-  const url = config.get('requestUrls').MOCK_STATE;
-
-  return dispatch(
-    url,
-    'GET',
-    {
-      parsedUrl: parseUrl(url)
+      return dispatcher(
+        url,
+        'GET',
+        {
+          parsedUrl: parseUrl(url)
+        },
+        {}
+      );
     },
-    {}
-  );
-}
+    registeredMocks: () => {
+      const url = config.get('requestUrls').MOCK_LIST;
 
-function registeredMocks() {
-  const url = config.get('requestUrls').MOCK_LIST;
-
-  return dispatch(
-    url,
-    'GET',
-    {
-      parsedUrl: parseUrl(url)
+      return dispatcher(
+        url,
+        'GET',
+        {
+          parsedUrl: parseUrl(url)
+        },
+        {}
+      );
     },
-    {}
-  );
-}
-
-function makeRequest(options) {
-  options.parsedUrl = parseUrl(options.url);
-  return dispatch(options.url, options.method || 'GET', options, {});
-}
-
-function flush() {
-  entry.flushEntries(entries);
-  mockStatus.flushRequests();
-}
-
-export default {
-  mock: mock,
-  mockState: mockState,
-  registeredMocks: registeredMocks,
-  makeRequest: makeRequest,
-  flush: flush
+    makeRequest: options => {
+      options.parsedUrl = parseUrl(options.url);
+      return dispatcher(options.url, options.method || 'GET', options, {});
+    },
+    flush: () => {
+      entry.flushEntries(entries);
+      mockStatus.flushRequests();
+    }
+  };
 };

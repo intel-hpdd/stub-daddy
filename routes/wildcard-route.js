@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2016 Intel Corporation All Rights Reserved.
+// Copyright 2013-2017 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,15 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import router from '../router';
-
 import dynamicRequest from '../lib/dynamic-request';
 import afterTimeout from '../middleware/after-timeout';
 import validateRequest from '../middleware/validate-request';
-import mockStatus from '../lib/mock-status';
-import { format } from 'util';
+import logger from '../logger';
 
-export default function wildcardRoute() {
+export default function wildcardRoute(router, entries, mockStatus) {
   router
     .route('(.*)')
     .all(validateRequest)
@@ -35,15 +32,21 @@ export default function wildcardRoute() {
     .all(afterTimeout);
 
   function processRequest(req, res, data, next) {
-    const entry = dynamicRequest(req.clientReq, data);
+    logger.debug(
+      { headers: req.clientReq.headers, data },
+      'processing request for wildcard'
+    );
+    const entry = dynamicRequest(req.clientReq, data, entries, mockStatus);
 
-    if (!entry)
-      throw new Error(
-        format(
-          'Entry not found. Mock state is: %s',
-          JSON.stringify(mockStatus.getMockApiState(), null, 2)
-        )
+    if (!entry) {
+      const status = JSON.stringify(
+        mockStatus.getMockApiState(entries),
+        null,
+        2
       );
+
+      throw new Error(`Entry not found. Mock state is: ${status}`);
+    }
 
     req.timeout = entry.timeout;
 

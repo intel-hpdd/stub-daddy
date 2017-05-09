@@ -23,7 +23,7 @@ const searchRequest = {
 };
 
 const searchResponse = {
-  statusCode: 'GET',
+  statusCode: '200',
   headers: mockRequest.headers,
   data: body
 };

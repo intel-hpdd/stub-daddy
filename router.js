@@ -1,6 +1,6 @@
 //
 // INTEL CONFIDENTIAL
-// Copyright 2013-2016 Intel Corporation All Rights Reserved.
+// Copyright 2013-2017 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,10 +19,10 @@
 // express and approved by Intel in writing.
 
 import getRouter from '@mfl/router';
-
 import middleware from './middleware';
 
-export default getRouter()
-  .addStart(middleware.processData)
-  .addStart(middleware.toJson)
-  .addEnd(middleware.writeResponse);
+export default () =>
+  getRouter()
+    .addStart(middleware.processData.default)
+    .addStart(middleware.toJson.default)
+    .addEnd(middleware.writeResponse.default);
