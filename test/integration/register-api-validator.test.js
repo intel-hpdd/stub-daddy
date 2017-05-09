@@ -96,7 +96,7 @@ describe('test register api body against validator', () => {
     'request',
     'response'
   ];
-  bodyComponents.forEach(function(element) {
+  bodyComponents.forEach(element => {
     it('should validate the body with a failed response due to a missing required field', () => {
       dotty.remove(body, element);
       const result = registerApiValidator(body);

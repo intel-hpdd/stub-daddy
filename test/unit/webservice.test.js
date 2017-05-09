@@ -44,7 +44,7 @@ describe('webservice module', () => {
     dispatcher = jasmine.createSpy('dispatcher');
     mockDispatch = jasmine.createSpy('dispatch').and.returnValue(dispatcher);
 
-    mockFs.readFileSync.and.callFake(function(filename) {
+    mockFs.readFileSync.and.callFake(filename => {
       if (filename.indexOf('key.pem') > -1) return 'key-data';
       else if (filename.indexOf('cert.pem') > -1) return 'cert-data';
     });
@@ -87,10 +87,10 @@ describe('webservice module', () => {
     );
   });
 
-  describe('starting the server', function() {
+  describe('starting the server', () => {
     let s, server;
 
-    beforeEach(function() {
+    beforeEach(() => {
       server = {
         listen: jasmine.createSpy('listen'),
         once: jasmine.createSpy('once'),
@@ -103,16 +103,16 @@ describe('webservice module', () => {
       mockRequest.createServer.and.returnValue(server);
     });
 
-    describe('in https mode', function() {
+    describe('in https mode', () => {
       beforeEach(() => {
         s = webservice.startService();
       });
 
-      it('should return the server', function() {
+      it('should return the server', () => {
         expect(s).toEqual(server);
       });
 
-      it('should invoke createServer with cert and key files', function() {
+      it('should invoke createServer with cert and key files', () => {
         expect(mockRequest.createServer).toHaveBeenCalledOnceWith(
           {
             key: 'key-data',
@@ -122,34 +122,34 @@ describe('webservice module', () => {
         );
       });
 
-      it('should listen on the config port', function() {
+      it('should listen on the config port', () => {
         expect(server.listen).toHaveBeenCalledOnceWith(port);
       });
 
-      it('should listen for connections', function() {
+      it('should listen for connections', () => {
         expect(server.on).toHaveBeenCalledOnceWith(
           'connection',
           jasmine.any(Function)
         );
       });
 
-      it('should listen for client errors', function() {
+      it('should listen for client errors', () => {
         expect(server.on).toHaveBeenCalledOnceWith(
           'clientError',
           jasmine.any(Function)
         );
       });
 
-      it('should log that the service is starting', function() {
+      it('should log that the service is starting', () => {
         expect(mockLogger.info).toHaveBeenCalledOnceWith(
           `Starting service on https://localhost:${port}`
         );
       });
     });
 
-    describe('in http mode', function() {
+    describe('in http mode', () => {
       let socket, handleSocketConnection;
-      beforeEach(function() {
+      beforeEach(() => {
         mockConfig.get.mockImplementation(key => {
           switch (key) {
             case 'requestProtocol':
@@ -172,54 +172,54 @@ describe('webservice module', () => {
         handleSocketConnection(socket);
       });
 
-      it('should return the server', function() {
+      it('should return the server', () => {
         expect(s).toEqual(server);
       });
 
-      it('should invoke createServer', function() {
+      it('should invoke createServer', () => {
         expect(mockRequest.createServer).toHaveBeenCalledOnceWith(
           jasmine.any(Function)
         );
       });
 
-      it('should listen on the config port', function() {
+      it('should listen on the config port', () => {
         expect(server.listen).toHaveBeenCalledOnceWith(port);
       });
 
-      it('should listen for connections', function() {
+      it('should listen for connections', () => {
         expect(server.on).toHaveBeenCalledOnceWith(
           'connection',
           jasmine.any(Function)
         );
       });
 
-      it('should listen for client errors', function() {
+      it('should listen for client errors', () => {
         expect(server.on).toHaveBeenCalledOnceWith(
           'clientError',
           jasmine.any(Function)
         );
       });
 
-      it('should log that the service is starting', function() {
+      it('should log that the service is starting', () => {
         expect(mockLogger.info).toHaveBeenCalledOnceWith(
           `Starting service on http://localhost:${port}`
         );
       });
 
-      it('should have a socket count equal to 1', function() {
+      it('should have a socket count equal to 1', () => {
         expect(webservice.getConnectionCount()).toEqual(1);
       });
 
-      it('should splice off the socket when it is closed', function() {
+      it('should splice off the socket when it is closed', () => {
         const onClose = socket.on.calls.argsFor(0)[1];
         const socketRemoved = onClose();
         expect(socketRemoved).toEqual([socket]);
       });
 
-      describe('handling a request', function() {
+      describe('handling a request', () => {
         let onRequestReceived, req, res;
 
-        beforeEach(function() {
+        beforeEach(() => {
           onRequestReceived = mockRequest.createServer.calls.argsFor(0)[0];
 
           req = {
@@ -235,7 +235,7 @@ describe('webservice module', () => {
           onRequestReceived(req, res);
         });
 
-        it('should dispatch', function() {
+        it('should dispatch', () => {
           expect(dispatcher).toHaveBeenCalledOnceWith(
             '/api/route',
             'GET',
@@ -251,67 +251,67 @@ describe('webservice module', () => {
         });
       });
 
-      describe('stopping the service', function() {
+      describe('stopping the service', () => {
         let done, fail;
-        beforeEach(function() {
+        beforeEach(() => {
           done = jasmine.createSpy('done');
           fail = jasmine.createSpy('fail');
 
           webservice.stopService(fail, done);
         });
 
-        it('should close the server', function() {
+        it('should close the server', () => {
           expect(server.close).toHaveBeenCalledOnce();
         });
 
-        it('should log that the service is stopping', function() {
+        it('should log that the service is stopping', () => {
           expect(mockLogger.info).toHaveBeenCalledOnceWith(
             'Service stopping...'
           );
         });
 
-        it('should log that the socket is being destroyed', function() {
+        it('should log that the socket is being destroyed', () => {
           expect(mockLogger.trace).toHaveBeenCalledOnceWith(
             'Destroying 1 remaining socket connections.'
           );
         });
 
-        it('should set the server on the socket', function() {
+        it('should set the server on the socket', () => {
           expect(socket.server).toEqual(server);
         });
 
-        it('should destroy the socket', function() {
+        it('should destroy the socket', () => {
           expect(socket.destroy).toHaveBeenCalledOnce();
         });
 
-        it('should have 0 sockets', function() {
+        it('should have 0 sockets', () => {
           expect(webservice.getConnectionCount()).toEqual(0);
         });
 
-        it('should flush the entries in the request store', function() {
+        it('should flush the entries in the request store', () => {
           expect(mockEntry.flushEntries).toHaveBeenCalledOnce(entries);
         });
 
-        it('should flush the requests in the mockStatus module', function() {
+        it('should flush the requests in the mockStatus module', () => {
           expect(mockStatus.flushRequests).toHaveBeenCalledOnce();
         });
 
-        it('should clear out all timeouts', function() {
+        it('should clear out all timeouts', () => {
           expect(mockAfterTimeout.clearTimeouts).toHaveBeenCalledOnce();
         });
 
-        describe('on close event', function() {
+        describe('on close event', () => {
           let onClose;
-          beforeEach(function() {
+          beforeEach(() => {
             onClose = server.once.calls.argsFor(0)[1];
             onClose();
           });
 
-          it('should not fail', function() {
+          it('should not fail', () => {
             expect(fail).not.toHaveBeenCalled();
           });
 
-          it('should call done', function() {
+          it('should call done', () => {
             expect(done).toHaveBeenCalledOnce();
           });
         });

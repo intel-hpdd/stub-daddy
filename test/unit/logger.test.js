@@ -42,11 +42,11 @@ describe('test logger', () => {
     logger = require('../../logger.js').default;
   });
 
-  it('should call logger with appropriate params', function() {
+  it('should call logger with appropriate params', () => {
     expect(mockBunyan.createLogger).toHaveBeenCalledWith(createLoggerParameter);
   });
 
-  it('should return the logger instance', function() {
+  it('should return the logger instance', () => {
     expect(logger).toEqual({ logByLevel: jasmine.any(Function) });
   });
 });

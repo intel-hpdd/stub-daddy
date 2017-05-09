@@ -12,7 +12,7 @@ import {
 
 const bodies = [{ name: 'will' }, undefined];
 bodies.forEach(body => {
-  describe('test dynamic-request module', function() {
+  describe('test dynamic-request module', () => {
     let dynamicRequest,
       mockStatus,
       mockEntry,
@@ -93,18 +93,18 @@ bodies.forEach(body => {
         findEntriesByRequest: jasmine.createSpy('findEntriesByRequest'),
         updateCallCount: jasmine
           .createSpy('updateCallCount')
-          .and.callFake(function(x) {
+          .and.callFake(x => {
             x.calls += 1;
           }),
         updateEntry: jasmine
           .createSpy('updateEntry')
-          .and.callFake(function(entry, entries) {
+          .and.callFake((entry, entries) => {
             const idx = entries.indexOf(entry);
             entries.splice(idx, 1);
           }),
         parsedQueryData: jasmine
           .createSpy('parsedQueryData')
-          .and.callFake(function(requestUrl) {
+          .and.callFake(requestUrl => {
             const getUrl = url.parse(requestUrl);
             return querystring.parse(getUrl.query);
           }),
@@ -116,15 +116,15 @@ bodies.forEach(body => {
       dynamicRequest = require('../../../lib/dynamic-request').default;
     });
 
-    describe('handling request on first entry', function() {
+    describe('handling request on first entry', () => {
       let result;
-      beforeEach(function() {
+      beforeEach(() => {
         mockEntry.findEntriesByRequest.and.returnValue([entry1, entry2]);
 
         result = dynamicRequest(mockRequest, body, mockEntries, mockStatus);
       });
 
-      it('should call findEntriesByRequest with searchRequest', function() {
+      it('should call findEntriesByRequest with searchRequest', () => {
         expect(mockEntry.findEntriesByRequest).toHaveBeenCalledOnceWith(
           mockStatus,
           searchRequest,
@@ -132,65 +132,65 @@ bodies.forEach(body => {
         );
       });
 
-      it('should call recordRequest with searchRequest', function() {
+      it('should call recordRequest with searchRequest', () => {
         expect(mockStatus.recordRequest).toHaveBeenCalledOnceWith(
           searchRequest
         );
       });
 
-      it('should have the expected response', function() {
+      it('should have the expected response', () => {
         expect(result.response).toEqual(entry1.response);
       });
 
-      it('should have 1 call count on the first entry', function() {
+      it('should have 1 call count on the first entry', () => {
         expect(entry1.calls).toEqual(1);
       });
 
-      it('should have no call count on the second entry', function() {
+      it('should have no call count on the second entry', () => {
         expect(entry2.calls).toEqual(0);
       });
 
-      it('should call entry.updateEntry for the first entry', function() {
+      it('should call entry.updateEntry for the first entry', () => {
         expect(mockEntry.updateEntry).toHaveBeenCalledOnceWith(
           entry1,
           mockEntries
         );
       });
 
-      it('should not call entry.updateEntry for the second entry', function() {
+      it('should not call entry.updateEntry for the second entry', () => {
         expect(mockEntry.updateEntry).not.toHaveBeenCalledOnceWith(
           entry2,
           mockEntries
         );
       });
 
-      describe('handle request on second entry', function() {
-        beforeEach(function() {
+      describe('handle request on second entry', () => {
+        beforeEach(() => {
           mockEntry.findEntriesByRequest.and.returnValue([entry2]);
           mockEntry.canMakeRequest.and.returnValue(false);
 
           result = dynamicRequest(mockRequest, body, mockEntries, mockStatus);
         });
 
-        it('should have the expected response', function() {
+        it('should have the expected response', () => {
           expect(result.response).toEqual(entry2.response);
         });
 
-        it('should have a call count of 1 on the first entry', function() {
+        it('should have a call count of 1 on the first entry', () => {
           expect(entry1.calls).toEqual(1);
         });
 
-        it('should have a call count of 1 on the second entry', function() {
+        it('should have a call count of 1 on the second entry', () => {
           expect(entry2.calls).toEqual(1);
         });
 
-        it('should not have any remaining calls on the second entry', function() {
+        it('should not have any remaining calls on the second entry', () => {
           expect(mockEntry.canMakeRequest(entry2)).toEqual(false);
         });
       });
 
-      describe('handle request with no available entries', function() {
-        it('should have an undefined response', function() {
+      describe('handle request with no available entries', () => {
+        it('should have an undefined response', () => {
           mockEntry.findEntriesByRequest.and.returnValue(null);
           expect(
             dynamicRequest(mockRequest, body, mockEntries, mockStatus)

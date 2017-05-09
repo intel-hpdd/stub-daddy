@@ -9,7 +9,7 @@ describe('mock list', () => {
 
   describe('GET request', () => {
     let result;
-    beforeEach(function() {
+    beforeEach(() => {
       result = mockList(mockEntries);
     });
 

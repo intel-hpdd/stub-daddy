@@ -7,7 +7,7 @@ import {
   jest
 } from '../../jasmine.js';
 
-describe('mock list route', function() {
+describe('mock list route', () => {
   let mockListRoute,
     mockRouter,
     mockList,
@@ -17,7 +17,7 @@ describe('mock list route', function() {
     response,
     data,
     entries;
-  beforeEach(function() {
+  beforeEach(() => {
     mockRouter = {
       get: jasmine.createSpy('router.get'),
       route: jasmine.createSpy('router.route')
@@ -49,26 +49,26 @@ describe('mock list route', function() {
     mockListRoute(mockRouter, entries);
   });
 
-  it('should call router.route', function() {
+  it('should call router.route', () => {
     expect(mockRouter.route).toHaveBeenCalledOnceWith('/api/mocklist');
   });
 
-  it('should call router.get', function() {
+  it('should call router.get', () => {
     expect(mockRouter.get).toHaveBeenCalledOnceWith(jasmine.any(Function));
   });
 
-  describe('handling the route', function() {
+  describe('handling the route', () => {
     let routeHandler;
-    beforeEach(function() {
+    beforeEach(() => {
       routeHandler = mockRouter.get.calls.argsFor(0)[0];
       routeHandler(req, res, data, next);
     });
 
-    it('should call mockList', function() {
+    it('should call mockList', () => {
       expect(mockList).toHaveBeenCalledOnceWith(entries);
     });
 
-    it('should invoke next', function() {
+    it('should invoke next', () => {
       expect(next).toHaveBeenCalledOnceWith(
         req,
         {
