@@ -1,6 +1,6 @@
 {
   "name": "@mfl/stub-daddy",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Stub API service used for integration testing.",
   "main": "server.js",
   "scripts": {
