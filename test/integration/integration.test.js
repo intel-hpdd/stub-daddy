@@ -1,4 +1,4 @@
-import reqModule from '@mfl/req';
+import reqModule from '@iml/req';
 import fixtures from '../fixtures/standard-fixtures';
 import stubDaddyModule from '../../server';
 import * as url from 'url';

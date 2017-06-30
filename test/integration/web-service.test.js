@@ -1,4 +1,4 @@
-import * as obj from '@mfl/obj';
+import * as obj from '@iml/obj';
 import stubDaddy from '../../server';
 import fixtures from '../fixtures/standard-fixtures';
 

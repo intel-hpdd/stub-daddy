@@ -22,7 +22,7 @@ describe('router', () => {
       handleError: 'handleError'
     };
 
-    jest.mock('@mfl/router', () => mockIntelRouter);
+    jest.mock('@iml/router', () => mockIntelRouter);
     jest.mock('../middleware', () => mockMiddleware);
     require('../../router').default();
   });

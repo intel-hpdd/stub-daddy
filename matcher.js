@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 import * as url from 'url';
-import * as obj from '@mfl/obj';
+import * as obj from '@iml/obj';
 import picker from './lib/picker';
 import deepEq from 'deep-equal';
 

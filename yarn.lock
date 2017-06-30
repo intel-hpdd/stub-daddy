@@ -2,40 +2,40 @@
 # yarn lockfile v1
 
 
-"@mfl/flow-highland@4.2.3":
+"@iml/flow-highland@4.2.3":
   version "4.2.3"
-  resolved "https://registry.yarnpkg.com/@mfl/flow-highland/-/flow-highland-4.2.3.tgz#afcf16df570429896dfee57223621bbc240955eb"
+  resolved "https://registry.yarnpkg.com/@iml/flow-highland/-/flow-highland-4.2.3.tgz#afcf16df570429896dfee57223621bbc240955eb"
 
-"@mfl/fp@8.0.1":
+"@iml/fp@8.0.1":
   version "8.0.1"
-  resolved "https://registry.yarnpkg.com/@mfl/fp/-/fp-8.0.1.tgz#7b4b718551b02b3307639f1c9dd01c12a6de36ec"
+  resolved "https://registry.yarnpkg.com/@iml/fp/-/fp-8.0.1.tgz#7b4b718551b02b3307639f1c9dd01c12a6de36ec"
   dependencies:
-    "@mfl/maybe" "3.0.0"
+    "@iml/maybe" "3.0.0"
 
-"@mfl/jasmine-n-matchers@2.1.1":
+"@iml/jasmine-n-matchers@2.1.1":
   version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@mfl/jasmine-n-matchers/-/jasmine-n-matchers-2.1.1.tgz#bf4ab1d4fff38152b1253bb9619e7e5e814926c6"
+  resolved "https://registry.yarnpkg.com/@iml/jasmine-n-matchers/-/jasmine-n-matchers-2.1.1.tgz#bf4ab1d4fff38152b1253bb9619e7e5e814926c6"
 
-"@mfl/maybe@3.0.0":
+"@iml/maybe@3.0.0":
   version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@mfl/maybe/-/maybe-3.0.0.tgz#184d40305afb14011eb9008677771c14d07d98fd"
+  resolved "https://registry.yarnpkg.com/@iml/maybe/-/maybe-3.0.0.tgz#184d40305afb14011eb9008677771c14d07d98fd"
 
-"@mfl/obj@6.0.1":
+"@iml/obj@6.0.1":
   version "6.0.1"
-  resolved "https://registry.yarnpkg.com/@mfl/obj/-/obj-6.0.1.tgz#3ad9a96200add581367d88387eda9e9ef201b536"
+  resolved "https://registry.yarnpkg.com/@iml/obj/-/obj-6.0.1.tgz#3ad9a96200add581367d88387eda9e9ef201b536"
 
-"@mfl/req@3.0.4":
+"@iml/req@3.0.4":
   version "3.0.4"
-  resolved "https://registry.yarnpkg.com/@mfl/req/-/req-3.0.4.tgz#40f547c5c7a476dd4f1429390d42d5634ee561ad"
+  resolved "https://registry.yarnpkg.com/@iml/req/-/req-3.0.4.tgz#40f547c5c7a476dd4f1429390d42d5634ee561ad"
   dependencies:
-    "@mfl/flow-highland" "4.2.3"
-    "@mfl/fp" "8.0.1"
+    "@iml/flow-highland" "4.2.3"
+    "@iml/fp" "8.0.1"
     highland "3.0.0-beta.4"
     json-mask "0.3.8"
 
-"@mfl/router@6.0.1":
+"@iml/router@6.0.1":
   version "6.0.1"
-  resolved "https://registry.yarnpkg.com/@mfl/router/-/router-6.0.1.tgz#5ab893976d542e1d6972b30d7fb80d3920615cf6"
+  resolved "https://registry.yarnpkg.com/@iml/router/-/router-6.0.1.tgz#5ab893976d542e1d6972b30d7fb80d3920615cf6"
   dependencies:
     path-to-regexp "1.7.0"
 

@@ -1,5 +1,5 @@
 import stubDaddyModule from '../../server';
-import getReq from '@mfl/req';
+import getReq from '@iml/req';
 import * as url from 'url';
 import streamToPromise from '../../stream-to-promise.js';
 
