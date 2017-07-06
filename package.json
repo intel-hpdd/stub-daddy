@@ -1,5 +1,5 @@
 {
-  "name": "@mfl/stub-daddy",
+  "name": "@iml/stub-daddy",
   "version": "2.0.3",
   "description": "Stub API service used for integration testing.",
   "main": "server.js",
@@ -20,7 +20,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "author": "MFL Team",
+  "author": "IML Team",
   "license": "MIT",
   "jest": {
     "resetMocks": true,
@@ -31,21 +31,21 @@
       "/test"
     ],
     "transformIgnorePatterns": [
-      "/node_modules/(?!@mfl)/"
+      "/node_modules/(?!@iml)/"
     ]
   },
   "dependencies": {
-    "@mfl/fp": "8.0.1",
-    "@mfl/obj": "6.0.1",
-    "@mfl/router": "6.0.1",
+    "@iml/fp": "8.0.3",
+    "@iml/obj": "6.0.3",
+    "@iml/router": "6.0.2",
     "bunyan": "1.8.10",
     "deep-equal": "1.0.1",
     "jsonschema": "^1.1.1",
     "nconf": "0.8.4"
   },
   "devDependencies": {
-    "@mfl/jasmine-n-matchers": "2.1.1",
-    "@mfl/req": "3.0.4",
+    "@iml/jasmine-n-matchers": "2.1.1",
+    "@iml/req": "3.0.4",
     "babel-eslint": "7.2.3",
     "babel-jest": "19.0.0",
     "babel-plugin-external-helpers": "6.22.0",

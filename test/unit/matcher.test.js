@@ -1,5 +1,5 @@
 import * as url from 'url';
-import * as obj from '@mfl/obj';
+import * as obj from '@iml/obj';
 
 import { describe, beforeEach, it, expect, jest } from '../jasmine.js';
 

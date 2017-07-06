@@ -1,5 +1,5 @@
 import stubDaddyModule from '../../server';
-import reqModule from '@mfl/req';
+import reqModule from '@iml/req';
 import fixtures from '../fixtures/standard-fixtures';
 import * as url from 'url';
 import streamToPromise from '../../stream-to-promise.js';

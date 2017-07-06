@@ -1,5 +1,5 @@
 import picker from '../../../lib/picker';
-import * as obj from '@mfl/obj';
+import * as obj from '@iml/obj';
 
 import { describe, beforeEach, it, jasmine, expect } from '../../jasmine.js';
 

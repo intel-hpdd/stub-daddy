@@ -1,5 +1,5 @@
 import fixtures from '../../fixtures/standard-fixtures';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import dataStore from '../data-store';
 import * as url from 'url';
 
