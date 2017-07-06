@@ -35,9 +35,9 @@
     ]
   },
   "dependencies": {
-    "@iml/fp": "8.0.1",
-    "@iml/obj": "6.0.1",
-    "@iml/router": "6.0.1",
+    "@iml/fp": "8.0.3",
+    "@iml/obj": "6.0.3",
+    "@iml/router": "6.0.2",
     "bunyan": "1.8.10",
     "deep-equal": "1.0.1",
     "jsonschema": "^1.1.1",
