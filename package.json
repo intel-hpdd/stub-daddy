@@ -8,7 +8,7 @@
     "debug": "node --debug-brk ./node_modules/.bin/jest --runInBand",
     "cover": "NODE_ENV=test yarn test -- --coverage",
     "eslint": "eslint ./",
-    "postversion": "cp cert.pem ./dist; cp key.pem ./dist; cp conf.json ./dist; webpack"
+    "postversion": "rm -rf ./dist; mkdir ./dist; cp cert.pem ./dist; cp key.pem ./dist; cp conf.json ./dist; webpack"
   },
   "pre-commit": [
     "eslint",
