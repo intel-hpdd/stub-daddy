@@ -1,6 +1,6 @@
 {
   "name": "@iml/stub-daddy",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Stub API service used for integration testing.",
   "main": "dist/bundle.js",
   "scripts": {
