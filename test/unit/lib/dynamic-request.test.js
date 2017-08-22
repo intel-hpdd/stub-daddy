@@ -43,13 +43,15 @@ bodies.forEach(body => {
         headers: {
           host: 'localhost:8888',
           connection: 'keep-alive',
-          'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko)"' +
+          'user-agent':
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko)"' +
             ' Chrome/35.0.1916.153 Safari/537.36',
           'content-type': 'text/plain; charset=utf-8',
           accept: '*/*',
           'accept-encoding': 'gzip,deflate,sdch',
           'accept-language': 'en-US,en;q=0.8',
-          cookie: 'm=34e2:; csrftoken=Di8V2cFIUliMJVr0tNb8E4SrwCp5QMdg; sessionid=d2fa382c8a220126c1315c94af4bb42c'
+          cookie:
+            'm=34e2:; csrftoken=Di8V2cFIUliMJVr0tNb8E4SrwCp5QMdg; sessionid=d2fa382c8a220126c1315c94af4bb42c'
         }
       };
 

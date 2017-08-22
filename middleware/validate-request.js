@@ -9,7 +9,11 @@ export default (req, res, body, next) => {
   const validationErrors = requestValidator(req.clientReq).errors;
   if (validationErrors.length > 0)
     throw new Error(
-      `Validation of request failed: ${JSON.stringify(validationErrors, null, 2)}`
+      `Validation of request failed: ${JSON.stringify(
+        validationErrors,
+        null,
+        2
+      )}`
     );
 
   return next(req, res, body);
